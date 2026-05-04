@@ -1,0 +1,16 @@
+^_build\.R$
+^showcase$
+^\.github$
+^docs$
+^pkgdown$
+^_pkgdown\.ya?ml$
+^README\.Rmd$
+^cran-comments\.md$
+^LICENSE\.md$
+^.*\.svg$
+^\.lintr$
+^codecov\.yml$
+^\.Rproj\.user$
+^hyperspectR\.Rproj$
+^\.data$
+^\.cuvis$

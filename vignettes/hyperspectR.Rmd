@@ -1,0 +1,115 @@
+---
+title: "Getting Started with hyperspectR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with hyperspectR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5
+)
+```
+
+## Installation
+
+```{r eval=FALSE}
+# Install from GitHub
+# install.packages("remotes")
+remotes::install_github("r-heller/hyperspectR")
+```
+
+## Loading the Package
+
+```{r setup}
+library(hyperspectR)
+```
+
+## Creating and Inspecting a Cube
+
+hyperspectR provides synthetic data generators for testing and demonstration.
+`hs_example_cube()` creates a 30x30 pixel tissue scene with 61 spectral bands
+spanning 430-910 nm:
+
+```{r}
+cube <- hs_example_cube()
+print(cube)
+```
+
+Check the dimensions:
+
+```{r}
+dim(cube)
+```
+
+The summary provides per-band statistics:
+
+```{r}
+s <- summary(cube)
+s$wavelength_range
+s$data_range
+```
+
+## Subsetting
+
+You can subset cubes spatially and spectrally while preserving the class:
+
+```{r}
+sub <- cube[1:15, 1:15, 1:30]
+dim(sub)
+```
+
+## Visualization
+
+### RGB Composite
+
+```{r}
+ggplot2::autoplot(cube, type = "rgb")
+```
+
+### Single Band Image
+
+```{r}
+hs_plot_image(cube, wavelength = 550)
+```
+
+### Mean Spectrum
+
+```{r}
+hs_plot_spectra(cube, pixels = "mean", show_sd = TRUE)
+```
+
+## Computing Tissue Indices
+
+The package implements clinical tissue indices used in surgical HSI:
+
+```{r}
+sto2 <- hs_sto2(cube)
+hs_plot_index(sto2, title = "StO2 (%)", palette = "sto2")
+```
+
+### Clinical Panel Display
+
+```{r fig.width=10, fig.height=4}
+hs_plot_clinical(cube, indices = c("sto2", "npi", "thi"))
+```
+
+## Interactive Exploration
+
+Launch the Shiny app for interactive analysis:
+
+```{r eval=FALSE}
+hs_run_app(cube)
+```
+
+## Next Steps
+
+- Read real data with `hs_read_envi()` or `hs_read_cube()`
+- Preprocess with `hs_smooth()`, `hs_snv()`, `hs_msc()`
+- Perform PCA with `hs_pca()` or MNF with `hs_mnf()`
+- Classify with `hs_sam()` or fit chromophores with `hs_beer_lambert()`

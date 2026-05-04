@@ -1,0 +1,40 @@
+/* hyperspectR Shiny App Custom Styles */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: #2E86AB;
+  border-color: #2E86AB;
+}
+
+.btn-primary:hover {
+  background-color: #1B4965;
+  border-color: #1B4965;
+}
+
+.plot-container {
+  min-height: 400px;
+}
+
+.sidebar-panel {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}

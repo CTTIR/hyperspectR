@@ -1,0 +1,122 @@
+url: https://r-heller.github.io/hyperspectR/
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#2E86AB"
+    navbar-bg: "#1B4965"
+
+navbar:
+  structure:
+    left: [home, reference, articles, news]
+    right: [github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/r-heller/hyperspectR
+
+reference:
+  - title: "Data I/O"
+    desc: "Read and write hyperspectral data cubes"
+    contents:
+      - hsi_cube
+      - print.hsi_cube
+      - summary.hsi_cube
+      - dim.hsi_cube
+      - "`[.hsi_cube`"
+      - as.data.frame.hsi_cube
+      - as_tibble.hsi_cube
+      - hs_read_cube
+      - hs_read_envi
+      - hs_read_tiff
+      - hs_read_cubert
+      - hs_write_envi
+      - hs_write_tiff
+      - hs_export_png
+
+  - title: "Calibration"
+    desc: "Radiometric calibration and correction"
+    contents:
+      - hs_calibrate
+      - hs_dark_correct
+      - hs_white_normalize
+      - hs_fix_bad_pixels
+
+  - title: "Preprocessing"
+    desc: "Spectral smoothing, normalization, and transformation"
+    contents:
+      - hs_smooth
+      - hs_snv
+      - hs_msc
+      - hs_derivative
+      - hs_absorbance
+      - hs_continuum_removal
+      - hs_resample
+
+  - title: "Biomedical Indices"
+    desc: "Clinical tissue indices for surgical HSI"
+    contents:
+      - hs_sto2
+      - hs_npi
+      - hs_thi
+      - hs_twi
+      - hs_ndi
+      - hs_clinical_indices
+
+  - title: "Analysis"
+    desc: "Dimensionality reduction, classification, and unmixing"
+    contents:
+      - hs_pca
+      - hs_mnf
+      - hs_umap
+      - hs_sam
+      - hs_classify_svm
+      - hs_classify_rf
+      - hs_unmix_nnls
+      - hs_beer_lambert
+      - hs_endmembers
+
+  - title: "ROI Analysis"
+    desc: "Region-of-interest tools"
+    contents:
+      - hs_roi_rect
+      - hs_roi_polygon
+      - hs_roi_stats
+
+  - title: "Visualization"
+    desc: "Plotting and clinical display"
+    contents:
+      - starts_with("autoplot")
+      - hs_plot_spectra
+      - hs_plot_image
+      - hs_plot_rgb
+      - hs_plot_clinical
+      - hs_plot_index
+      - scale_color_wavelength
+      - theme_hsi
+
+  - title: "Reference Data"
+    desc: "Chromophore spectra and simulation"
+    contents:
+      - hs_chromophore_data
+      - hs_simulate_cube
+      - hs_example_cube
+      - hs_example_files
+
+  - title: "Shiny Application"
+    desc: "Interactive HSI explorer"
+    contents:
+      - hs_run_app
+
+articles:
+  - title: "Getting Started"
+    contents:
+      - hyperspectR
+  - title: "Workflows"
+    contents:
+      - cubert-workflow
+  - title: "Biomedical HSI"
+    contents:
+      - biomedical-indices
+      - intraop-oxygenation
+      - compartment-syndrome

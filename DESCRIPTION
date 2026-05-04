@@ -1,0 +1,62 @@
+Package: hyperspectR
+Title: Hyperspectral Imaging Analysis for Biomedical Applications
+Version: 0.1.0
+Authors@R: person("Raban", "Heller", email = "raban.heller@charite.de",
+    role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8006-9742"))
+Description: Read, process, analyze, and visualize hyperspectral imaging (HSI)
+    data from Cubert snapshot cameras and standard ENVI/TIFF formats. Provides
+    calibration workflows (dark correction, white reference normalization),
+    spectral preprocessing (Savitzky-Golay smoothing, SNV, MSC, derivatives),
+    biomedical tissue indices (tissue oxygenation StO2, perfusion NPI, hemoglobin
+    THI, water content TWI), dimensionality reduction (PCA, MNF), pixel-wise
+    classification (SAM, SVM, random forest), and spectral unmixing via
+    Beer-Lambert chromophore fitting. Includes an interactive 'shiny' application
+    for clinical hyperspectral image exploration. Designed for intraoperative
+    imaging, soft tissue diagnostics, and perfusion monitoring workflows.
+License: MIT + file LICENSE
+URL: https://github.com/r-heller/hyperspectR,
+    https://r-heller.github.io/hyperspectR/
+BugReports: https://github.com/r-heller/hyperspectR/issues
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Config/testthat/edition: 3
+Remotes:
+    r-heller/cuvis.r
+Depends:
+    R (>= 4.1.0)
+Imports:
+    rlang,
+    cli,
+    tibble,
+    tidyr,
+    ggplot2,
+    stats,
+    utils,
+    grDevices,
+    graphics,
+    tools,
+    shiny,
+    patchwork,
+    viridisLite,
+    scales
+Suggests:
+    bslib,
+    dplyr,
+    plotly,
+    DT,
+    terra,
+    prospectr,
+    signal,
+    nnls,
+    uwot,
+    e1071,
+    ranger,
+    cuvis.r,
+    withr,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    pkgdown,
+    covr
+VignetteBuilder: knitr
