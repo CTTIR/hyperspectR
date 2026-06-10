@@ -14,9 +14,9 @@ Description: Read, process, analyze, and visualize hyperspectral imaging (HSI)
     for clinical hyperspectral image exploration. Designed for intraoperative
     imaging, soft tissue diagnostics, and perfusion monitoring workflows.
 License: MIT + file LICENSE
-URL: https://github.com/r-heller/hyperspectR,
-    https://r-heller.github.io/hyperspectR/
-BugReports: https://github.com/r-heller/hyperspectR/issues
+URL: https://github.com/cttir/hyperspectR,
+    https://cttir.github.io/hyperspectR/
+BugReports: https://github.com/cttir/hyperspectR/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
