@@ -14,3 +14,4 @@
 ^hyperspectR\.Rproj$
 ^\.data$
 ^\.cuvis$
+^_pkgdown\.yml$

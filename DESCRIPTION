@@ -60,3 +60,4 @@ Suggests:
     pkgdown,
     covr
 VignetteBuilder: knitr
+Config/Needs/website: CTTIR/themakR
