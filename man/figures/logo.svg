@@ -1,8 +1,8 @@
 <svg width="500" height="580" viewBox="0 0 500 580" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bghsr" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#06040e"/>
-      <stop offset="100%" stop-color="#02010a"/>
+      <stop offset="0%" stop-color="#0D3F70"/>
+      <stop offset="100%" stop-color="#0D3F70"/>
     </linearGradient>
     <linearGradient id="spectrum" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%"   stop-color="#6600cc"/>
@@ -39,42 +39,42 @@
   <g clip-path="url(#hexhsr)">
 
     <!-- TOP FACE -->
-    <polygon points="210,158 330,158 370,198 250,198" fill="url(#cubeTop)" stroke="#a78bfa" stroke-width="1.2" opacity="0.9"/>
+    <polygon points="210,158 330,158 370,198 250,198" fill="url(#cubeTop)" stroke="#A78BFA" stroke-width="1.2" opacity="0.9"/>
     <ellipse cx="295" cy="174" rx="22" ry="10" fill="#ef4444" opacity="0.35" transform="skewX(-20)"/>
     <ellipse cx="260" cy="178" rx="14" ry="7"  fill="#3b82f6" opacity="0.3"  transform="skewX(-20)"/>
     <ellipse cx="318" cy="170" rx="12" ry="6"  fill="#22c55e" opacity="0.28" transform="skewX(-20)"/>
-    <line x1="224" y1="162" x2="264" y2="162" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
-    <line x1="238" y1="166" x2="278" y2="166" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
-    <line x1="252" y1="170" x2="292" y2="170" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
-    <line x1="266" y1="174" x2="306" y2="174" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
-    <line x1="280" y1="178" x2="320" y2="178" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
-    <line x1="294" y1="182" x2="334" y2="182" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
-    <line x1="308" y1="186" x2="348" y2="186" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
-    <line x1="322" y1="190" x2="362" y2="190" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
-    <line x1="230" y1="158" x2="270" y2="198" stroke="#a78bfa" stroke-width="0.5" opacity="0.25"/>
-    <line x1="250" y1="158" x2="290" y2="198" stroke="#a78bfa" stroke-width="0.5" opacity="0.25"/>
-    <line x1="270" y1="158" x2="310" y2="198" stroke="#a78bfa" stroke-width="0.5" opacity="0.25"/>
-    <line x1="290" y1="158" x2="330" y2="198" stroke="#a78bfa" stroke-width="0.5" opacity="0.25"/>
-    <line x1="310" y1="158" x2="350" y2="198" stroke="#a78bfa" stroke-width="0.5" opacity="0.25"/>
+    <line x1="224" y1="162" x2="264" y2="162" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="238" y1="166" x2="278" y2="166" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="252" y1="170" x2="292" y2="170" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="266" y1="174" x2="306" y2="174" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="280" y1="178" x2="320" y2="178" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="294" y1="182" x2="334" y2="182" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="308" y1="186" x2="348" y2="186" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="322" y1="190" x2="362" y2="190" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="230" y1="158" x2="270" y2="198" stroke="#A78BFA" stroke-width="0.5" opacity="0.25"/>
+    <line x1="250" y1="158" x2="290" y2="198" stroke="#A78BFA" stroke-width="0.5" opacity="0.25"/>
+    <line x1="270" y1="158" x2="310" y2="198" stroke="#A78BFA" stroke-width="0.5" opacity="0.25"/>
+    <line x1="290" y1="158" x2="330" y2="198" stroke="#A78BFA" stroke-width="0.5" opacity="0.25"/>
+    <line x1="310" y1="158" x2="350" y2="198" stroke="#A78BFA" stroke-width="0.5" opacity="0.25"/>
 
     <!-- FRONT FACE -->
-    <polygon points="210,198 330,198 330,318 210,318" fill="url(#cubeFront)" stroke="#a78bfa" stroke-width="1.2" opacity="0.9"/>
+    <polygon points="210,198 330,198 330,318 210,318" fill="url(#cubeFront)" stroke="#A78BFA" stroke-width="1.2" opacity="0.9"/>
     <ellipse cx="258" cy="250" rx="28" ry="32" fill="#ef4444" opacity="0.12"/>
     <ellipse cx="258" cy="250" rx="18" ry="20" fill="#ef4444" opacity="0.1"/>
     <ellipse cx="288" cy="245" rx="20" ry="24" fill="#3b82f6" opacity="0.1"/>
     <ellipse cx="272" cy="270" rx="24" ry="18" fill="#22c55e" opacity="0.08"/>
-    <line x1="210" y1="218" x2="330" y2="218" stroke="#a78bfa" stroke-width="0.4" opacity="0.2"/>
-    <line x1="210" y1="238" x2="330" y2="238" stroke="#a78bfa" stroke-width="0.4" opacity="0.2"/>
-    <line x1="210" y1="258" x2="330" y2="258" stroke="#a78bfa" stroke-width="0.4" opacity="0.2"/>
-    <line x1="210" y1="278" x2="330" y2="278" stroke="#a78bfa" stroke-width="0.4" opacity="0.2"/>
-    <line x1="210" y1="298" x2="330" y2="298" stroke="#a78bfa" stroke-width="0.4" opacity="0.2"/>
-    <line x1="234" y1="198" x2="234" y2="318" stroke="#a78bfa" stroke-width="0.4" opacity="0.2"/>
-    <line x1="258" y1="198" x2="258" y2="318" stroke="#a78bfa" stroke-width="0.4" opacity="0.2"/>
-    <line x1="282" y1="198" x2="282" y2="318" stroke="#a78bfa" stroke-width="0.4" opacity="0.2"/>
-    <line x1="306" y1="198" x2="306" y2="318" stroke="#a78bfa" stroke-width="0.4" opacity="0.2"/>
+    <line x1="210" y1="218" x2="330" y2="218" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="210" y1="238" x2="330" y2="238" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="210" y1="258" x2="330" y2="258" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="210" y1="278" x2="330" y2="278" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="210" y1="298" x2="330" y2="298" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="234" y1="198" x2="234" y2="318" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="258" y1="198" x2="258" y2="318" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="282" y1="198" x2="282" y2="318" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="306" y1="198" x2="306" y2="318" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
 
     <!-- RIGHT FACE — spectral bands -->
-    <polygon points="330,198 370,158 370,278 330,318" fill="url(#cubeLeft)" stroke="#a78bfa" stroke-width="1.2" opacity="0.9"/>
+    <polygon points="330,198 370,158 370,278 330,318" fill="url(#cubeLeft)" stroke="#A78BFA" stroke-width="1.2" opacity="0.9"/>
     <polygon points="330,200 370,160 370,172 330,212" fill="#6600cc" opacity="0.55"/>
     <polygon points="330,212 370,172 370,184 330,224" fill="#0044ff" opacity="0.55"/>
     <polygon points="330,224 370,184 370,196 330,236" fill="#0099ff" opacity="0.55"/>
@@ -94,16 +94,16 @@
       text-anchor="middle" x="358" y="236" transform="rotate(-45 358 236)">λ</text>
 
     <!-- Cube edges -->
-    <line x1="210" y1="198" x2="210" y2="318" stroke="#a78bfa" stroke-width="1.5" opacity="0.9"/>
-    <line x1="330" y1="198" x2="330" y2="318" stroke="#a78bfa" stroke-width="1.5" opacity="0.9"/>
-    <line x1="210" y1="318" x2="330" y2="318" stroke="#a78bfa" stroke-width="1.5" opacity="0.9"/>
-    <line x1="330" y1="318" x2="370" y2="278" stroke="#a78bfa" stroke-width="1.5" opacity="0.9"/>
-    <line x1="370" y1="158" x2="370" y2="278" stroke="#a78bfa" stroke-width="1.5" opacity="0.9"/>
-    <line x1="210" y1="158" x2="330" y2="158" stroke="#a78bfa" stroke-width="1.5" opacity="0.9"/>
-    <line x1="210" y1="158" x2="210" y2="198" stroke="#a78bfa" stroke-width="1.5" opacity="0.9"/>
-    <line x1="330" y1="158" x2="370" y2="158" stroke="#a78bfa" stroke-width="1.5" opacity="0.9"/>
-    <line x1="210" y1="198" x2="330" y2="198" stroke="#a78bfa" stroke-width="1.5" opacity="0.85"/>
-    <line x1="330" y1="198" x2="370" y2="158" stroke="#a78bfa" stroke-width="1.5" opacity="0.85"/>
+    <line x1="210" y1="198" x2="210" y2="318" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="330" y1="198" x2="330" y2="318" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="210" y1="318" x2="330" y2="318" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="330" y1="318" x2="370" y2="278" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="370" y1="158" x2="370" y2="278" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="210" y1="158" x2="330" y2="158" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="210" y1="158" x2="210" y2="198" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="330" y1="158" x2="370" y2="158" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="210" y1="198" x2="330" y2="198" stroke="#A78BFA" stroke-width="1.5" opacity="0.85"/>
+    <line x1="330" y1="198" x2="370" y2="158" stroke="#A78BFA" stroke-width="1.5" opacity="0.85"/>
 
     <!-- Axis labels -->
     <text font-family="monospace" font-size="8" fill="#c4b5f7" opacity="0.7" text-anchor="middle" x="268" y="336">x</text>
@@ -112,7 +112,7 @@
 
     <!-- Spectrum bar -->
     <rect x="100" y="346" width="300" height="8" rx="2" fill="url(#spectrum)" opacity="0.85"/>
-    <text font-family="monospace" font-size="6.5" fill="#a78bfa" opacity="0.65" text-anchor="middle" x="100" y="362">430</text>
+    <text font-family="monospace" font-size="6.5" fill="#A78BFA" opacity="0.65" text-anchor="middle" x="100" y="362">430</text>
     <text font-family="monospace" font-size="6.5" fill="#e9d5ff" opacity="0.55" text-anchor="middle" x="250" y="362">670</text>
     <text font-family="monospace" font-size="6.5" fill="#fca5a5" opacity="0.6"  text-anchor="middle" x="400" y="362">910 nm</text>
 
@@ -169,12 +169,8 @@
 
   <!-- Hex border -->
   <polygon points="250,30 455,145 455,375 250,490 45,375 45,145"
-    fill="none" stroke="#4c1d95" stroke-width="11" stroke-linejoin="round"/>
+    fill="none" stroke="#185FA5" stroke-width="11" stroke-linejoin="round"/>
   <polygon points="250,44 441,153 441,367 250,476 59,367 59,153"
-    fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linejoin="round" opacity="0.6"/>
-
-  <!-- Package name -->
-  <text font-family="monospace" font-weight="700" font-size="24"
-    fill="#e9d5ff" text-anchor="middle" x="250" y="545" letter-spacing="1">hyperspectR</text>
+    fill="none" stroke="#3B82F6" stroke-width="1.5" stroke-linejoin="round" opacity="0.6"/>
 
 </svg>
