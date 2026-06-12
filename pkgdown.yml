@@ -1,0 +1,13 @@
+pandoc: 3.8.3
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  biomedical-indices: biomedical-indices.html
+  compartment-syndrome: compartment-syndrome.html
+  cubert-workflow: cubert-workflow.html
+  hyperspectR: hyperspectR.html
+  intraop-oxygenation: intraop-oxygenation.html
+last_built: 2026-06-12T06:10Z
+urls:
+  reference: https://cttir.github.io/hyperspectR/reference
+  article: https://cttir.github.io/hyperspectR/articles
