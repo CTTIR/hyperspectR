@@ -10,3 +10,9 @@ inst/doc/
 _build.R
 showcase/
 DROPHERE/
+*.tmp
+*.log
+*~
+*.bak
+*.orig
+*.Rcheck/
