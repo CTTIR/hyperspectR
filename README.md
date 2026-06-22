@@ -1,7 +1,14 @@
 # hyperspectR <img src="man/figures/logo.png" align="right" height="139" alt="hyperspectR logo" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/cttir/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cttir/hyperspectR/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/r-heller/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-heller/hyperspectR/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/r-heller/hyperspectR/actions/workflows/pkgdown.yaml/badge.svg)](https://r-heller.github.io/hyperspectR/)
+[![CRAN status](https://www.r-pkg.org/badges/version/hyperspectR)](https://CRAN.R-project.org/package=hyperspectR)
+[![Codecov test coverage](https://codecov.io/gh/r-heller/hyperspectR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-heller/hyperspectR?branch=main)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
+[![CRAN downloads total](https://cranlogs.r-pkg.org/badges/grand-total/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 **hyperspectR** provides a complete R pipeline for biomedical hyperspectral

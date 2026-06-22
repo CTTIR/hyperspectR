@@ -10,7 +10,7 @@ scale_color_wavelength(...)
 scale_colour_wavelength(...)
 }
 \arguments{
-\item{...}{Additional arguments passed to \code{\link[ggplot2:scale_gradient]{ggplot2::scale_color_gradientn()}}.}
+\item{...}{Additional arguments passed to \code{\link[ggplot2:scale_color_gradientn]{ggplot2::scale_color_gradientn()}}.}
 }
 \value{
 A \link[ggplot2:Scale]{ggplot2::Scale} object.

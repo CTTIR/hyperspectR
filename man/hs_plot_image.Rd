@@ -17,7 +17,7 @@ Default \code{NULL}.}
 \item{palette}{Character. Color palette name. Default \code{"viridis"}.}
 }
 \value{
-A \link[ggplot2:ggplot]{ggplot2::ggplot} object using \code{\link[ggplot2:geom_tile]{ggplot2::geom_raster()}}.
+A \link[ggplot2:ggplot]{ggplot2::ggplot} object using \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}.
 }
 \description{
 Displays a single spectral band as a spatial image using a pseudocolor palette.

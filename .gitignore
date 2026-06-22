@@ -16,3 +16,4 @@ DROPHERE/
 *.bak
 *.orig
 *.Rcheck/
+_coverage/

@@ -6,21 +6,26 @@
 \alias{hyperspectR-package}
 \title{hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+\if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
 
 Read, process, analyze, and visualize hyperspectral imaging (HSI) data from Cubert snapshot cameras and standard ENVI/TIFF formats. Provides calibration workflows (dark correction, white reference normalization), spectral preprocessing (Savitzky-Golay smoothing, SNV, MSC, derivatives), biomedical tissue indices (tissue oxygenation StO2, perfusion NPI, hemoglobin THI, water content TWI), dimensionality reduction (PCA, MNF), pixel-wise classification (SAM, SVM, random forest), and spectral unmixing via Beer-Lambert chromophore fitting. Includes an interactive 'shiny' application for clinical hyperspectral image exploration. Designed for intraoperative imaging, soft tissue diagnostics, and perfusion monitoring workflows.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/r-heller/hyperspectR}
-  \item \url{https://r-heller.github.io/hyperspectR/}
-  \item Report bugs at \url{https://github.com/r-heller/hyperspectR/issues}
+  \item \url{https://github.com/cttir/hyperspectR}
+  \item \url{https://cttir.github.io/hyperspectR/}
+  \item Report bugs at \url{https://github.com/cttir/hyperspectR/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Raban Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
+\strong{Maintainer}: R. Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
+
+Authors:
+\itemize{
+  \item R. Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
+}
 
 }
 \keyword{internal}
