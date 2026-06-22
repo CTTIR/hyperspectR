@@ -16,13 +16,18 @@ diagnostics, and perfusion monitoring workflows.
 
 Useful links:
 
-- <https://github.com/r-heller/hyperspectR>
+- <https://github.com/cttir/hyperspectR>
 
-- <https://r-heller.github.io/hyperspectR/>
+- <https://cttir.github.io/hyperspectR/>
 
-- Report bugs at <https://github.com/r-heller/hyperspectR/issues>
+- Report bugs at <https://github.com/cttir/hyperspectR/issues>
 
 ## Author
 
-**Maintainer**: Raban Heller <raban.heller@charite.de>
+**Maintainer**: R. Heller <raban.heller@charite.de>
 ([ORCID](https://orcid.org/0000-0001-8006-9742))
+
+Authors:
+
+- R. Heller <raban.heller@charite.de>
+  ([ORCID](https://orcid.org/0000-0001-8006-9742))
