@@ -1,11 +1,11 @@
 # Getting Started with hyperspectR
 
-[![R-CMD-check](https://github.com/r-heller/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-heller/hyperspectR/actions/workflows/R-CMD-check.yaml)
-[![pkgdown](https://github.com/r-heller/hyperspectR/actions/workflows/pkgdown.yaml/badge.svg)](https://r-heller.github.io/hyperspectR/)
+[![R-CMD-check](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/CTTIR/hyperspectR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/hyperspectR/)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/hyperspectR)](https://CRAN.R-project.org/package=hyperspectR)
 [![Codecov test
-coverage](https://codecov.io/gh/r-heller/hyperspectR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-heller/hyperspectR?branch=main)
+coverage](https://codecov.io/gh/CTTIR/hyperspectR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/hyperspectR?branch=main)
 [![CRAN
 downloads](https://cranlogs.r-pkg.org/badges/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
 [![CRAN downloads
