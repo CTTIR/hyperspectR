@@ -55,6 +55,20 @@ hs_run_app(cube)
 - **Visualization**: ggplot2-based spectral plots, clinical panel displays, interactive Shiny app
 - **Clinical focus**: Intraoperative oxygenation mapping, compartment syndrome assessment
 
+## Citation
+
+To cite hyperspectR in publications, please use:
+
+```bibtex
+@Manual{,
+  title = {hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications},
+  author = {R. Heller and V. Forstmeier},
+  year = {2026},
+  note = {R package version 0.1.0},
+  url = {https://github.com/cttir/hyperspectR},
+}
+```
+
 ## Use of LLM tools
 
 Portions of this package were prepared with assistance from large language model tooling for
