@@ -1,0 +1,38 @@
+{
+  "upload_type": "software",
+  "title": "hyperspectR: Hyperspectral imaging analysis for biomedical applications",
+  "version": "0.1.0",
+  "publication_date": "2026-08-11",
+  "description": "<p>hyperspectR reads, processes, analyses and visualises hyperspectral imaging data from Cubert snapshot cameras and from standard ENVI and TIFF files. It provides calibration workflows including dark correction and white reference normalisation, together with spectral preprocessing methods such as Savitzky-Golay smoothing, standard normal variate and multiplicative scatter correction, and derivatives. For biomedical work it computes tissue indices covering oxygenation, perfusion, haemoglobin and water content, and supports dimensionality reduction, pixel-wise classification, and spectral unmixing through Beer-Lambert chromophore fitting. An interactive application is included for exploring cubes and results. It is intended for researchers applying hyperspectral imaging to tissue assessment.</p>",
+  "creators": [
+    {
+      "name": "Heller, Raban",
+      "orcid": "0000-0001-8006-9742"
+    },
+    {
+      "name": "Forstmeier, Vinzent"
+    }
+  ],
+  "contributors": [],
+  "license": "mit",
+  "access_right": "open",
+  "language": "eng",
+  "keywords": [
+    "hyperspectral",
+    "biomedical-imaging",
+    "tissue-oxygenation",
+    "spectral-unmixing",
+    "classification",
+    "r-package",
+    "rstats"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/CTTIR/hyperspectR",
+      "relation": "isSupplementTo",
+      "scheme": "url",
+      "resource_type": "software"
+    }
+  ],
+  "notes": "Prepared draft. Not yet published."
+}
