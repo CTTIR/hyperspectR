@@ -1,5 +1,7 @@
 # hyperspectR
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21889940.svg)](https://doi.org/10.5281/zenodo.21889940)
+
 **hyperspectR** provides a complete R pipeline for biomedical
 hyperspectral imaging analysis – from raw camera data to clinical tissue
 oxygenation maps.
