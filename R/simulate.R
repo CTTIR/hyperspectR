@@ -30,7 +30,18 @@ hs_simulate_cube <- function(rows = 50L, cols = 50L,
   n_regions <- as.integer(n_regions)
   n_bands <- length(wavelengths)
 
-  set.seed(seed)
+  # Seed locally: restore the caller's RNG stream on exit so simulating a cube
+  # never perturbs reproducibility in the surrounding session. CRAN policy
+  # forbids leaving the global RNG state modified.
+  if (!is.null(seed)) {
+    if (exists(".Random.seed", envir = globalenv(), inherits = FALSE)) {
+      old_seed <- get(".Random.seed", envir = globalenv(), inherits = FALSE)
+      on.exit(assign(".Random.seed", old_seed, envir = globalenv()), add = TRUE)
+    } else {
+      on.exit(suppressWarnings(rm(".Random.seed", envir = globalenv())), add = TRUE)
+    }
+    set.seed(seed)
+  }
 
   # Get chromophore spectra at the target wavelengths
   hbo2 <- .hbo2_spectrum(wavelengths)

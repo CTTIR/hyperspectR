@@ -13,8 +13,11 @@ test_that("hs_read_cubert errors when cuvis.r is unavailable", {
 })
 
 test_that("hs_read_cubert errors on missing file when cuvis.r present", {
+  # Neutralise the dependency guard itself: mocking `is_installed` is not
+  # enough, because `check_installed()` does not route through the exported
+  # binding, so the guard fired before the file check could be reached.
   testthat::local_mocked_bindings(
-    is_installed = function(...) TRUE,
+    check_installed = function(...) invisible(TRUE),
     .package = "rlang"
   )
   expect_error(

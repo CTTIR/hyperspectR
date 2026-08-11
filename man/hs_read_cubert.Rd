@@ -32,7 +32,7 @@ An \link{hsi_cube} object. Reflectance data is in 0-1 range.
 \description{
 Reads Cubert session files using the \code{cuvis.r} package, an R wrapper
 for the Cubert CUVIS C SDK
-(see \url{https://github.com/r-heller/cuvis.r}).
+(see \url{https://github.com/CTTIR/cuvis.r}).
 }
 \details{
 The processing context automatically loads dark/white references embedded

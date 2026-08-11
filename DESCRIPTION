@@ -22,8 +22,6 @@ BugReports: https://github.com/cttir/hyperspectR/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
-Remotes:
-    cttir/cuvis.r
 Depends:
     R (>= 4.1.0)
 Imports:
@@ -54,12 +52,14 @@ Suggests:
     e1071,
     ranger,
     cuvis.r,
+    tivis.r,
     withr,
     testthat (>= 3.0.0),
     knitr,
     rmarkdown,
     pkgdown,
     covr
+Additional_repositories: https://cttir.r-universe.dev
 VignetteBuilder: knitr
 Config/Needs/website: CTTIR/themakR
 Config/roxygen2/version: 8.0.0

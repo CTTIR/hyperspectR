@@ -2,7 +2,7 @@
 #'
 #' Reads Cubert session files using the `cuvis.r` package, an R wrapper
 #' for the Cubert CUVIS C SDK
-#' (see \url{https://github.com/r-heller/cuvis.r}).
+#' (see \url{https://github.com/CTTIR/cuvis.r}).
 #'
 #' The processing context automatically loads dark/white references embedded
 #' in the session file, so separate reference files are typically not needed.
@@ -38,7 +38,7 @@ hs_read_cubert <- function(path, index = 1L,
     reason = "to read Cubert .cu3s files",
     action = function(pkg, ...) {
       cli::cli_inform(c(
-        "i" = "Install with: {.code install.packages('remotes'); remotes::install_github('r-heller/cuvis.r')}",
+        "i" = "Install with: {.code install.packages('remotes'); remotes::install_github('CTTIR/cuvis.r')}",
         "i" = "Also requires the Cubert CUVIS SDK: {.url https://cloud.cubert-gmbh.de/s/qpxkyWkycrmBK9m}"
       ))
     }

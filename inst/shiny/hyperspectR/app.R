@@ -33,14 +33,12 @@ server <- function(input, output, session) {
     original_cube = NULL
   )
 
-  # Load cube from .GlobalEnv if passed via hs_run_app()
+  # Receive the cube passed by hs_run_app() via shinyOptions()
   shiny::observe({
-    if (exists(".hyperspectR_cube", envir = .GlobalEnv)) {
-      obj <- get(".hyperspectR_cube", envir = .GlobalEnv)
-      if (!is.null(obj) && inherits(obj, "hsi_cube")) {
-        cube_rv$cube <- obj
-        cube_rv$original_cube <- obj
-      }
+    obj <- shiny::getShinyOption("hyperspectR_cube", default = NULL)
+    if (!is.null(obj) && inherits(obj, "hsi_cube")) {
+      cube_rv$cube <- obj
+      cube_rv$original_cube <- obj
     }
 
     # Load example cube if nothing was passed

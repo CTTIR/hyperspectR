@@ -26,8 +26,9 @@ hs_run_app <- function(cube = NULL, port = NULL, launch.browser = TRUE) {
     cli::cli_abort("Could not find Shiny app directory. Try reinstalling {.pkg hyperspectR}.")
   }
 
-  .GlobalEnv$.hyperspectR_cube <- cube
-  on.exit(rm(".hyperspectR_cube", envir = .GlobalEnv), add = TRUE)
+  # Hand the cube to the app through Shiny's own option mechanism rather than
+  # the global environment: CRAN policy forbids packages writing to .GlobalEnv.
+  shiny::shinyOptions(hyperspectR_cube = cube)
 
   shiny::runApp(app_dir, port = port, launch.browser = launch.browser)
 }

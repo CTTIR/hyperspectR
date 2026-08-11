@@ -177,14 +177,39 @@ hs_read_cube <- function(path, ...) {
 
   switch(ext,
     hdr = hs_read_envi(path, ...),
-    dat = , img = , raw = , bsq = , bil = , bip = hs_read_envi(path, ...),
+    # `.dat` is ambiguous: it is both the ENVI binary sidecar and the TIVITA
+    # container. Decide on content rather than extension -- an ENVI .dat needs
+    # a sibling .hdr, whereas a TIVITA .dat carries its own dimension header.
+    dat = .read_dat_dispatch(path, ...),
+    img = , raw = , bsq = , bil = , bip = hs_read_envi(path, ...),
     tif = , tiff = hs_read_tiff(path, ...),
     cu3s = hs_read_cubert(path, ...),
     cli::cli_abort(c(
       "!" = "Unsupported file extension: {.val {ext}}",
-      "i" = "Supported formats: ENVI (.hdr), TIFF (.tif/.tiff), Cubert (.cu3s)"
+      "i" = "Supported formats: ENVI (.hdr, .dat/.img/.raw/.bsq/.bil/.bip),
+             TIFF (.tif/.tiff), Cubert (.cu3s), TIVITA (.dat)"
     ))
   )
+}
+
+
+# Route a .dat file to the reader its content implies.
+.read_dat_dispatch <- function(path, ...) {
+  hdr <- paste0(tools::file_path_sans_ext(path), ".hdr")
+  if (file.exists(hdr)) {
+    return(hs_read_envi(path, ...))
+  }
+  if (.is_tivita_file(path)) {
+    return(hs_read_tivita(path, ...))
+  }
+  cli::cli_abort(c(
+    "Cannot determine the format of {.file {basename(path)}}.",
+    "x" = "No ENVI header {.file {basename(hdr)}} sits beside it, and its
+           first 12 bytes do not describe a TIVITA cube.",
+    "i" = "For ENVI data, supply the {.file .hdr} file.",
+    "i" = "For TIVITA data, call {.fn hs_read_tivita} directly to see why the
+           header was rejected."
+  ))
 }
 
 
