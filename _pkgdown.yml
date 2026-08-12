@@ -29,6 +29,7 @@ reference:
       - hs_read_envi
       - hs_read_tiff
       - hs_read_cubert
+      - hs_read_tivita
       - hs_write_envi
       - hs_write_tiff
       - hs_export_png
@@ -92,6 +93,7 @@ reference:
       - hs_plot_clinical
       - hs_plot_index
       - scale_color_wavelength
+      - scale_colour_wavelength
       - theme_hsi
 
   - title: "Reference Data"
