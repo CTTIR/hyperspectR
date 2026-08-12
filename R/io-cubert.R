@@ -53,8 +53,14 @@ hs_read_cubert <- function(path, index = 1L,
   if (verbose) cli::cli_inform("Reading Cubert session: {.file {basename(path)}}")
 
   # Initialize CUVIS SDK
+  # Initialise, but deliberately do NOT shut down afterwards. Tearing the SDK
+  # down at the end of every read means the next read initialises a torn-down
+  # SDK, and cuvis_session_file_load() then dereferences a null handle and
+  # takes the whole R process with it -- so reading two measurements in one
+  # session used to segfault on the second. cuvis_init() is idempotent, and the
+  # SDK is released when the session ends; call cuvis.r::cuvis_shutdown()
+  # explicitly if it must be released sooner.
   cuvis.r::cuvis_init(settings_dir)
-  on.exit(cuvis.r::cuvis_shutdown(), add = TRUE)
 
   # Open session and extract measurement
   session <- cuvis.r::cuvis_session(path)
