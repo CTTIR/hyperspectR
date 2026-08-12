@@ -5,7 +5,8 @@ Convert hsi_cube to Tibble
 ## Usage
 
 ``` r
-as_tibble.hsi_cube(x, ..., long = TRUE, .name_repair = "unique")
+# S3 method for class 'hsi_cube'
+as_tibble(x, ..., long = TRUE, .name_repair = "unique")
 ```
 
 ## Arguments
@@ -39,7 +40,7 @@ A [tibble::tibble](https://tibble.tidyverse.org/reference/tibble.html).
 
 ``` r
 cube <- hs_example_cube()
-tb <- as_tibble.hsi_cube(cube[1:3, 1:3, 1:3])
+tb <- tibble::as_tibble(cube[1:3, 1:3, 1:3])
 head(tb)
 #> # A tibble: 6 × 4
 #>       x     y wavelength  value

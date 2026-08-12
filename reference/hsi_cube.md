@@ -52,5 +52,5 @@ print(cube)
 #> ── hsi_cube ────────────────────────────────────────────────────────────────────
 #> Dimensions: 10 rows x 10 cols x 5 bands
 #> Wavelengths: 500-700 nm (5 bands)
-#> Data range: [0.005, 0.9999]
+#> Data range: [0.0016, 0.996]
 ```

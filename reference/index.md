@@ -16,7 +16,7 @@ Read and write hyperspectral data cubes
   : Subset an hsi_cube Object
 - [`as.data.frame(`*`<hsi_cube>`*`)`](https://cttir.github.io/hyperspectR/reference/as.data.frame.hsi_cube.md)
   : Convert hsi_cube to Data Frame
-- [`as_tibble.hsi_cube()`](https://cttir.github.io/hyperspectR/reference/as_tibble.hsi_cube.md)
+- [`as_tibble(`*`<hsi_cube>`*`)`](https://cttir.github.io/hyperspectR/reference/as_tibble.hsi_cube.md)
   : Convert hsi_cube to Tibble
 - [`hs_read_cube()`](https://cttir.github.io/hyperspectR/reference/hs_read_cube.md)
   : Read a Hyperspectral Data Cube from Any Supported Format
@@ -26,6 +26,8 @@ Read and write hyperspectral data cubes
   : Read a Multi-Channel TIFF File
 - [`hs_read_cubert()`](https://cttir.github.io/hyperspectR/reference/hs_read_cubert.md)
   : Read a Cubert .cu3s Session File
+- [`hs_read_tivita()`](https://cttir.github.io/hyperspectR/reference/hs_read_tivita.md)
+  : Read a TIVITA Suite Recording
 - [`hs_write_envi()`](https://cttir.github.io/hyperspectR/reference/hs_write_envi.md)
   : Write an HSI Cube to ENVI Format
 - [`hs_write_tiff()`](https://cttir.github.io/hyperspectR/reference/hs_write_tiff.md)

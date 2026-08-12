@@ -1,7 +1,7 @@
 # Read a Cubert .cu3s Session File
 
 Reads Cubert session files using the `cuvis.r` package, an R wrapper for
-the Cubert CUVIS C SDK (see <https://github.com/r-heller/cuvis.r>).
+the Cubert CUVIS C SDK (see <https://github.com/CTTIR/cuvis.r>).
 
 ## Usage
 
