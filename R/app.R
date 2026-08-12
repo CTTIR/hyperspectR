@@ -21,6 +21,13 @@
 #'
 #' @export
 hs_run_app <- function(cube = NULL, port = NULL, launch.browser = TRUE) {
+  # The app is optional, so its dependencies live in Suggests. Check them here
+  # rather than letting the app fail partway through rendering: bslib in
+  # particular is used unconditionally by the UI.
+  rlang::check_installed(c("shiny", "bslib"),
+    reason = "to run the hyperspectR Shiny application"
+  )
+
   app_dir <- system.file("shiny", "hyperspectR", package = "hyperspectR")
   if (app_dir == "") {
     cli::cli_abort("Could not find Shiny app directory. Try reinstalling {.pkg hyperspectR}.")

@@ -35,12 +35,12 @@ Imports:
     grDevices,
     graphics,
     tools,
-    shiny,
     patchwork,
     viridisLite,
     scales
 Suggests:
     bslib,
+    shiny,
     dplyr,
     plotly,
     DT,

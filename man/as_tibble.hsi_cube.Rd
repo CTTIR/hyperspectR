@@ -4,7 +4,7 @@
 \alias{as_tibble.hsi_cube}
 \title{Convert hsi_cube to Tibble}
 \usage{
-as_tibble.hsi_cube(x, ..., long = TRUE, .name_repair = "unique")
+\method{as_tibble}{hsi_cube}(x, ..., long = TRUE, .name_repair = "unique")
 }
 \arguments{
 \item{x}{An \link{hsi_cube} object.}
@@ -24,7 +24,7 @@ Convert hsi_cube to Tibble
 }
 \examples{
 cube <- hs_example_cube()
-tb <- as_tibble.hsi_cube(cube[1:3, 1:3, 1:3])
+tb <- tibble::as_tibble(cube[1:3, 1:3, 1:3])
 head(tb)
 
 }

@@ -185,11 +185,11 @@ as.data.frame.hsi_cube <- function(x, ..., long = FALSE) {
 #'
 #' @examples
 #' cube <- hs_example_cube()
-#' tb <- as_tibble.hsi_cube(cube[1:3, 1:3, 1:3])
+#' tb <- tibble::as_tibble(cube[1:3, 1:3, 1:3])
 #' head(tb)
 #'
 #' @name as_tibble.hsi_cube
-#' @export
+#' @exportS3Method tibble::as_tibble
 as_tibble.hsi_cube <- function(x, ..., long = TRUE, .name_repair = "unique") {
   df <- as.data.frame.hsi_cube(x, long = long)
   tibble::as_tibble(df, .name_repair = .name_repair)

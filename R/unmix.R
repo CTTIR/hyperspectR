@@ -60,30 +60,16 @@ hs_unmix_nnls <- function(cube, endmembers, sum_to_one = FALSE) {
 
     if (sum_to_one) {
       y_c <- c(y, 1)
-      if (use_nnls) {
-        fit <- nnls::nnls(em_constrained, y_c)
-        abundances_mat[i, ] <- fit$x
+      abundances_mat[i, ] <- if (use_nnls) {
+        nnls::nnls(em_constrained, y_c)$x
       } else {
-        fit <- stats::optim(
-          par = rep(1 / n_em, n_em),
-          fn = function(a) sum((y_c - em_constrained %*% a)^2),
-          lower = rep(0, n_em),
-          method = "L-BFGS-B"
-        )
-        abundances_mat[i, ] <- fit$par
+        .nnls_fallback(em_constrained, y_c)
       }
     } else {
-      if (use_nnls) {
-        fit <- nnls::nnls(endmembers, y)
-        abundances_mat[i, ] <- fit$x
+      abundances_mat[i, ] <- if (use_nnls) {
+        nnls::nnls(endmembers, y)$x
       } else {
-        fit <- stats::optim(
-          par = rep(0.5, n_em),
-          fn = function(a) sum((y - endmembers %*% a)^2),
-          lower = rep(0, n_em),
-          method = "L-BFGS-B"
-        )
-        abundances_mat[i, ] <- fit$par
+        .nnls_fallback(endmembers, y)
       }
     }
 
@@ -194,4 +180,77 @@ hs_beer_lambert <- function(cube, chromophores = c("HbO2", "Hb"),
 
   class(result) <- "hsi_chromophore_fit"
   result
+}
+
+
+# Non-negative least squares without the nnls package.
+#
+# The previous fallback minimised the residual with optim(method = "L-BFGS-B")
+# from a fixed start. That fails badly on chromophore fitting: extinction
+# coefficients are on the order of 1e5 while absorbance is around 0.5, so the
+# optimum lies near 1e-5 and the optimiser collapses onto the lower bound.
+# Every abundance came back as zero, which propagated to an all-NA sto2 in
+# hs_beer_lambert() -- silently, and specifically on machines without the
+# optional nnls package, which is exactly what CRAN's noSuggests flavour runs.
+#
+# This is the Lawson-Hanson active-set algorithm, which solves the problem
+# exactly rather than approximately, and is scale-free.
+.nnls_fallback <- function(A, b, tol = NULL, max_iter = NULL) {
+  A <- as.matrix(A)
+  b <- as.numeric(b)
+  n <- ncol(A)
+
+  if (is.null(tol)) tol <- 10 * .Machine$double.eps * max(1, max(abs(A))) * n
+  if (is.null(max_iter)) max_iter <- 3L * n
+
+  x <- numeric(n)
+  passive <- logical(n)          # P: indices allowed to be non-zero
+  w <- crossprod(A, b - A %*% x) # negative gradient
+
+  iter <- 0L
+  while (any(!passive) && max(w[!passive]) > tol && iter < max_iter) {
+    iter <- iter + 1L
+
+    # move the most promising index into the passive set
+    idx <- which(!passive)
+    j <- idx[which.max(w[idx])]
+    passive[j] <- TRUE
+
+    s <- numeric(n)
+    s[passive] <- .ls_solve(A[, passive, drop = FALSE], b)
+
+    # inner loop: retreat until the passive solution is feasible
+    inner <- 0L
+    while (any(s[passive] <= 0) && inner < max_iter) {
+      inner <- inner + 1L
+      neg <- passive & s <= 0
+      ratio <- x[neg] / (x[neg] - s[neg])
+      alpha <- min(ratio[is.finite(ratio)], 1)
+      x <- x + alpha * (s - x)
+      passive[passive & abs(x) < tol] <- FALSE
+      s <- numeric(n)
+      if (any(passive)) s[passive] <- .ls_solve(A[, passive, drop = FALSE], b)
+    }
+
+    x <- s
+    w <- crossprod(A, b - A %*% x)
+  }
+
+  x[x < 0] <- 0
+  as.numeric(x)
+}
+
+
+# Least squares for one sub-problem, tolerating rank deficiency.
+.ls_solve <- function(A, b) {
+  fit <- tryCatch(qr.solve(A, b), error = function(e) NULL)
+  if (is.null(fit) || anyNA(fit)) {
+    # fall back to the pseudo-inverse via SVD when columns are collinear
+    sv <- svd(A)
+    keep <- sv$d > max(dim(A)) * .Machine$double.eps * max(sv$d)
+    if (!any(keep)) return(rep(0, ncol(A)))
+    fit <- sv$v[, keep, drop = FALSE] %*%
+      ((t(sv$u[, keep, drop = FALSE]) %*% b) / sv$d[keep])
+  }
+  as.numeric(fit)
 }
