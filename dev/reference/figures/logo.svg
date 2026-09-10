@@ -1,0 +1,176 @@
+<svg width="500" height="580" viewBox="0 0 500 580" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bghsr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0D3F70"/>
+      <stop offset="100%" stop-color="#0D3F70"/>
+    </linearGradient>
+    <linearGradient id="spectrum" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#6600cc"/>
+      <stop offset="12%"  stop-color="#4400ff"/>
+      <stop offset="22%"  stop-color="#0044ff"/>
+      <stop offset="32%"  stop-color="#00aaff"/>
+      <stop offset="42%"  stop-color="#00dd88"/>
+      <stop offset="52%"  stop-color="#aaee00"/>
+      <stop offset="62%"  stop-color="#ffdd00"/>
+      <stop offset="72%"  stop-color="#ff8800"/>
+      <stop offset="82%"  stop-color="#ff3300"/>
+      <stop offset="92%"  stop-color="#cc0022"/>
+      <stop offset="100%" stop-color="#880011"/>
+    </linearGradient>
+    <linearGradient id="cubeTop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a0a3a"/>
+      <stop offset="100%" stop-color="#0d0520"/>
+    </linearGradient>
+    <linearGradient id="cubeLeft" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0a0518"/>
+      <stop offset="100%" stop-color="#140830"/>
+    </linearGradient>
+    <linearGradient id="cubeFront" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#120828"/>
+      <stop offset="100%" stop-color="#0a0418"/>
+    </linearGradient>
+    <clipPath id="hexhsr">
+      <polygon points="250,30 455,145 455,375 250,490 45,375 45,145"/>
+    </clipPath>
+  </defs>
+
+  <polygon points="250,30 455,145 455,375 250,490 45,375 45,145" fill="url(#bghsr)"/>
+
+  <g clip-path="url(#hexhsr)">
+
+    <!-- TOP FACE -->
+    <polygon points="210,158 330,158 370,198 250,198" fill="url(#cubeTop)" stroke="#A78BFA" stroke-width="1.2" opacity="0.9"/>
+    <ellipse cx="295" cy="174" rx="22" ry="10" fill="#ef4444" opacity="0.35" transform="skewX(-20)"/>
+    <ellipse cx="260" cy="178" rx="14" ry="7"  fill="#3b82f6" opacity="0.3"  transform="skewX(-20)"/>
+    <ellipse cx="318" cy="170" rx="12" ry="6"  fill="#22c55e" opacity="0.28" transform="skewX(-20)"/>
+    <line x1="224" y1="162" x2="264" y2="162" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="238" y1="166" x2="278" y2="166" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="252" y1="170" x2="292" y2="170" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="266" y1="174" x2="306" y2="174" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="280" y1="178" x2="320" y2="178" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="294" y1="182" x2="334" y2="182" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="308" y1="186" x2="348" y2="186" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="322" y1="190" x2="362" y2="190" stroke="#A78BFA" stroke-width="0.5" opacity="0.3"/>
+    <line x1="230" y1="158" x2="270" y2="198" stroke="#A78BFA" stroke-width="0.5" opacity="0.25"/>
+    <line x1="250" y1="158" x2="290" y2="198" stroke="#A78BFA" stroke-width="0.5" opacity="0.25"/>
+    <line x1="270" y1="158" x2="310" y2="198" stroke="#A78BFA" stroke-width="0.5" opacity="0.25"/>
+    <line x1="290" y1="158" x2="330" y2="198" stroke="#A78BFA" stroke-width="0.5" opacity="0.25"/>
+    <line x1="310" y1="158" x2="350" y2="198" stroke="#A78BFA" stroke-width="0.5" opacity="0.25"/>
+
+    <!-- FRONT FACE -->
+    <polygon points="210,198 330,198 330,318 210,318" fill="url(#cubeFront)" stroke="#A78BFA" stroke-width="1.2" opacity="0.9"/>
+    <ellipse cx="258" cy="250" rx="28" ry="32" fill="#ef4444" opacity="0.12"/>
+    <ellipse cx="258" cy="250" rx="18" ry="20" fill="#ef4444" opacity="0.1"/>
+    <ellipse cx="288" cy="245" rx="20" ry="24" fill="#3b82f6" opacity="0.1"/>
+    <ellipse cx="272" cy="270" rx="24" ry="18" fill="#22c55e" opacity="0.08"/>
+    <line x1="210" y1="218" x2="330" y2="218" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="210" y1="238" x2="330" y2="238" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="210" y1="258" x2="330" y2="258" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="210" y1="278" x2="330" y2="278" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="210" y1="298" x2="330" y2="298" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="234" y1="198" x2="234" y2="318" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="258" y1="198" x2="258" y2="318" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="282" y1="198" x2="282" y2="318" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+    <line x1="306" y1="198" x2="306" y2="318" stroke="#A78BFA" stroke-width="0.4" opacity="0.2"/>
+
+    <!-- RIGHT FACE — spectral bands -->
+    <polygon points="330,198 370,158 370,278 330,318" fill="url(#cubeLeft)" stroke="#A78BFA" stroke-width="1.2" opacity="0.9"/>
+    <polygon points="330,200 370,160 370,172 330,212" fill="#6600cc" opacity="0.55"/>
+    <polygon points="330,212 370,172 370,184 330,224" fill="#0044ff" opacity="0.55"/>
+    <polygon points="330,224 370,184 370,196 330,236" fill="#0099ff" opacity="0.55"/>
+    <polygon points="330,236 370,196 370,208 330,248" fill="#00cc88" opacity="0.55"/>
+    <polygon points="330,248 370,208 370,220 330,260" fill="#aaee00" opacity="0.55"/>
+    <polygon points="330,260 370,220 370,232 330,272" fill="#ff8800" opacity="0.55"/>
+    <polygon points="330,272 370,232 370,244 330,284" fill="#ff3300" opacity="0.55"/>
+    <polygon points="330,284 370,244 370,256 330,296" fill="#990011" opacity="0.5"/>
+    <line x1="330" y1="212" x2="370" y2="172" stroke="#000" stroke-width="0.4" opacity="0.3"/>
+    <line x1="330" y1="224" x2="370" y2="184" stroke="#000" stroke-width="0.4" opacity="0.3"/>
+    <line x1="330" y1="236" x2="370" y2="196" stroke="#000" stroke-width="0.4" opacity="0.3"/>
+    <line x1="330" y1="248" x2="370" y2="208" stroke="#000" stroke-width="0.4" opacity="0.3"/>
+    <line x1="330" y1="260" x2="370" y2="220" stroke="#000" stroke-width="0.4" opacity="0.3"/>
+    <line x1="330" y1="272" x2="370" y2="232" stroke="#000" stroke-width="0.4" opacity="0.3"/>
+    <line x1="330" y1="284" x2="370" y2="244" stroke="#000" stroke-width="0.4" opacity="0.3"/>
+    <text font-family="serif" font-style="italic" font-size="11" fill="#e9d5ff" opacity="0.7"
+      text-anchor="middle" x="358" y="236" transform="rotate(-45 358 236)">λ</text>
+
+    <!-- Cube edges -->
+    <line x1="210" y1="198" x2="210" y2="318" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="330" y1="198" x2="330" y2="318" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="210" y1="318" x2="330" y2="318" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="330" y1="318" x2="370" y2="278" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="370" y1="158" x2="370" y2="278" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="210" y1="158" x2="330" y2="158" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="210" y1="158" x2="210" y2="198" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="330" y1="158" x2="370" y2="158" stroke="#A78BFA" stroke-width="1.5" opacity="0.9"/>
+    <line x1="210" y1="198" x2="330" y2="198" stroke="#A78BFA" stroke-width="1.5" opacity="0.85"/>
+    <line x1="330" y1="198" x2="370" y2="158" stroke="#A78BFA" stroke-width="1.5" opacity="0.85"/>
+
+    <!-- Axis labels -->
+    <text font-family="monospace" font-size="8" fill="#c4b5f7" opacity="0.7" text-anchor="middle" x="268" y="336">x</text>
+    <text font-family="monospace" font-size="8" fill="#c4b5f7" opacity="0.7" text-anchor="middle" x="195" y="262">y</text>
+    <text font-family="monospace" font-size="8" fill="#c4b5f7" opacity="0.7" text-anchor="middle" x="386" y="222">λ</text>
+
+    <!-- Spectrum bar -->
+    <rect x="100" y="346" width="300" height="8" rx="2" fill="url(#spectrum)" opacity="0.85"/>
+    <text font-family="monospace" font-size="6.5" fill="#A78BFA" opacity="0.65" text-anchor="middle" x="100" y="362">430</text>
+    <text font-family="monospace" font-size="6.5" fill="#e9d5ff" opacity="0.55" text-anchor="middle" x="250" y="362">670</text>
+    <text font-family="monospace" font-size="6.5" fill="#fca5a5" opacity="0.6"  text-anchor="middle" x="400" y="362">910 nm</text>
+
+    <!-- Spectral curves -->
+    <line x1="100" y1="338" x2="100" y2="410" stroke="#c4b5f7" stroke-width="0.8" opacity="0.4"/>
+    <line x1="100" y1="410" x2="400" y2="410" stroke="#c4b5f7" stroke-width="0.8" opacity="0.4"/>
+    <path d="M 100,400 C 130,395 150,385 165,375 C 175,368 178,362 185,368
+             C 192,374 195,372 205,362 C 215,352 220,348 235,370
+             C 248,388 262,398 280,396 C 300,393 320,388 340,382
+             C 360,376 380,372 400,370"
+      fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+    <path d="M 100,402 C 130,398 148,392 162,386 C 172,382 176,378 182,382
+             C 190,387 196,386 206,378 C 218,368 224,365 238,378
+             C 252,390 268,400 288,399 C 308,397 330,393 355,388
+             C 375,384 390,380 400,378"
+      fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+    <line x1="182" y1="370" x2="182" y2="410" stroke="#ef4444" stroke-width="0.8" stroke-dasharray="3 2" opacity="0.4"/>
+    <line x1="210" y1="362" x2="210" y2="410" stroke="#ef4444" stroke-width="0.8" stroke-dasharray="3 2" opacity="0.4"/>
+    <text font-family="monospace" font-size="5.5" fill="#fca5a5" opacity="0.55" text-anchor="middle" x="182" y="420">540</text>
+    <text font-family="monospace" font-size="5.5" fill="#fca5a5" opacity="0.55" text-anchor="middle" x="210" y="420">570</text>
+
+    <!-- Tissue index panels -->
+    <rect x="82"  y="428" width="52" height="36" rx="3" fill="#1a0a0a" stroke="#ef4444" stroke-width="1.2" opacity="0.85"/>
+    <rect x="84"  y="430" width="48" height="22" rx="2" fill="#ef4444" opacity="0.22"/>
+    <text font-family="monospace" font-size="6.5" font-weight="700" fill="#fca5a5" text-anchor="middle" x="108" y="443" opacity="0.9">StO₂</text>
+    <text font-family="monospace" font-size="5.5" fill="#ef4444" text-anchor="middle" x="108" y="458" opacity="0.7">oxygenation</text>
+
+    <rect x="143" y="428" width="52" height="36" rx="3" fill="#0a0a1a" stroke="#3b82f6" stroke-width="1.2" opacity="0.85"/>
+    <rect x="145" y="430" width="48" height="22" rx="2" fill="#3b82f6" opacity="0.2"/>
+    <text font-family="monospace" font-size="6.5" font-weight="700" fill="#93c5fd" text-anchor="middle" x="169" y="443" opacity="0.9">NPI</text>
+    <text font-family="monospace" font-size="5.5" fill="#3b82f6" text-anchor="middle" x="169" y="458" opacity="0.7">perfusion</text>
+
+    <rect x="204" y="428" width="52" height="36" rx="3" fill="#0a0a0a" stroke="#22c55e" stroke-width="1.2" opacity="0.85"/>
+    <rect x="206" y="430" width="48" height="22" rx="2" fill="#22c55e" opacity="0.18"/>
+    <text font-family="monospace" font-size="6.5" font-weight="700" fill="#86efac" text-anchor="middle" x="230" y="443" opacity="0.9">THI</text>
+    <text font-family="monospace" font-size="5.5" fill="#22c55e" text-anchor="middle" x="230" y="458" opacity="0.7">haemoglobin</text>
+
+    <rect x="265" y="428" width="52" height="36" rx="3" fill="#0a0a18" stroke="#06b6d4" stroke-width="1.2" opacity="0.85"/>
+    <rect x="267" y="430" width="48" height="22" rx="2" fill="#06b6d4" opacity="0.18"/>
+    <text font-family="monospace" font-size="6.5" font-weight="700" fill="#67e8f9" text-anchor="middle" x="291" y="443" opacity="0.9">TWI</text>
+    <text font-family="monospace" font-size="5.5" fill="#06b6d4" text-anchor="middle" x="291" y="458" opacity="0.7">water index</text>
+
+    <rect x="326" y="428" width="52" height="36" rx="3" fill="#0f0a00" stroke="#f59e0b" stroke-width="1.2" opacity="0.85"/>
+    <rect x="328" y="430" width="48" height="22" rx="2" fill="#f59e0b" opacity="0.18"/>
+    <text font-family="monospace" font-size="6.5" font-weight="700" fill="#fcd34d" text-anchor="middle" x="352" y="443" opacity="0.9">NDI</text>
+    <text font-family="monospace" font-size="5.5" fill="#f59e0b" text-anchor="middle" x="352" y="458" opacity="0.7">compartment</text>
+
+    <!-- Click indicator -->
+    <circle cx="262" cy="248" r="5" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.7"/>
+    <circle cx="262" cy="248" r="2" fill="#ffffff" opacity="0.8"/>
+    <line x1="262" y1="254" x2="182" y2="368" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="3 2" opacity="0.35"/>
+
+  </g>
+
+  <!-- Hex border -->
+  <polygon points="250,30 455,145 455,375 250,490 45,375 45,145"
+    fill="none" stroke="#185FA5" stroke-width="11" stroke-linejoin="round"/>
+  <polygon points="250,44 441,153 441,367 250,476 59,367 59,153"
+    fill="none" stroke="#3B82F6" stroke-width="1.5" stroke-linejoin="round" opacity="0.6"/>
+
+</svg>
