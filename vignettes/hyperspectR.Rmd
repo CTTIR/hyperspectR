@@ -97,11 +97,11 @@ hs_plot_spectra(cube, pixels = "mean", show_sd = TRUE)
 
 ## Computing Tissue Indices
 
-The package implements clinical tissue indices used in surgical HSI:
+The package provides a research hemoglobin fraction estimate and dimensionless band ratios. These outputs are not validated clinical measurements:
 
 ```{r}
 sto2 <- hs_sto2(cube)
-hs_plot_index(sto2, title = "StO2 (%)", palette = "sto2")
+hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
 ### Clinical Panel Display

@@ -1,4 +1,6 @@
 test_that("hs_run_app locates the bundled shiny app and errors cleanly", {
+  skip_if_not_installed("shiny")
+  skip_if_not_installed("bslib")
   # Don't actually launch; mock shiny::runApp to capture the resolved dir.
   captured <- NULL
   testthat::local_mocked_bindings(
@@ -14,6 +16,8 @@ test_that("hs_run_app locates the bundled shiny app and errors cleanly", {
 })
 
 test_that("hs_run_app hands the cube to the app via shinyOptions", {
+  skip_if_not_installed("shiny")
+  skip_if_not_installed("bslib")
   # The cube is passed through Shiny's own option mechanism. It must NOT be
   # written to the global environment: CRAN policy forbids that, and the app
   # reads it back with getShinyOption().

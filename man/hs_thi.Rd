@@ -14,10 +14,11 @@ hs_thi(cube, band1 = c(530, 590), band2 = c(785, 825))
 \item{band2}{Numeric vector of length 2. Default \code{c(785, 825)} (reference).}
 }
 \value{
-A numeric matrix with values 0-100.
+A numeric matrix of unscaled dimensionless band ratios.
 }
 \description{
-Estimates relative hemoglobin concentration at superficial depth.
+Legacy name for a dimensionless reference/Hb-band reflectance ratio.
+It is not a hemoglobin concentration measurement.
 }
 \examples{
 cube <- hs_example_cube()

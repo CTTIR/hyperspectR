@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
 
-Read, process, analyze, and visualize hyperspectral imaging (HSI) data from Cubert snapshot cameras and standard ENVI/TIFF formats. Provides calibration workflows (dark correction, white reference normalization), spectral preprocessing (Savitzky-Golay smoothing, SNV, MSC, derivatives), biomedical tissue indices (tissue oxygenation StO2, perfusion NPI, hemoglobin THI, water content TWI), dimensionality reduction (PCA, MNF), pixel-wise classification (SAM, SVM, random forest), and spectral unmixing via Beer-Lambert chromophore fitting. Includes an interactive 'shiny' application for clinical hyperspectral image exploration. Designed for intraoperative imaging, soft tissue diagnostics, and perfusion monitoring workflows.
+Read, process, analyze, and visualize hyperspectral imaging (HSI) data from Cubert snapshot cameras and standard ENVI/TIFF formats. Provides calibration workflows (dark correction, white reference normalization), spectral preprocessing (Savitzky-Golay smoothing, SNV, MSC, derivatives), dimensionless spectral indices, research hemoglobin fraction fitting, dimensionality reduction (PCA, MNF), pixel classification (SAM, SVM, random forest), and constrained spectral unmixing. Includes an interactive 'shiny' explorer, reproducible batch recipes and grouped evaluation tools. Results are research outputs; clinical or device-specific accuracy is not established by the included synthetic examples.
 }
 \seealso{
 Useful links:

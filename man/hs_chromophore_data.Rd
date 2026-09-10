@@ -6,7 +6,8 @@
 \usage{
 hs_chromophore_data(
   chromophore = c("HbO2", "Hb"),
-  wavelength_range = c(400, 1000)
+  wavelength_range = c(400, 1000),
+  source = c("reference", "synthetic")
 )
 }
 \arguments{
@@ -16,14 +17,18 @@ hs_chromophore_data(
 
 \item{wavelength_range}{Numeric vector of length 2. Wavelength range in nm.
 Default \code{c(400, 1000)}.}
+
+\item{source}{\code{"reference"} (default) supports HbO2 and Hb; \code{"synthetic"}
+returns the legacy analytical shapes, unsuitable for quantitative fitting.}
 }
 \value{
 A \link[tibble:tibble]{tibble::tibble} with columns \code{wavelength} (nm) and one column per
 requested chromophore (extinction coefficient in cm^-1 / (mol/L)).
 }
 \description{
-Returns published molar extinction coefficient spectra for common tissue
-chromophores. Data from Prahl (Oregon Medical Laser Center) and Jacques (2013).
+Returns a pinned tabulation of decadic molar extinction coefficients for
+hemoglobin, compiled by Prahl and distributed with MNE-Python v1.10.2.
+Synthetic shapes are available separately for simulation only.
 }
 \examples{
 hb_data <- hs_chromophore_data()

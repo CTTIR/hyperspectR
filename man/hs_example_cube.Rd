@@ -12,7 +12,8 @@ An \link{hsi_cube} object (30 x 30 x 61 bands, 430-910 nm).
 \description{
 Generates a small pre-configured synthetic cube for quick examples and
 documentation. The cube simulates a 30x30 pixel tissue scene with four
-regions of varying oxygenation (healthy, ischemic, hyperemic, background).
+regions of different synthetic spectra. Region names do not identify tissue
+diagnoses, and the example does not establish quantitative accuracy.
 }
 \examples{
 cube <- hs_example_cube()

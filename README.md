@@ -14,7 +14,7 @@
 <!-- badges: end -->
 
 **hyperspectR** provides a complete R pipeline for biomedical hyperspectral
-imaging analysis -- from raw camera data to clinical tissue oxygenation
+imaging analysis -- from camera data to reproducible research
 maps.
 
 ## Installation
@@ -38,7 +38,7 @@ autoplot(cube, type = "rgb")
 
 # Compute tissue oxygenation
 sto2 <- hs_sto2(cube)
-hs_plot_index(sto2, title = "StO2 (%)", palette = "sto2")
+hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 
 # Clinical 5-panel display (TIVITA-style)
 hs_plot_clinical(cube)
@@ -52,9 +52,9 @@ hs_run_app(cube)
 - **I/O**: Read ENVI, multi-channel TIFF, and Cubert .cu3s files
 - **Calibration**: Dark correction, white reference normalization, bad pixel repair
 - **Preprocessing**: Savitzky-Golay smoothing, SNV, MSC, spectral derivatives
-- **Biomedical indices**: StO2, NPI, THI, TWI, custom normalized difference indices
+- **Research indices**: fitted hemoglobin fraction, dimensionless band ratios and normalized differences
 - **Analysis**: PCA, MNF, SAM classification, SVM/RF pixel classification, Beer-Lambert unmixing
-- **Visualization**: ggplot2-based spectral plots, clinical panel displays, interactive Shiny app
+- **Visualization**: ggplot2-based spectral plots, research panel displays, interactive Shiny app
 - **Clinical focus**: Intraoperative oxygenation mapping, compartment syndrome assessment
 
 ## Citation
@@ -84,3 +84,37 @@ third parties for the self-hosted model.
 ## License
 
 MIT
+
+
+## Corrected research semantics
+
+The development version changes numerical behavior from 0.1.0. `hs_sto2()` now
+fits tabulated hemoglobin reference spectra; `method = "ratio"` raises a migration
+error. `hs_band_ratio()` and the legacy NPI/THI/TWI functions return dimensionless,
+unscaled ratios. They are not vendor clinical indices or calibrated physiological
+measurements. The simulator is a software demonstration, not validation data.
+
+`hs_beer_lambert()` requires a declared reflectance/absorbance domain. It returns
+`coefficients` in mol/L * cm; `concentrations` is available only with a supplied
+`pathlength_cm`. Sensor response and tissue scattering require separate evaluation.
+
+See the repository's [migration details](https://github.com/cttir/hyperspectR/blob/main/MIGRATION.md),
+[implementation record](https://github.com/cttir/hyperspectR/blob/main/planning/implementation-status.md),
+and [analysis protocol](https://github.com/cttir/hyperspectR/blob/main/planning/analysis-validation.md).
+
+## Reproducible processing
+
+```r
+recipe <- hs_recipe(list(list(method = "smooth", args = list(window = 5))))
+processed <- hs_process(hs_example_cube(), recipe)
+# Use the saved recipe; MSC references, if present, are fitted only once.
+new_data <- hs_process(hs_example_cube(), processed$recipe, learn = FALSE)
+```
+
+`hs_batch()` saves input checksums, recipes, results, implementation fingerprints
+and environment versions, isolates failed recordings, and resumes matching work.
+`hs_grouped_evaluate()` keeps subjects together across validation splits;
+`hs_group_summary()` reports uncertainty using independent groups rather than pixels.
+
+Device readers are covered by software fixtures and SDK mocks. Real camera,
+phantom and independently labeled study validation remain separate evidence gates.

@@ -1,8 +1,7 @@
-#' TIVITA-Style Clinical Panel Display
+#' Research HSI Panel Display
 #'
-#' Generates a side-by-side panel display of RGB image plus clinical tissue
-#' indices (StO2, NPI, THI, TWI), matching the established surgical HSI
-#' visualization paradigm.
+#' Displays RGB, fitted hemoglobin fraction and dimensionless band ratios.
+#' These research outputs are not equivalent to vendor clinical indices.
 #'
 #' @param cube An [hsi_cube] object with reflectance data.
 #' @param indices Character vector. Which indices to display.
@@ -28,7 +27,9 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
   bg_mask <- NULL
   if (mask_background) {
     mean_ref <- rowMeans(cube$data, dims = 2L)
-    bg_mask <- mean_ref > threshold
+    bg_mask <- is.finite(mean_ref) & mean_ref > threshold
+    if (!is.null(cube$mask)) bg_mask <- bg_mask & cube$mask
+    cube$mask <- bg_mask
   }
 
   plots <- list()
@@ -39,10 +40,10 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
 
   # Index panels
   index_funs <- list(
-    sto2 = list(fn = hs_sto2, title = "StO2 (%)", palette = "sto2"),
-    npi = list(fn = hs_npi, title = "NPI (%)", palette = "perfusion"),
-    thi = list(fn = hs_thi, title = "THI (%)", palette = "hemoglobin"),
-    twi = list(fn = hs_twi, title = "TWI (%)", palette = "water")
+    sto2 = list(fn = hs_sto2, title = "Fitted Hb fraction (%)", palette = "sto2"),
+    npi = list(fn = hs_npi, title = "NIR ratio", palette = "perfusion"),
+    thi = list(fn = hs_thi, title = "Hb-band ratio", palette = "hemoglobin"),
+    twi = list(fn = hs_twi, title = "NIR water-band ratio", palette = "water")
   )
 
   for (idx_name in indices) {
@@ -60,7 +61,8 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
 
     plots[[length(plots) + 1L]] <- hs_plot_index(
       idx_mat, title = idx_info$title,
-      palette = idx_info$palette, mask = bg_mask
+      palette = idx_info$palette, mask = bg_mask,
+      range = if (idx_name == "sto2") c(0, 100) else NULL
     )
   }
 
@@ -68,7 +70,7 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
 
   patchwork::wrap_plots(plots, ncol = ncol) +
     patchwork::plot_annotation(
-      title = "Clinical HSI Panel",
+      title = "Research HSI Panel",
       theme = ggplot2::theme(
         plot.title = ggplot2::element_text(size = 14, face = "bold",
                                            hjust = 0.5)
@@ -79,14 +81,14 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
 #' Plot Index Map with Clinical Color Scale
 #'
 #' Displays a single tissue index as a pseudocolor spatial map with
-#' clinically meaningful color scales.
+#' color scales selected for research visualization.
 #'
 #' @param index_matrix Numeric matrix (rows x cols) from an index function.
 #' @param title Character. Map title (e.g., "StO2 (%)"). Default `""`.
 #' @param palette Character. `"sto2"` (blue-red diverging),
 #'   `"perfusion"` (viridis), `"hemoglobin"` (magma), `"water"` (mako).
 #'   Default `"sto2"`.
-#' @param range Numeric vector of length 2. Display range. Default `c(0, 100)`.
+#' @param range Numeric vector of length 2. Display range. Default `NULL` (data range).
 #' @param mask Logical matrix. Pixels to mask (FALSE = masked). Default `NULL`.
 #'
 #' @return A [ggplot2::ggplot] object.
@@ -94,21 +96,22 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
 #' @examples
 #' cube <- hs_example_cube()
 #' sto2 <- hs_sto2(cube)
-#' hs_plot_index(sto2, title = "StO2 (%)", palette = "sto2")
+#' hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 #'
 #' @export
 hs_plot_index <- function(index_matrix, title = "", palette = "sto2",
-                          range = c(0, 100), mask = NULL) {
+                          range = NULL, mask = NULL) {
   if (!is.matrix(index_matrix)) {
     cli::cli_abort("{.arg index_matrix} must be a numeric matrix.")
   }
 
   if (!is.null(mask)) {
+    .validate_spatial_mask(mask, list(data = array(0, c(dim(index_matrix), 1L))))
     index_matrix[!mask] <- NA_real_
   }
 
   d <- dim(index_matrix)
-  df <- expand.grid(x = seq_len(d[2]), y = seq_len(d[1]))
+  df <- expand.grid(y = seq_len(d[1]), x = seq_len(d[2]))
   df$value <- as.vector(index_matrix)
 
   pal_colors <- .clinical_palette(palette)

@@ -14,12 +14,11 @@ hs_npi(cube, band1 = c(655, 735), band2 = c(825, 910))
 \item{band2}{Numeric vector of length 2. Default \code{c(825, 910)}.}
 }
 \value{
-A numeric matrix with values 0-100.
+A numeric matrix of unscaled dimensionless band ratios.
 }
 \description{
-Estimates deeper tissue perfusion (4-6 mm depth) from NIR wavelengths.
-Note: Cubert Ultris X MR upper limit is 910 nm; the original TIVITA NPI
-extends to 925 nm. Results are approximate with Cubert data.
+Legacy name for a dimensionless NIR band ratio. It is not a validated
+perfusion measurement or an implementation of a vendor index.
 }
 \examples{
 cube <- hs_example_cube()

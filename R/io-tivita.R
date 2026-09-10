@@ -9,8 +9,8 @@
 #' Acquisition metadata from the Suite's `*_meta.log` is attached to the cube
 #' when present, along with the paths of the parameter images the Suite
 #' exported beside the recording (RGB rendering, oxygenation, NIR perfusion,
-#' THI, TWI). Those are the Suite's own results and are useful as a reference
-#' when checking independently computed indices such as [hs_sto2()].
+#' THI, TWI). Those are vendor outputs for comparison, not independent
+#' physiological ground truth or equivalents of this package's research indices.
 #'
 #' @param path Path to a `*_SpecCube.dat` file.
 #' @param bands Optional integer vector of band indices to read. `NULL`
@@ -60,7 +60,8 @@ hs_read_tivita <- function(path, bands = NULL, verbose = TRUE) {
     source = "TIVITA",
     file = path,
     timestamp = tivis.r::tivis_parse_timestamp(basename(path)),
-    processing_mode = raw_meta$Aufnahme$Aufnahmemodus %||% NA_character_,
+    processing_mode = "reflectance",
+    vendor_mode = raw_meta$Aufnahme$Aufnahmemodus %||% NA_character_,
     camera_id = raw_meta$Camera$CamID %||% NA_character_,
     integration_time = raw_meta$Camera$Exposure %||% NA_real_,
     software_version = raw_meta$SW$Version %||% NA_character_,

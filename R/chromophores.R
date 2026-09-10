@@ -1,7 +1,8 @@
 #' Get Chromophore Extinction Coefficient Spectra
 #'
-#' Returns published molar extinction coefficient spectra for common tissue
-#' chromophores. Data from Prahl (Oregon Medical Laser Center) and Jacques (2013).
+#' Returns a pinned tabulation of decadic molar extinction coefficients for
+#' hemoglobin, compiled by Prahl and distributed with MNE-Python v1.10.2.
+#' Synthetic shapes are available separately for simulation only.
 #'
 #' @param chromophore Character vector. One or more of:
 #'   `"HbO2"` (oxyhemoglobin), `"Hb"` (deoxyhemoglobin), `"water"`,
@@ -9,6 +10,8 @@
 #' @param wavelength_range Numeric vector of length 2. Wavelength range in nm.
 #'   Default `c(400, 1000)`.
 #'
+#' @param source `"reference"` (default) supports HbO2 and Hb; `"synthetic"`
+#'   returns the legacy analytical shapes, unsuitable for quantitative fitting.
 #' @return A [tibble::tibble] with columns `wavelength` (nm) and one column per
 #'   requested chromophore (extinction coefficient in cm^-1 / (mol/L)).
 #'
@@ -18,19 +21,38 @@
 #'
 #' @export
 hs_chromophore_data <- function(chromophore = c("HbO2", "Hb"),
-                                wavelength_range = c(400, 1000)) {
+                                wavelength_range = c(400, 1000),
+                                source = c("reference", "synthetic")) {
   chromophore <- match.arg(chromophore, choices = c("HbO2", "Hb", "water", "melanin", "metHb"),
                            several.ok = TRUE)
 
+  source <- match.arg(source)
+  if (length(wavelength_range) != 2L || any(!is.finite(wavelength_range)) ||
+      wavelength_range[1] >= wavelength_range[2]) cli::cli_abort("Provide an increasing finite wavelength range.")
   wl <- seq(wavelength_range[1], wavelength_range[2], by = 2)
-
   result <- tibble::tibble(wavelength = wl)
-
-  for (chrom in chromophore) {
-    result[[chrom]] <- .chromophore_spectrum(wl, chrom)
+  if (source == "reference") {
+    if (any(!chromophore %in% c("HbO2", "Hb"))) {
+      cli::cli_abort("Reference data are available only for HbO2 and Hb. Use source='synthetic' for simulation shapes.")
+    }
+    reference <- .hemoglobin_reference()
+    if (min(wl) < min(reference$wavelength) || max(wl) > max(reference$wavelength)) cli::cli_abort("Reference wavelengths must be within 250-1000 nm.")
+    for (chrom in chromophore) result[[chrom]] <- stats::approx(reference$wavelength, reference[[chrom]], xout = wl)$y
+    attr(result, "reference_id") <- "prahl-hemoglobin-v1"
+    attr(result, "units") <- "cm^-1 / (mol/L), decadic"
+  } else {
+    for (chrom in chromophore) result[[chrom]] <- .chromophore_spectrum(wl, chrom)
+    attr(result, "reference_id") <- "synthetic-v0"
+    attr(result, "units") <- "arbitrary synthetic scale"
   }
-
   result
+}
+
+.hemoglobin_reference <- function() {
+  path <- system.file("extdata", "prahl-hemoglobin-v1.csv", package = "hyperspectR")
+  if (!nzchar(path)) cli::cli_abort("Hemoglobin reference file is missing; reinstall the package.")
+  if (!identical(unname(tools::md5sum(path)), "52710fd13196ed4aeaa00e3a32c0ac02")) cli::cli_abort("Hemoglobin reference checksum mismatch; reinstall the pinned reference data.")
+  utils::read.csv(path)
 }
 
 #' Generate Chromophore Extinction Spectrum
@@ -54,7 +76,7 @@ hs_chromophore_data <- function(chromophore = c("HbO2", "Hb"),
 #' Oxyhemoglobin Absorption Spectrum (Approximation)
 #' @noRd
 .hbo2_spectrum <- function(wl) {
-  # Gaussian peak model approximating Prahl/Zijlstra data
+  # Synthetic Gaussian peak model for software demonstrations
   # Soret band ~415 nm, Q-beta ~542 nm, Q-alpha ~577 nm
   soret <- 320000 * exp(-0.5 * ((wl - 415) / 12)^2)
   q_beta <- 53000 * exp(-0.5 * ((wl - 542) / 8)^2)

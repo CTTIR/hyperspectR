@@ -26,10 +26,10 @@ autoplot.hsi_cube <- function(object, type = c("rgb", "band", "spectra"),
   type <- match.arg(type)
 
   switch(type,
-    rgb = hs_plot_rgb(object, r = r %||% 640, g = g %||% 550, b = b %||% 460),
+    rgb = hs_plot_rgb(object, r = r %||% 640, g = g %||% 550, b = b %||% 460, ...),
     band = {
       if (is.null(wavelength) && is.null(band)) wavelength <- 550
-      hs_plot_image(object, wavelength = wavelength, band = band)
+      hs_plot_image(object, wavelength = wavelength, band = band, ...)
     },
     spectra = hs_plot_spectra(object, ...)
   )
@@ -63,7 +63,7 @@ hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
   wl <- cube$wavelengths
 
   if (is.character(pixels) && pixels == "mean") {
-    pixel_mat <- matrix(cube$data, nrow = d[1] * d[2], ncol = d[3])
+    pixel_mat <- .pixel_matrix(cube)
     mean_spec <- colMeans(pixel_mat, na.rm = TRUE)
     sd_spec <- apply(pixel_mat, 2L, stats::sd, na.rm = TRUE)
 
@@ -86,14 +86,17 @@ hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
 
     p <- p +
       ggplot2::geom_line(color = "#2E86AB", linewidth = 0.8) +
-      ggplot2::labs(x = "Wavelength (nm)", y = "Reflectance",
+      ggplot2::labs(x = if (identical(cube$metadata$wavelengths_known, FALSE)) "Band index" else "Wavelength (nm)", y = cube$metadata$processing_mode %||% "Spectral value",
                     title = "Mean Spectrum") +
       theme_hsi()
 
   } else if (is.character(pixels) && pixels == "random") {
-    n <- min(n, d[1] * d[2])
-    idx <- sample(d[1] * d[2], n)
-    pixel_mat <- matrix(cube$data, nrow = d[1] * d[2], ncol = d[3])
+    valid <- which(.valid_pixels(cube))
+    if (length(n) != 1L || !is.finite(n) || n < 1 || n != as.integer(n)) cli::cli_abort("n must be a positive integer.")
+    n <- min(n, length(valid))
+    if (!n) cli::cli_abort("No valid spectra to plot.")
+    idx <- valid[sample.int(length(valid), n)]
+    pixel_mat <- .pixel_matrix(cube)
 
     df <- tidyr::pivot_longer(
       tibble::as_tibble(
@@ -107,23 +110,25 @@ hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
       names_to = "band",
       values_to = "value"
     )
-    df$wavelength <- rep(wl, each = n)
+    df$wavelength <- rep(wl, times = n)
 
     p <- ggplot2::ggplot(df, ggplot2::aes(x = .data$wavelength, y = .data$value,
                                            group = .data$pixel_id)) +
       ggplot2::geom_line(alpha = 0.2, color = "#2E86AB") +
-      ggplot2::labs(x = "Wavelength (nm)", y = "Reflectance",
+      ggplot2::labs(x = if (identical(cube$metadata$wavelengths_known, FALSE)) "Band index" else "Wavelength (nm)", y = cube$metadata$processing_mode %||% "Spectral value",
                     title = paste(n, "Random Spectra")) +
       theme_hsi()
 
   } else {
     # Specific pixel locations
     if (is.data.frame(pixels)) {
+      .validate_pixel_coordinates(pixels, cube)
+      pixel_mat <- .pixel_matrix(cube)
       specs <- list()
       for (i in seq_len(nrow(pixels))) {
         specs[[i]] <- tibble::tibble(
           wavelength = wl,
-          value = cube$data[pixels$y[i], pixels$x[i], ],
+          value = pixel_mat[pixels$y[i] + (pixels$x[i] - 1L) * d[1], ],
           pixel_id = paste0("(", pixels$x[i], ",", pixels$y[i], ")")
         )
       }
@@ -132,7 +137,7 @@ hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
       p <- ggplot2::ggplot(df, ggplot2::aes(x = .data$wavelength, y = .data$value,
                                              color = .data$pixel_id)) +
         ggplot2::geom_line(linewidth = 0.8) +
-        ggplot2::labs(x = "Wavelength (nm)", y = "Reflectance",
+        ggplot2::labs(x = if (identical(cube$metadata$wavelengths_known, FALSE)) "Band index" else "Wavelength (nm)", y = cube$metadata$processing_mode %||% "Spectral value",
                       title = "Pixel Spectra", color = "Pixel") +
         theme_hsi()
     } else {
@@ -169,18 +174,20 @@ hs_plot_image <- function(cube, wavelength = NULL, band = NULL,
   }
 
   if (!is.null(wavelength)) {
+    .require_wavelengths(cube)
     band <- .band_index(cube$wavelengths, wavelength)
     actual_wl <- round(cube$wavelengths[band])
     title <- paste0("Band at ", actual_wl, " nm")
   } else {
     actual_wl <- round(cube$wavelengths[band])
-    title <- paste0("Band ", band, " (", actual_wl, " nm)")
+    title <- if (identical(cube$metadata$wavelengths_known, FALSE)) paste0("Band ", band, " (wavelength unknown)") else paste0("Band ", band, " (", actual_wl, " nm)")
   }
 
-  img <- cube$data[, , band]
+  if (length(band) != 1L || !is.finite(band) || band != as.integer(band) || band < 1L || band > dim(cube$data)[3]) cli::cli_abort("Band must be a valid band index.")
+  img <- .band_matrix(cube, band)
   d <- dim(img)
 
-  df <- expand.grid(x = seq_len(d[2]), y = seq_len(d[1]))
+  df <- expand.grid(y = seq_len(d[1]), x = seq_len(d[2]))
   df$value <- as.vector(img)
 
   pal_fun <- switch(palette,
@@ -221,13 +228,15 @@ hs_plot_rgb <- function(cube, r = 640, g = 550, b = 460,
                         stretch = "linear") {
   .validate_cube(cube)
 
+  stretch <- match.arg(stretch, c("linear", "none"))
+  .require_wavelengths(cube)
   r_idx <- .band_index(cube$wavelengths, r)
   g_idx <- .band_index(cube$wavelengths, g)
   b_idx <- .band_index(cube$wavelengths, b)
 
-  r_band <- cube$data[, , r_idx]
-  g_band <- cube$data[, , g_idx]
-  b_band <- cube$data[, , b_idx]
+  r_band <- .band_matrix(cube, r_idx)
+  g_band <- .band_matrix(cube, g_idx)
+  b_band <- .band_matrix(cube, b_idx)
 
   if (stretch == "linear") {
     r_band <- .linear_stretch(r_band)
@@ -237,19 +246,13 @@ hs_plot_rgb <- function(cube, r = 640, g = 550, b = 460,
 
   d <- dim(r_band)
 
-  # Build RGB matrix
-  rgb_array <- array(0, dim = c(d[1], d[2], 3))
-  rgb_array[, , 1] <- r_band
-  rgb_array[, , 2] <- g_band
-  rgb_array[, , 3] <- b_band
+  valid <- is.finite(r_band) & is.finite(g_band) & is.finite(b_band)
+  colors <- rep("#00000000", length(valid))
+  colors[valid] <- grDevices::rgb(pmin(1, pmax(0, r_band[valid])),
+    pmin(1, pmax(0, g_band[valid])), pmin(1, pmax(0, b_band[valid])))
+  hex_matrix <- matrix(colors, d[1], d[2])
 
-  # Convert to hex colors
-  hex_matrix <- matrix(
-    grDevices::rgb(as.vector(r_band), as.vector(g_band), as.vector(b_band)),
-    nrow = d[1], ncol = d[2]
-  )
-
-  df <- expand.grid(x = seq_len(d[2]), y = seq_len(d[1]))
+  df <- expand.grid(y = seq_len(d[1]), x = seq_len(d[2]))
   df$color <- as.vector(hex_matrix)
 
   ggplot2::ggplot(df, ggplot2::aes(x = .data$x, y = .data$y)) +

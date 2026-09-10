@@ -8,8 +8,10 @@ mod_viewer_ui <- function(id) {
       title = "Viewer Controls",
       width = 300,
       shiny::fileInput(ns("file_upload"), "Load Cube",
-                       accept = c(".hdr", ".tif", ".tiff", ".cu3s"),
-                       placeholder = "ENVI / TIFF / .cu3s"),
+                       accept = c(".hdr", ".dat", ".img", ".raw", ".bsq", ".bil", ".bip", ".tif", ".tiff", ".cu3s"), multiple = TRUE,
+                       placeholder = "ENVI pair / TIFF / .cu3s / TIVITA"),
+      shiny::textInput(ns("wavelengths"), "TIFF wavelengths (nm, comma separated)"),
+      shiny::selectInput(ns("domain"), "Input values", choices = c("Use file metadata" = "auto", "Reflectance" = "reflectance", "Absorbance" = "absorbance", "Raw counts" = "raw")),
       shiny::actionButton(ns("load_example"), "Load Example Cube",
                           class = "btn-outline-secondary btn-sm mb-3"),
       shiny::hr(),
@@ -45,33 +47,13 @@ mod_viewer_server <- function(id, cube_rv) {
       file_info <- input$file_upload
       shiny::req(file_info)
 
-      # fileInput copies to a temp path without the original extension,
-      # so rename to preserve it for format auto-detection
-      ext <- tools::file_ext(file_info$name)
-      new_path <- paste0(file_info$datapath, ".", ext)
-      file.copy(file_info$datapath, new_path, overwrite = TRUE)
-
-      # For ENVI, we also need the companion binary next to the .hdr
-      # Users should upload the .hdr; the binary must be in the same dir
-      # (Shiny uploads to a temp dir, so this only works for single-file
-      # formats like TIFF / .cu3s reliably)
-
-      cube <- tryCatch(
-        hyperspectR::hs_read_cube(new_path, verbose = FALSE),
-        error = function(e) {
-          shiny::showNotification(
-            paste("Failed to load file:", conditionMessage(e)),
-            type = "error", duration = 8
-          )
-          NULL
-        }
-      )
+      cube <- .app_try(.read_uploaded_cube(file_info, input$wavelengths, input$domain))
 
       if (!is.null(cube)) {
         cube_rv$cube <- cube
         cube_rv$original_cube <- cube
         shiny::showNotification(
-          paste("Loaded:", file_info$name),
+          paste("Loaded:", paste(file_info$name, collapse = ", ")),
           type = "message", duration = 4
         )
       }
@@ -93,7 +75,7 @@ mod_viewer_server <- function(id, cube_rv) {
         shiny::updateSliderInput(session, "band_slider",
                                  min = round(min(wl)), max = round(max(wl)),
                                  value = round(stats::median(wl)),
-                                 step = max(1L, round(diff(wl[1:2]))))
+                                 step = if (length(wl) > 1L) min(diff(wl)) else 1)
       }
     })
 

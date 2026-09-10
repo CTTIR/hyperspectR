@@ -2,30 +2,31 @@
 % Please edit documentation in R/indices.R
 \name{hs_sto2}
 \alias{hs_sto2}
-\title{Compute Tissue Oxygen Saturation (StO2)}
+\title{Estimate the Oxygenated Hemoglobin Fraction for Research}
 \usage{
-hs_sto2(cube, band1 = c(500, 650), band2 = c(700, 815), method = "ratio")
+hs_sto2(
+  cube,
+  band1 = c(500, 650),
+  band2 = c(700, 815),
+  method = "beer_lambert"
+)
 }
 \arguments{
 \item{cube}{An \link{hsi_cube} object with reflectance data.}
 
-\item{band1}{Numeric vector of length 2. Wavelength range for first band
-(default \code{c(500, 650)}, visible Hb absorption).}
+\item{band1, band2}{Retired ratio-method arguments. Supplying either raises a
+migration error; use \code{\link[=hs_band_ratio]{hs_band_ratio()}} or the fitting range in \code{\link[=hs_beer_lambert]{hs_beer_lambert()}}.}
 
-\item{band2}{Numeric vector of length 2. Wavelength range for second band
-(default \code{c(700, 815)}, NIR region).}
-
-\item{method}{Character. \code{"ratio"} for band-ratio index (default),
-\code{"beer_lambert"} for full chromophore fitting.}
+\item{method}{\code{"beer_lambert"} (default). The former \code{"ratio"} method
+is rejected; use \code{\link[=hs_band_ratio]{hs_band_ratio()}} for a relative band ratio.}
 }
 \value{
 A numeric matrix (rows x cols) with values 0-100 representing
 estimated tissue oxygen saturation percentage. Returns \code{NA} for masked pixels.
 }
 \description{
-Estimates superficial tissue oxygenation from visible-range hemoglobin
-absorption. Uses the ratio of reflectance in the 500-650 nm (oxy/deoxy-Hb
-Q-bands) and 700-815 nm (NIR oxy-Hb shoulder) regions.
+Returns the fitted HbO2 fraction from \code{\link[=hs_beer_lambert]{hs_beer_lambert()}}. This is a
+research model estimate and requires empirical validation for tissue use.
 }
 \examples{
 cube <- hs_example_cube()

@@ -11,10 +11,12 @@ mod_analysis_ui <- function(id) {
                          choices = c("PCA" = "pca", "MNF" = "mnf",
                                      "Beer-Lambert" = "beer_lambert")),
       shiny::conditionalPanel(
-        condition = sprintf("input['%s'] %in% c('pca', 'mnf')", ns("analysis_type")),
+        condition = sprintf("['pca', 'mnf'].includes(input['%s'])", ns("analysis_type")),
         shiny::numericInput(ns("n_components"), "Components", value = 5, min = 1, max = 20)
       ),
-      shiny::actionButton(ns("run"), "Run Analysis", class = "btn-primary")
+      shiny::actionButton(ns("run"), "Run Analysis", class = "btn-primary"),
+      shiny::actionButton(ns("cancel"), "Cancel"),
+      shiny::textOutput(ns("job_status"))
     ),
     shiny::plotOutput(ns("result_plot"), height = "500px"),
     shiny::verbatimTextOutput(ns("result_info"))
@@ -24,17 +26,24 @@ mod_analysis_ui <- function(id) {
 mod_analysis_server <- function(id, cube_rv) {
   shiny::moduleServer(id, function(input, output, session) {
     analysis_result <- shiny::reactiveVal(NULL)
+    job <- .app_job(session, function(value) analysis_result(value))
+    output$job_status <- shiny::renderText(job$status())
+    shiny::observeEvent(input$cancel, job$cancel())
+
+    shiny::observeEvent(list(cube_rv$cube, input$analysis_type, input$n_components), {
+      job$cancel()
+      analysis_result(NULL)
+    }, priority = 100)
 
     shiny::observeEvent(input$run, {
       cube <- cube_rv$cube
       shiny::req(cube)
 
-      result <- switch(input$analysis_type,
-        pca = hyperspectR::hs_pca(cube, n_components = input$n_components),
-        mnf = hyperspectR::hs_mnf(cube, n_components = input$n_components),
-        beer_lambert = hyperspectR::hs_beer_lambert(cube)
-      )
-      analysis_result(result)
+      analysis_result(NULL)
+      method <- switch(input$analysis_type, pca = "hs_pca", mnf = "hs_mnf", beer_lambert = "hs_beer_lambert")
+      args <- list(cube = cube)
+      if (input$analysis_type %in% c("pca", "mnf")) args$n_components <- input$n_components
+      job$start(method, args)
     })
 
     output$result_plot <- shiny::renderPlot({
@@ -47,7 +56,7 @@ mod_analysis_server <- function(id, cube_rv) {
         n_show <- min(d[3], 3L)
         plots <- list()
         for (i in seq_len(n_show)) {
-          df <- expand.grid(x = seq_len(d[2]), y = seq_len(d[1]))
+          df <- expand.grid(y = seq_len(d[1]), x = seq_len(d[2]))
           df$value <- as.vector(res$scores[, , i])
           plots[[i]] <- ggplot2::ggplot(df, ggplot2::aes(
             x = .data$x, y = .data$y, fill = .data$value)) +
@@ -61,7 +70,7 @@ mod_analysis_server <- function(id, cube_rv) {
         }
         patchwork::wrap_plots(plots, ncol = n_show)
       } else if (inherits(res, "hsi_chromophore_fit")) {
-        hyperspectR::hs_plot_index(res$sto2, title = "StO2 (Beer-Lambert)",
+        hyperspectR::hs_plot_index(res$sto2, title = "Fitted hemoglobin oxygenated fraction (%)",
                                    palette = "sto2")
       }
     })
@@ -77,8 +86,9 @@ mod_analysis_server <- function(id, cube_rv) {
                "\n  Total: ", round(sum(ve), 2), "%")
       } else if (inherits(res, "hsi_chromophore_fit")) {
         paste0("Beer-Lambert Fitting\n",
-               "StO2 range: ", round(min(res$sto2, na.rm = TRUE), 1), "-",
+               "Research hemoglobin fraction range: ", round(min(res$sto2, na.rm = TRUE), 1), "-",
                round(max(res$sto2, na.rm = TRUE), 1), "%\n",
+               res$interpretation, "\n",
                "Mean RMSE: ", round(mean(res$rmse, na.rm = TRUE), 6))
       } else {
         ""

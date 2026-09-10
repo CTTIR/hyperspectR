@@ -12,8 +12,6 @@ jobs:
   test-coverage:
     uses: CTTIR/.github/.github/workflows/test-coverage.yaml@main
     with:
-      # Report-only for now. The shared workflow computes coverage with covr
-      # and an explicit exit rather than delegating the gate to Codecov;
-      # set a real floor once this package is re-baselined.
-      floor: 0
+      # Tests-only local baseline: 92.24% during the 0.2.0 development audit.
+      floor: 90
     secrets: inherit

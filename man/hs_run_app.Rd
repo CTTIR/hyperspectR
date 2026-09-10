@@ -4,7 +4,12 @@
 \alias{hs_run_app}
 \title{Launch Interactive Hyperspectral Image Explorer}
 \usage{
-hs_run_app(cube = NULL, port = NULL, launch.browser = TRUE)
+hs_run_app(
+  cube = NULL,
+  port = NULL,
+  launch.browser = TRUE,
+  max_upload_mb = 256
+)
 }
 \arguments{
 \item{cube}{An \link{hsi_cube} object to explore. If \code{NULL} (default), the app
@@ -13,14 +18,17 @@ starts with the example cube.}
 \item{port}{Integer. Port for Shiny server. Default \code{NULL} (auto).}
 
 \item{launch.browser}{Logical. Open in browser. Default \code{TRUE}.}
+
+\item{max_upload_mb}{Positive upload limit in MiB. Default 256. Uploaded
+cubes and background workers must also fit available memory.}
 }
 \value{
 Invisible \code{NULL}. Launches a Shiny application.
 }
 \description{
 Opens a Shiny application for interactive exploration of hyperspectral
-cubes. Provides band selection, spectral profiling, clinical index mapping,
-preprocessing, classification, and export tools across six tabs.
+cubes. Provides band selection, spectral profiling, research index mapping,
+cancellable background processing and analysis, and export tools across six tabs.
 }
 \examples{
 \donttest{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot-clinical.R
 \name{hs_plot_clinical}
 \alias{hs_plot_clinical}
-\title{TIVITA-Style Clinical Panel Display}
+\title{Research HSI Panel Display}
 \usage{
 hs_plot_clinical(
   cube,
@@ -29,9 +29,8 @@ permit.}
 A \code{patchwork} composite \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 }
 \description{
-Generates a side-by-side panel display of RGB image plus clinical tissue
-indices (StO2, NPI, THI, TWI), matching the established surgical HSI
-visualization paradigm.
+Displays RGB, fitted hemoglobin fraction and dimensionless band ratios.
+These research outputs are not equivalent to vendor clinical indices.
 }
 \examples{
 cube <- hs_example_cube()

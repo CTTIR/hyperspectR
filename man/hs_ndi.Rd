@@ -14,7 +14,8 @@ hs_ndi(cube, band1, band2)
 \item{band2}{Numeric. Center wavelength or range \code{c(min, max)} for second band.}
 }
 \value{
-A numeric matrix with values in \verb{[-1, 1]}.
+A numeric matrix, in \verb{[-1, 1]} for nonnegative input spectra.
+Zero denominators are NA; transformed signed spectra can exceed these bounds.
 }
 \description{
 NDI = (R_band1 - R_band2) / (R_band1 + R_band2). A flexible building block

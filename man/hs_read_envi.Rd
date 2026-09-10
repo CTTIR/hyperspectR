@@ -15,8 +15,7 @@ hs_read_envi(
 \arguments{
 \item{path}{Path to the ENVI header file (.hdr) or binary file.}
 
-\item{backend}{Character. \code{"auto"} (default) uses terra if available,
-otherwise falls back to built-in reader. \code{"builtin"} forces pure-R reader.
+\item{backend}{Character. \code{"auto"} (default) uses the deterministic built-in reader. \code{"builtin"} forces pure-R reader.
 \code{"terra"} forces terra (errors if not installed).}
 
 \item{bands}{Integer vector of band indices to read. Default \code{NULL} = all.}

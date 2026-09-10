@@ -1,0 +1,63 @@
+name: semantic-regressions
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contracts:
+    name: Contracts (${{ matrix.r }}, ${{ matrix.dependencies }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {r: '4.1', dependencies: minimal}
+          - {r: 'release', dependencies: optional}
+    env:
+      NOT_CRAN: 'true'
+      _R_CHECK_FORCE_SUGGESTS_: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.r }}
+          use-public-rspm: true
+          extra-repositories: https://cttir.r-universe.dev
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: '"hard"'
+          extra-packages: |
+            any::testthat
+            any::withr
+      - name: Install optional numerical and browser backends
+        if: matrix.dependencies == 'optional'
+        run: install.packages(c("terra", "prospectr", "signal", "nnls", "e1071", "ranger", "uwot", "shiny", "bslib", "shinytest2"))
+        shell: Rscript {0}
+      - name: Install package
+        run: R CMD INSTALL .
+      - name: Minimal dependency contracts
+        if: matrix.dependencies == 'minimal'
+        run: Rscript validation/minimal-dependencies.R
+      - name: Optional backend contracts
+        if: matrix.dependencies == 'optional'
+        run: |
+          library(hyperspectR)
+          testthat::test_dir("tests/testthat", package = "hyperspectR", stop_on_failure = TRUE)
+        shell: Rscript {0}
+      - name: Real explorer browser scenarios
+        if: matrix.dependencies == 'optional'
+        run: Rscript validation/browser.R
+      - name: Reference sensitivity and chunk equivalence
+        if: matrix.dependencies == 'optional'
+        run: |
+          Rscript validation/model-sensitivity.R
+          Rscript validation/performance.R
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: semantic-evidence-${{ matrix.r }}-${{ matrix.dependencies }}
+          path: validation/results

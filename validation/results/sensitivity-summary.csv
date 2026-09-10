@@ -1,0 +1,7 @@
+"fwhm","noise","response","rmse_pp","case"
+25,0,"gaussian",3.14084957473923,"FWHM 25 nm; noise 0; gaussian"
+25,0.002,"gaussian",3.44974229020494,"FWHM 25 nm; noise 0.002; gaussian"
+0,0,"point",1.06581410364015e-14,"FWHM 0 nm; noise 0; point"
+25,0,"point",31.5627514097756,"FWHM 25 nm; noise 0; point"
+0,0.002,"point",0.37216072543839,"FWHM 0 nm; noise 0.002; point"
+25,0.002,"point",31.5607568444554,"FWHM 25 nm; noise 0.002; point"

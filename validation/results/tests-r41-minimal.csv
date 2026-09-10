@@ -1,0 +1,287 @@
+"file","test","nb","failed","skipped","error","warning","passed"
+"test-app.R","hs_run_app locates the bundled shiny app and errors cleanly",1,0,TRUE,FALSE,0,0
+"test-app.R","hs_run_app hands the cube to the app via shinyOptions",1,0,TRUE,FALSE,0,0
+"test-calibrate-extra.R","hs_calibrate produces reflectance in [0,1] with clamp",3,0,FALSE,FALSE,0,3
+"test-calibrate-extra.R","hs_calibrate without clamp can exceed [0,1]",1,0,FALSE,FALSE,0,1
+"test-calibrate-extra.R","hs_calibrate accepts array references",1,0,FALSE,FALSE,0,1
+"test-calibrate-extra.R","hs_calibrate rejects invalid reference",1,0,FALSE,FALSE,0,1
+"test-calibrate-extra.R","hs_dark_correct subtracts dark",2,0,FALSE,FALSE,0,2
+"test-calibrate-extra.R","hs_white_normalize with and without dark",3,0,FALSE,FALSE,0,3
+"test-calibrate-extra.R","hs_fix_bad_pixels repairs a hot pixel (median and mean)",3,0,FALSE,FALSE,0,3
+"test-calibrate-extra.R","hs_fix_bad_pixels leaves clean cube unchanged in count",1,0,FALSE,FALSE,0,1
+"test-calibrate-extra.R","calibration functions validate cube",4,0,FALSE,FALSE,0,4
+"test-calibrate.R","hs_calibrate produces reflectance in [0, 1]",2,0,FALSE,FALSE,0,2
+"test-calibrate.R","hs_dark_correct subtracts dark",1,0,FALSE,FALSE,0,1
+"test-calibrate.R","hs_white_normalize divides by white",1,0,FALSE,FALSE,0,1
+"test-calibrate.R","hs_fix_bad_pixels corrects outliers",2,0,FALSE,FALSE,0,2
+"test-chromophores.R","hs_chromophore_data returns default HbO2/Hb tibble",4,0,FALSE,FALSE,0,4
+"test-chromophores.R","hs_chromophore_data supports all chromophores",3,0,FALSE,FALSE,0,3
+"test-chromophores.R","hs_chromophore_data respects wavelength range",2,0,FALSE,FALSE,0,2
+"test-chromophores.R","hs_chromophore_data rejects unknown chromophore",1,0,FALSE,FALSE,0,1
+"test-chromophores.R","oxy- and deoxy-hemoglobin spectra differ",1,0,FALSE,FALSE,0,1
+"test-chromophores.R","reference coefficients match independently tabulated wavelengths",2,0,FALSE,FALSE,0,2
+"test-classify-extra.R","hs_sam accepts a data.frame of endmembers",1,0,FALSE,FALSE,0,1
+"test-classify-extra.R","hs_sam auto-names unnamed endmembers",1,0,FALSE,FALSE,0,1
+"test-classify-extra.R","hs_sam threshold marks unclassified",1,0,FALSE,FALSE,0,1
+"test-classify-extra.R","hs_endmembers works with matrix input",2,0,FALSE,FALSE,0,2
+"test-classify-extra.R","hs_classify_svm trains and predicts",1,0,TRUE,FALSE,0,0
+"test-classify-extra.R","hs_classify_svm honors training_mask",1,0,TRUE,FALSE,0,0
+"test-classify-extra.R","hs_classify_svm errors with too few labels",1,0,TRUE,FALSE,0,0
+"test-classify-extra.R","hs_classify_svm errors without e1071",1,0,FALSE,FALSE,0,1
+"test-classify-extra.R","hs_classify_rf trains and predicts",1,0,TRUE,FALSE,0,0
+"test-classify-extra.R","hs_classify_rf honors training_mask",1,0,TRUE,FALSE,0,0
+"test-classify-extra.R","hs_classify_rf errors without ranger",1,0,FALSE,FALSE,0,1
+"test-classify-extra.R","classify functions validate cube",3,0,FALSE,FALSE,0,3
+"test-classify.R","hs_sam classifies pixels",4,0,FALSE,FALSE,0,4
+"test-classify.R","hs_sam rejects mismatched endmembers",1,0,FALSE,FALSE,0,1
+"test-classify.R","hs_endmembers extracts spectra",3,0,FALSE,FALSE,0,3
+"test-contract-regressions.R","F16: wavelength sorting keeps FWHM attached to its band",7,0,FALSE,FALSE,0,7
+"test-contract-regressions.R","F07/F21: ROI statistics omit invalid pixels and preserve narrow images",5,0,FALSE,FALSE,0,5
+"test-contract-regressions.R","F02/F13: SG retains true centers and differentiates in wavelength units",6,0,FALSE,FALSE,0,6
+"test-contract-regressions.R","F15/F18/F19: reference alignment and bad-pixel neighbors are correct",4,0,FALSE,FALSE,0,4
+"test-contract-regressions.R","adjacent defects are detected before either is repaired",2,0,FALSE,FALSE,0,2
+"test-contract-regressions.R","calibration reports denominator, saturation and compatibility QC",6,0,FALSE,FALSE,0,6
+"test-explorer-regressions.R","F09/F11: full explorer UI sources and processed cube persists",1,0,TRUE,FALSE,0,0
+"test-explorer-regressions.R","F12: index and analysis results are invalidated when inputs change",1,0,TRUE,FALSE,0,0
+"test-explorer-regressions.R","F10/F24/F25: upload requires paired ENVI files and export contains the pair",1,0,TRUE,FALSE,0,0
+"test-explorer-regressions.R","cancelling a background operation preserves the current cube",1,0,TRUE,FALSE,0,0
+"test-hsi_cube-class.R","hsi_cube constructs with defaults",4,0,FALSE,FALSE,0,4
+"test-hsi_cube-class.R","scalar fwhm is recycled to all bands",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-class.R","non-numeric data errors",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-class.R","non-3D array errors",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-class.R","wavelength length mismatch errors",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-class.R","non-list metadata errors",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-class.R","fwhm length mismatch errors",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-class.R","bad mask type errors",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-class.R","mask dimension mismatch errors",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-class.R","unsorted wavelengths trigger sort + warning",2,0,FALSE,FALSE,0,2
+"test-hsi_cube-class.R","valid mask is preserved",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-class.R","constructor output is a regression-stable structure",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-methods.R","print returns invisibly and shows summary",2,0,FALSE,FALSE,0,2
+"test-hsi_cube-methods.R","print handles cube with mask and fwhm",2,0,FALSE,FALSE,0,2
+"test-hsi_cube-methods.R","print handles cube without fwhm, mask, or metadata",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-methods.R","summary returns expected fields",4,0,FALSE,FALSE,0,4
+"test-hsi_cube-methods.R","summary n_valid_pixels respects mask",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-methods.R","dim returns three dimensions",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-methods.R","subset preserves class and reduces dims",3,0,FALSE,FALSE,0,3
+"test-hsi_cube-methods.R","subset with missing indices keeps full dimension",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-methods.R","subset preserves mask and fwhm subsetting",2,0,FALSE,FALSE,0,2
+"test-hsi_cube-methods.R","as.data.frame wide format has band columns",3,0,FALSE,FALSE,0,3
+"test-hsi_cube-methods.R","as.data.frame long format reshapes",2,0,FALSE,FALSE,0,2
+"test-hsi_cube-methods.R","as_tibble produces a tibble",1,0,FALSE,FALSE,0,1
+"test-hsi_cube-methods.R","long data.frame is regression-stable",1,0,FALSE,FALSE,0,1
+"test-hsi_cube.R","hsi_cube constructor creates valid object",5,0,FALSE,FALSE,0,5
+"test-hsi_cube.R","hsi_cube validates inputs",3,0,FALSE,FALSE,0,3
+"test-hsi_cube.R","hsi_cube accepts fwhm",1,0,FALSE,FALSE,0,1
+"test-hsi_cube.R","print.hsi_cube works",2,0,FALSE,FALSE,0,2
+"test-hsi_cube.R","summary.hsi_cube works",3,0,FALSE,FALSE,0,3
+"test-hsi_cube.R","dim.hsi_cube returns correct dimensions",1,0,FALSE,FALSE,0,1
+"test-hsi_cube.R","subsetting preserves class",2,0,FALSE,FALSE,0,2
+"test-hsi_cube.R","subsetting bands works",2,0,FALSE,FALSE,0,2
+"test-hsi_cube.R","as.data.frame.hsi_cube works in wide format",3,0,FALSE,FALSE,0,3
+"test-hsi_cube.R","as.data.frame.hsi_cube works in long format",3,0,FALSE,FALSE,0,3
+"test-indices-extra.R","hs_sto2 model fraction returns 0-100 matrix",2,0,FALSE,FALSE,0,2
+"test-indices-extra.R","hs_sto2 beer_lambert method delegates",1,0,FALSE,FALSE,0,1
+"test-indices-extra.R","hs_sto2 respects mask (NA in masked pixels)",1,0,FALSE,FALSE,0,1
+"test-indices-extra.R","hs_sto2 errors when bands unavailable",1,0,FALSE,FALSE,0,1
+"test-indices-extra.R","hs_npi and hs_thi return unscaled ratios",2,0,FALSE,FALSE,0,2
+"test-indices-extra.R","hs_npi errors when bands unavailable",1,0,FALSE,FALSE,0,1
+"test-indices-extra.R","hs_twi returns NA matrix with warning on short range",2,0,FALSE,FALSE,0,2
+"test-indices-extra.R","hs_twi computes when range permits",1,0,FALSE,FALSE,0,1
+"test-indices-extra.R","hs_ndi with center wavelengths",1,0,FALSE,FALSE,0,1
+"test-indices-extra.R","hs_ndi with range bands",1,0,FALSE,FALSE,0,1
+"test-indices-extra.R","hs_clinical_indices returns named list",2,0,FALSE,FALSE,0,2
+"test-indices-extra.R","index functions validate cube",6,0,FALSE,FALSE,0,6
+"test-indices-extra.R","hs_sto2 matches the explicit reference fit",1,0,FALSE,FALSE,0,1
+"test-indices.R","hs_sto2 returns correct dimensions",3,0,FALSE,FALSE,0,3
+"test-indices.R","hs_npi returns correct dimensions",2,0,FALSE,FALSE,0,2
+"test-indices.R","hs_thi returns correct dimensions",2,0,FALSE,FALSE,0,2
+"test-indices.R","hs_twi handles missing wavelengths gracefully",1,0,FALSE,FALSE,0,1
+"test-indices.R","hs_ndi produces values in [-1, 1]",1,0,FALSE,FALSE,0,1
+"test-indices.R","hs_clinical_indices returns named list",4,0,FALSE,FALSE,0,4
+"test-io-cubert.R","hs_read_cubert errors when cuvis.r is unavailable",1,0,FALSE,FALSE,0,1
+"test-io-cubert.R","hs_read_cubert errors on missing file when cuvis.r present",1,0,FALSE,FALSE,0,1
+"test-io-cubert.R","hs_read_cubert reads via mocked cuvis.r (reflectance scaling)",1,0,TRUE,FALSE,0,0
+"test-io-cubert.R","hs_read_cubert raw mode skips reflectance scaling and is verbose",1,0,TRUE,FALSE,0,0
+"test-io-read.R","builtin reader round-trips all interleaves",6,0,FALSE,FALSE,0,6
+"test-io-read.R","verbose reader emits progress messages",1,0,FALSE,FALSE,0,1
+"test-io-read.R","band and extent subsetting work",2,0,FALSE,FALSE,0,2
+"test-io-read.R","missing header errors",1,0,FALSE,FALSE,0,1
+"test-io-read.R","missing data file errors",1,0,FALSE,FALSE,0,1
+"test-io-read.R","resolve paths errors when data file absent",1,0,FALSE,FALSE,0,1
+"test-io-read.R","header parser handles micrometer units and continuation lines",3,0,FALSE,FALSE,0,3
+"test-io-read.R","integer data types read correctly",2,0,FALSE,FALSE,0,2
+"test-io-read.R","missing wavelength field falls back to band index",1,0,FALSE,FALSE,0,1
+"test-io-read.R","hs_read_cube dispatches on extension",1,0,FALSE,FALSE,0,1
+"test-io-read.R","hs_read_cube errors on missing file",1,0,FALSE,FALSE,0,1
+"test-io-read.R","hs_read_cube errors on unsupported extension",1,0,FALSE,FALSE,0,1
+"test-io-read.R","envi type info errors on unknown type",1,0,FALSE,FALSE,0,1
+"test-io-read.R","envi type info maps known codes",3,0,FALSE,FALSE,0,3
+"test-io-read.R","terra backend reads ENVI and matches builtin",1,0,TRUE,FALSE,0,0
+"test-io-read.R","hs_read_tiff round-trips via terra",1,0,TRUE,FALSE,0,0
+"test-io-read.R","hs_read_tiff validates wavelength length",1,0,TRUE,FALSE,0,0
+"test-io-read.R","hs_read_tiff errors on missing file",1,0,TRUE,FALSE,0,0
+"test-io-spatial-regressions.R","F03/F20/F21: plot coordinates and wavelengths match source pixels",6,0,FALSE,FALSE,0,6
+"test-io-spatial-regressions.R","F04/F08/F17/F23: independent ENVI fixture preserves values and rejects corruption",19,0,FALSE,FALSE,0,19
+"test-io-spatial-regressions.R","F04: TIFF reader and writer agree with an independent matrix view",1,0,TRUE,FALSE,0,0
+"test-io-spatial-regressions.R","F02/F13: optional SG backends have common support, sign and units",1,0,TRUE,FALSE,0,0
+"test-io-spatial-regressions.R","staged ENVI replacement restores the previous pair on a publish failure",3,0,FALSE,FALSE,0,3
+"test-io-spatial-regressions.R","header-like and ambiguous ENVI companions are rejected",3,0,FALSE,FALSE,0,3
+"test-io-spatial-regressions.R","unknown ENVI wavelengths stay unknown through export",4,0,FALSE,FALSE,0,4
+"test-io-spatial-regressions.R","wide integer payloads are rejected before lossy decoding",3,0,FALSE,FALSE,0,3
+"test-io-tivita.R","hs_read_tivita errors when tivis.r is unavailable",1,0,FALSE,FALSE,0,1
+"test-io-tivita.R","hs_read_tivita errors on a missing file",1,0,TRUE,FALSE,0,0
+"test-io-tivita.R","hs_read_tivita returns an hsi_cube with the wavelength axis",1,0,TRUE,FALSE,0,0
+"test-io-tivita.R","band selection propagates through to the cube",1,0,TRUE,FALSE,0,0
+"test-io-tivita.R","metadata is populated even when no meta.log exists",1,0,TRUE,FALSE,0,0
+"test-io-tivita.R",".is_tivita_file recognises the container by content",1,0,TRUE,FALSE,0,0
+"test-io-tivita.R","hs_read_cube routes an ambiguous .dat by content",1,0,TRUE,FALSE,0,0
+"test-io-tivita.R","an unidentifiable .dat is rejected with guidance",1,0,FALSE,FALSE,0,1
+"test-io-write.R","hs_write_envi writes hdr and dat with fwhm",4,0,FALSE,FALSE,0,4
+"test-io-write.R","hs_write_envi without fwhm omits fwhm block",1,0,FALSE,FALSE,0,1
+"test-io-write.R","hs_write_envi verbose emits messages",1,0,FALSE,FALSE,0,1
+"test-io-write.R","hs_write_envi validates interleave",1,0,FALSE,FALSE,0,1
+"test-io-write.R","hs_write_envi integer data type writes",1,0,FALSE,FALSE,0,1
+"test-io-write.R","hs_write_tiff writes a file (terra)",1,0,TRUE,FALSE,0,0
+"test-io-write.R","hs_write_tiff verbose emits message",1,0,TRUE,FALSE,0,0
+"test-io-write.R","hs_write_tiff errors without terra",1,0,FALSE,FALSE,0,1
+"test-io-write.R","hs_export_png writes png for each palette",6,0,FALSE,FALSE,0,6
+"test-io-write.R","hs_export_png handles range, dims, and NA pixels",1,0,FALSE,FALSE,0,1
+"test-io-write.R","hs_export_png rejects non-matrix",1,0,FALSE,FALSE,0,1
+"test-io.R","ENVI round-trip preserves data",5,0,FALSE,FALSE,0,5
+"test-io.R","hs_example_files creates valid files",2,0,FALSE,FALSE,0,2
+"test-io.R","hs_read_cube auto-detects ENVI",1,0,FALSE,FALSE,0,1
+"test-io.R","hs_export_png writes file",1,0,FALSE,FALSE,0,1
+"test-io.R","hs_read_envi errors on missing file",1,0,FALSE,FALSE,0,1
+"test-io.R","hs_read_cube errors on unsupported format",1,0,FALSE,FALSE,0,1
+"test-model-regressions.R","F05/F06: pinned reference coefficients and declared domains recover known mixtures",12,0,FALSE,FALSE,0,12
+"test-model-regressions.R","F01: relative band ratios are scene independent and not oxygen percentages",2,0,FALSE,FALSE,0,2
+"test-model-regressions.R","F07/F14/F21: equality unmixing and missing pixels obey constraints",8,0,FALSE,FALSE,0,8
+"test-model-regressions.R","F07/F22: reduction caps rank, masks invalid data and reuses fitted transforms",4,0,FALSE,FALSE,0,4
+"test-model-regressions.R","masked classifier pixels never affect training or receive predictions",1,0,TRUE,FALSE,0,0
+"test-model-regressions.R","ideal fractions recover across endpoints and total coefficient scales",3,0,FALSE,FALSE,0,3
+"test-model-regressions.R","NNLS reconstruction is stable across scales and rank deficiency",6,0,FALSE,FALSE,0,6
+"test-pipeline.R","batch failures are isolated and resume fingerprints include input changes",6,0,FALSE,FALSE,0,6
+"test-pipeline.R","MSC references are fitted on training data and reused unchanged",3,0,FALSE,FALSE,0,3
+"test-pipeline.R","group summaries use independent groups and preserve random state",4,0,FALSE,FALSE,0,4
+"test-pipeline.R","grouped classification never shares a subject across a split",1,0,TRUE,FALSE,0,0
+"test-plot-clinical.R","hs_plot_clinical builds a patchwork panel",1,0,FALSE,FALSE,0,1
+"test-plot-clinical.R","hs_plot_clinical without background masking",1,0,FALSE,FALSE,0,1
+"test-plot-clinical.R","hs_plot_clinical warns and skips unknown index",1,0,FALSE,FALSE,0,1
+"test-plot-clinical.R","hs_plot_clinical skips all-NA index (TWI on short range)",2,0,FALSE,FALSE,0,2
+"test-plot-clinical.R","hs_plot_index renders each palette",5,0,FALSE,FALSE,0,5
+"test-plot-clinical.R","hs_plot_index applies mask",1,0,FALSE,FALSE,0,1
+"test-plot-clinical.R","hs_plot_index rejects non-matrix",1,0,FALSE,FALSE,0,1
+"test-plot-clinical.R","hs_plot_clinical validates cube",1,0,FALSE,FALSE,0,1
+"test-plot-extra.R","hs_plot_spectra mean with sd ribbon",2,0,FALSE,FALSE,0,2
+"test-plot-extra.R","hs_plot_spectra mean without sd ribbon",2,0,FALSE,FALSE,0,2
+"test-plot-extra.R","hs_plot_spectra random",2,0,FALSE,FALSE,0,2
+"test-plot-extra.R","hs_plot_spectra specific pixels",2,0,FALSE,FALSE,0,2
+"test-plot-extra.R","hs_plot_spectra rejects bad pixels arg",1,0,FALSE,FALSE,0,1
+"test-plot-extra.R","hs_plot_image by wavelength and by band",4,0,FALSE,FALSE,0,4
+"test-plot-extra.R","hs_plot_image default band when none given",2,0,FALSE,FALSE,0,2
+"test-plot-extra.R","hs_plot_image palettes",10,0,FALSE,FALSE,0,10
+"test-plot-extra.R","hs_plot_rgb linear and none stretch",4,0,FALSE,FALSE,0,4
+"test-plot-extra.R","autoplot dispatches all types",8,0,FALSE,FALSE,0,8
+"test-plot-extra.R","theme_hsi returns a theme",2,0,FALSE,FALSE,0,2
+"test-plot-extra.R","scale_color_wavelength returns a scale",2,0,FALSE,FALSE,0,2
+"test-plot-extra.R","plot functions validate cube",3,0,FALSE,FALSE,0,3
+"test-plot.R","autoplot.hsi_cube creates ggplot for rgb",1,0,FALSE,FALSE,0,1
+"test-plot.R","autoplot.hsi_cube creates ggplot for band",1,0,FALSE,FALSE,0,1
+"test-plot.R","autoplot.hsi_cube creates ggplot for spectra",1,0,FALSE,FALSE,0,1
+"test-plot.R","hs_plot_spectra works for mean",1,0,FALSE,FALSE,0,1
+"test-plot.R","hs_plot_spectra works for random",1,0,FALSE,FALSE,0,1
+"test-plot.R","hs_plot_image creates ggplot",1,0,FALSE,FALSE,0,1
+"test-plot.R","hs_plot_rgb creates ggplot",1,0,FALSE,FALSE,0,1
+"test-plot.R","hs_plot_index creates ggplot",1,0,FALSE,FALSE,0,1
+"test-plot.R","hs_plot_clinical creates patchwork",1,0,FALSE,FALSE,0,1
+"test-plot.R","theme_hsi returns theme",1,0,FALSE,FALSE,0,1
+"test-plot.R","scale_color_wavelength returns scale",1,0,FALSE,FALSE,0,1
+"test-preprocess-extra.R","hs_smooth with prospectr/signal/builtin backends agree on dims",3,0,FALSE,FALSE,0,3
+"test-preprocess-extra.R","hs_smooth builtin fallback path runs when optional pkgs absent",2,0,FALSE,FALSE,0,2
+"test-preprocess-extra.R","hs_smooth signal fallback path runs",1,0,TRUE,FALSE,0,0
+"test-preprocess-extra.R","hs_smooth derivative changes data",2,0,FALSE,FALSE,0,2
+"test-preprocess-extra.R","hs_smooth input validation",4,0,FALSE,FALSE,0,4
+"test-preprocess-extra.R","hs_snv normalizes each spectrum",2,0,FALSE,FALSE,0,2
+"test-preprocess-extra.R","hs_msc with default and custom reference",2,0,FALSE,FALSE,0,2
+"test-preprocess-extra.R","hs_derivative is a shorthand for hs_smooth deriv",1,0,FALSE,FALSE,0,1
+"test-preprocess-extra.R","preprocess functions validate cube",3,0,FALSE,FALSE,0,3
+"test-preprocess-extra.R","SNV output is regression-stable",1,0,FALSE,FALSE,0,1
+"test-preprocess.R","hs_smooth preserves cube dimensions",3,0,FALSE,FALSE,0,3
+"test-preprocess.R","hs_smooth rejects invalid parameters",2,0,FALSE,FALSE,0,2
+"test-preprocess.R","hs_snv normalizes per-spectrum",2,0,FALSE,FALSE,0,2
+"test-preprocess.R","hs_msc returns valid cube",2,0,FALSE,FALSE,0,2
+"test-preprocess.R","hs_derivative computes first derivative",1,0,FALSE,FALSE,0,1
+"test-reduce-extra.R","hs_pca returns ordered variance",4,0,FALSE,FALSE,0,4
+"test-reduce-extra.R","hs_pca with scale = TRUE",1,0,FALSE,FALSE,0,1
+"test-reduce-extra.R","hs_pca caps components at band count",1,0,FALSE,FALSE,0,1
+"test-reduce-extra.R","hs_mnf returns hsi_mnf object",3,0,FALSE,FALSE,0,3
+"test-reduce-extra.R","hs_umap embeds via uwot",1,0,TRUE,FALSE,0,0
+"test-reduce-extra.R","hs_umap without pca pre-reduction",1,0,TRUE,FALSE,0,0
+"test-reduce-extra.R","hs_umap errors without uwot",1,0,FALSE,FALSE,0,1
+"test-reduce-extra.R","reduce functions validate cube",3,0,FALSE,FALSE,0,3
+"test-reduce.R","hs_pca returns correct structure",6,0,FALSE,FALSE,0,6
+"test-reduce.R","hs_mnf returns correct structure",2,0,FALSE,FALSE,0,2
+"test-reduce.R","hs_umap requires uwot",1,0,TRUE,FALSE,0,0
+"test-roi-extra.R","hs_roi_rect creates a clamped rectangular mask",3,0,FALSE,FALSE,0,3
+"test-roi-extra.R","hs_roi_rect clamps out-of-bounds ranges",1,0,FALSE,FALSE,0,1
+"test-roi-extra.R","hs_roi_polygon marks interior pixels",3,0,FALSE,FALSE,0,3
+"test-roi-extra.R","hs_roi_polygon accepts data.frame vertices",1,0,FALSE,FALSE,0,1
+"test-roi-extra.R","hs_roi_polygon rejects non-2-column vertices",1,0,FALSE,FALSE,0,1
+"test-roi-extra.R","hs_roi_stats from roi object",4,0,FALSE,FALSE,0,4
+"test-roi-extra.R","hs_roi_stats from logical mask",1,0,FALSE,FALSE,0,1
+"test-roi-extra.R","hs_roi_stats warns on empty ROI",3,0,FALSE,FALSE,0,3
+"test-roi-extra.R","hs_roi_stats rejects bad roi argument",1,0,FALSE,FALSE,0,1
+"test-roi-extra.R","roi functions validate cube",3,0,FALSE,FALSE,0,3
+"test-roi-extra.R","ROI quality counts distinguish requested, valid and repaired pixels",4,0,FALSE,FALSE,0,4
+"test-roi.R","hs_roi_rect creates valid ROI",3,0,FALSE,FALSE,0,3
+"test-roi.R","hs_roi_polygon creates valid ROI",2,0,FALSE,FALSE,0,2
+"test-roi.R","hs_roi_stats computes per-band statistics",5,0,FALSE,FALSE,0,5
+"test-roi.R","hs_roi_stats accepts logical mask",1,0,FALSE,FALSE,0,1
+"test-simulate-extra.R","hs_simulate_cube produces requested dimensions",3,0,FALSE,FALSE,0,3
+"test-simulate-extra.R","hs_simulate_cube is reproducible by seed",1,0,FALSE,FALSE,0,1
+"test-simulate-extra.R","hs_simulate_cube without noise is deterministic baseline",1,0,FALSE,FALSE,0,1
+"test-simulate-extra.R","hs_simulate_cube stores ground-truth metadata",3,0,FALSE,FALSE,0,3
+"test-simulate-extra.R","hs_simulate_cube respects custom wavelengths",1,0,FALSE,FALSE,0,1
+"test-simulate-extra.R","hs_example_cube returns a 30x30x61 cube",1,0,FALSE,FALSE,0,1
+"test-simulate-extra.R","hs_example_files writes a readable ENVI pair",2,0,FALSE,FALSE,0,2
+"test-simulate-extra.R","simulated cube region map is regression-stable",1,0,FALSE,FALSE,0,1
+"test-simulate.R","hs_simulate_cube generates valid cube",3,0,FALSE,FALSE,0,3
+"test-simulate.R","hs_simulate_cube is reproducible with seed",1,0,FALSE,FALSE,0,1
+"test-simulate.R","hs_example_cube returns 30x30x61 cube",2,0,FALSE,FALSE,0,2
+"test-simulate.R","hs_simulate_cube respects custom wavelengths",2,0,FALSE,FALSE,0,2
+"test-spectral.R","hs_absorbance converts and tags metadata",3,0,FALSE,FALSE,0,3
+"test-spectral.R","hs_absorbance clamps non-positive reflectance",2,0,FALSE,FALSE,0,2
+"test-spectral.R","hs_continuum_removal division returns values <= ~1",3,0,FALSE,FALSE,0,3
+"test-spectral.R","hs_continuum_removal subtraction returns values <= ~0",2,0,FALSE,FALSE,0,2
+"test-spectral.R","hs_continuum_removal rejects unknown method",1,0,FALSE,FALSE,0,1
+"test-spectral.R","hs_resample linear changes band count",3,0,FALSE,FALSE,0,3
+"test-spectral.R","hs_resample spline method works",1,0,FALSE,FALSE,0,1
+"test-spectral.R","hs_resample rejects unknown method",1,0,FALSE,FALSE,0,1
+"test-spectral.R","hs_resample drops fwhm when input lacks it",1,0,FALSE,FALSE,0,1
+"test-spectral.R","continuum-removed output is regression-stable",1,0,FALSE,FALSE,0,1
+"test-spectral.R","validation propagates through spectral functions",3,0,FALSE,FALSE,0,3
+"test-unmix-extra.R","hs_unmix_nnls returns abundance maps (nnls present)",1,0,TRUE,FALSE,0,0
+"test-unmix-extra.R","hs_unmix_nnls sum_to_one constraint",1,0,TRUE,FALSE,0,0
+"test-unmix-extra.R","hs_unmix_nnls optim fallback (no nnls)",2,0,FALSE,FALSE,0,2
+"test-unmix-extra.R","hs_unmix_nnls optim fallback with sum_to_one",1,0,FALSE,FALSE,0,1
+"test-unmix-extra.R","hs_unmix_nnls accepts data.frame input",1,0,TRUE,FALSE,0,0
+"test-unmix-extra.R","hs_unmix_nnls auto-names unnamed matrix endmembers",1,0,TRUE,FALSE,0,0
+"test-unmix-extra.R","hs_unmix_nnls rejects band mismatch",1,0,FALSE,FALSE,0,1
+"test-unmix-extra.R","hs_beer_lambert estimates StO2 and total Hb",4,0,FALSE,FALSE,0,4
+"test-unmix-extra.R","hs_beer_lambert with single chromophore has no StO2",1,0,FALSE,FALSE,0,1
+"test-unmix-extra.R","hs_beer_lambert errors with too few bands in range",1,0,FALSE,FALSE,0,1
+"test-unmix-extra.R","hs_beer_lambert handles absorbance input directly",1,0,FALSE,FALSE,0,1
+"test-unmix-extra.R","unmix functions validate cube",2,0,FALSE,FALSE,0,2
+"test-unmix.R","hs_unmix_nnls returns correct structure",4,0,FALSE,FALSE,0,4
+"test-unmix.R","hs_beer_lambert returns sto2",3,0,FALSE,FALSE,0,3
+"test-utils.R",".validate_cube accepts valid cube and rejects others",2,0,FALSE,FALSE,0,2
+"test-utils.R",".validate_cube catches structural corruption",3,0,FALSE,FALSE,0,3
+"test-utils.R",".band_index finds nearest wavelength",2,0,FALSE,FALSE,0,2
+"test-utils.R",".band_mean handles single, multi, and empty ranges",3,0,FALSE,FALSE,0,3
+"test-utils.R",".apply_mask sets masked pixels to NA and passes NULL",2,0,FALSE,FALSE,0,2
+"test-utils.R",".check_wavelength_coverage warns when range insufficient",3,0,FALSE,FALSE,0,3
+"test-utils.R",".wavelength_to_color covers all hue branches",3,0,FALSE,FALSE,0,3
+"test-utils.R",".linear_stretch maps to 0-1 and handles constant input",2,0,FALSE,FALSE,0,2
+"test-utils.R",".sg_coefficients produce smoothing weights summing to one",2,0,FALSE,FALSE,0,2
+"test-utils.R",".sg_coefficients first derivative sums to ~zero",1,0,FALSE,FALSE,0,1

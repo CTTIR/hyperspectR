@@ -10,8 +10,17 @@
     cli::cli_abort("{.arg x} must be an {.cls hsi_cube} object.")
   }
 
-  if (!is.array(x$data) || length(dim(x$data)) != 3L) {
+  if (!is.numeric(x$data) || !is.array(x$data) || length(dim(x$data)) != 3L || any(dim(x$data) == 0L)) {
     cli::cli_abort("{.field data} must be a 3D array (rows x cols x bands).")
+  }
+
+  if (any(!is.finite(x$wavelengths)) || any(x$wavelengths <= 0) ||
+      is.unsorted(x$wavelengths, strictly = TRUE)) {
+    cli::cli_abort("Wavelengths must be finite, positive, unique and increasing.")
+  }
+  if (!is.null(x$fwhm) && (length(x$fwhm) != dim(x$data)[3L] ||
+      any(!is.finite(x$fwhm)) || any(x$fwhm <= 0))) {
+    cli::cli_abort("FWHM must be finite, positive and match the band count.")
   }
 
   if (length(x$wavelengths) != dim(x$data)[3L]) {
@@ -19,6 +28,7 @@
       "Length of {.field wavelengths} ({length(x$wavelengths)}) must match band count ({dim(x$data)[3L]})."
     )
   }
+  if (!is.null(x$mask)) .validate_spatial_mask(x$mask, x)
 
   if (!is.null(x$mask) && !identical(dim(x$mask), dim(x$data)[1:2])) {
     cli::cli_abort(
@@ -29,12 +39,54 @@
   invisible(x)
 }
 
+.validate_spatial_mask <- function(mask, cube) {
+  if (!is.logical(mask) || !is.matrix(mask) || anyNA(mask) ||
+      !identical(dim(mask), dim(cube$data)[1:2])) {
+    cli::cli_abort("Mask must be a logical matrix without NA matching spatial dimensions.")
+  }
+  invisible(mask)
+}
+
+.pixel_matrix <- function(cube, bands = seq_along(cube$wavelengths)) {
+  x <- matrix(cube$data, nrow = prod(dim(cube$data)[1:2]))[, bands, drop = FALSE]
+  x[!is.finite(x)] <- NA_real_
+  if (!is.null(cube$mask)) x[!as.vector(cube$mask), ] <- NA_real_
+  x
+}
+
+.valid_pixels <- function(cube, bands = seq_along(cube$wavelengths)) {
+  rowSums(!is.finite(.pixel_matrix(cube, bands))) == 0L
+}
+
+.spatial_map <- function(x, cube) matrix(x, nrow = dim(cube$data)[1L], ncol = dim(cube$data)[2L])
+
+.band_matrix <- function(cube, band) .spatial_map(.pixel_matrix(cube, band), cube)
+
+.record_step <- function(cube, method, parameters = list(), domain = NULL) {
+  cube$metadata$history <- c(cube$metadata$history, list(list(
+    method = method, parameters = parameters,
+    package_version = as.character(utils::packageVersion("hyperspectR"))
+  )))
+  if (!is.null(domain)) cube$metadata$processing_mode <- domain
+  cube
+}
+
+.require_wavelengths <- function(cube) {
+  if (identical(cube$metadata$wavelengths_known, FALSE)) {
+    cli::cli_abort("Measured wavelengths in nm are required for spectral analysis.")
+  }
+  invisible(cube)
+}
+
 #' Find Band Index Nearest to a Target Wavelength
 #' @param wavelengths Numeric vector of wavelengths.
 #' @param target Numeric scalar target wavelength.
 #' @return Integer index.
 #' @noRd
 .band_index <- function(wavelengths, target) {
+  if (length(target) != 1L || !is.finite(target)) {
+    cli::cli_abort("Target wavelength must be a finite scalar.")
+  }
   which.min(abs(wavelengths - target))
 }
 
@@ -45,10 +97,13 @@
 #'   or NULL if no bands fall within the range.
 #' @noRd
 .band_mean <- function(cube, range) {
+  .require_wavelengths(cube)
+  if (length(range) != 2L || any(!is.finite(range)) || range[1] > range[2]) {
+    cli::cli_abort("Band range must contain two finite increasing wavelengths.")
+  }
   idx <- which(cube$wavelengths >= range[1] & cube$wavelengths <= range[2])
   if (length(idx) == 0L) return(NULL)
-  if (length(idx) == 1L) return(cube$data[, , idx])
-  rowMeans(cube$data[, , idx, drop = FALSE], dims = 2L)
+  .spatial_map(rowMeans(.pixel_matrix(cube, idx)), cube)
 }
 
 #' Apply a Mask to a Matrix
@@ -137,6 +192,8 @@
 #' @return Numeric, same dimensions as x, stretched to 0-1 range.
 #' @noRd
 .linear_stretch <- function(x, quantiles = c(0.02, 0.98)) {
+  x[!is.finite(x)] <- NA_real_
+  if (all(is.na(x))) return(x)
   lo <- stats::quantile(x, quantiles[1], na.rm = TRUE)
   hi <- stats::quantile(x, quantiles[2], na.rm = TRUE)
   if (hi == lo) return(x * 0 + 0.5)
@@ -162,3 +219,21 @@
   # Row for the derivative order (with factorial scaling)
   coefs[deriv + 1L, ] * factorial(deriv)
 }
+
+.validate_pixel_coordinates <- function(pixels, cube) {
+  if (!is.data.frame(pixels) || !all(c("x", "y") %in% names(pixels)) || !nrow(pixels) ||
+      !is.numeric(pixels$x) || !is.numeric(pixels$y) || any(!is.finite(as.matrix(pixels[c("x", "y")])))) {
+    cli::cli_abort("Pixels must contain finite x/y coordinates.")
+  }
+  if (any(pixels$x != as.integer(pixels$x) | pixels$y != as.integer(pixels$y)) ||
+      any(pixels$x < 1 | pixels$x > dim(cube$data)[2] | pixels$y < 1 | pixels$y > dim(cube$data)[1])) {
+    cli::cli_abort("Pixel coordinates must be integers within spatial dimensions.")
+  }
+  invisible(pixels)
+}
+
+.feature_contract <- function(cube) list(
+  domain = cube$metadata$processing_mode %||% "unknown", fwhm = cube$fwhm,
+  msc_reference = cube$metadata$msc_reference,
+  sg_window = cube$metadata$sg_window, sg_poly = cube$metadata$sg_poly,
+  sg_deriv = cube$metadata$sg_deriv)

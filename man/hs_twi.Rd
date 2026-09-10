@@ -15,12 +15,13 @@ for Cubert range).}
 \item{denominator}{Numeric vector of length 2. Default \code{c(830, 870)}.}
 }
 \value{
-A numeric matrix with values 0-100, or an NA matrix with a warning
+A numeric matrix of unscaled dimensionless ratios, or an NA matrix with a warning
 if required wavelengths are unavailable.
 }
 \description{
-Estimates tissue water content from the 960 nm water absorption band.
-The Cubert Ultris X MR (430-910 nm) does NOT fully cover this range.
+Legacy name for a dimensionless NIR reflectance ratio. The default
+830-910 nm bands do not include the 970 nm water peak and do not measure
+water content.
 }
 \examples{
 cube <- hs_example_cube()

@@ -1,3 +1,26 @@
+# hyperspectR 0.2.0.9000
+
+* Corrected cube dimensions, masks, wavelength/FWHM alignment, spatial plotting,
+  TIFF/ENVI pixel order, truncated ENVI input and unsupported integer exports.
+* SG smoothing now returns full-window center bands consistently across explicit
+  backends; derivatives use wavelength units. Calibration validates reference
+  compatibility and bad-pixel repair uses immutable valid neighbors.
+* Replaced generated hemoglobin fitting references with a pinned tabulated source.
+  Beer-Lambert fitting requires an explicit domain and separates coefficients
+  from concentrations requiring optical pathlength. Default StO2 is a research
+  model fraction. The former ratio method errors; relative indices are unscaled.
+* Added equality-constrained nonnegative unmixing with convergence diagnostics,
+  optional residual storage and chunk equivalence. PCA/MNF respect masks and
+  rank limits and expose reusable transforms.
+* Repaired explorer initialization, stale results, paired uploads, TIFF metadata
+  entry and complete archive downloads; added cancellable background computations.
+* Added processing recipes, resumable manifest analysis, reusable classifier
+  prediction, group-separated evaluation and group-level uncertainty summaries.
+* Expanded exact-value regressions, browser and minimal-dependency validation,
+  reference sensitivity reports, and performance measurements. Clinical claims
+  remain outside the evidence supplied by synthetic tests. See MIGRATION.md for
+  breaking changes and planning/implementation-status.md for release evidence.
+
 # hyperspectR 0.1.0
 
 ## Initial release

@@ -24,7 +24,8 @@ Default: \code{seq(430, 910, by = 8)} matching Cubert Ultris X MR.}
 
 \item{n_regions}{Integer. Number of distinct tissue regions. Default \code{4}.}
 
-\item{sto2_range}{Numeric vector of length 2. Range of StO2 values (0 to 1).
+\item{sto2_range}{Numeric vector of length 2. Synthetic mixture fractions
+(0 to 1), not validated tissue oxygenation measurements.
 Default \code{c(0.3, 0.95)}.}
 
 \item{noise_sd}{Numeric. Gaussian noise standard deviation. Default \code{0.01}.}
@@ -32,7 +33,9 @@ Default \code{c(0.3, 0.95)}.}
 \item{seed}{Integer. Random seed for reproducibility. Default \code{42}.}
 }
 \value{
-An \link{hsi_cube} object with metadata including ground-truth \code{region_map}.
+An \link{hsi_cube} object with known synthetic \code{region_map}. Legacy
+\code{sto2_ground_truth} metadata records simulator parameters only; the generated
+spectra are not an independent reference for quantitative tissue validation.
 }
 \description{
 Creates a realistic synthetic tissue hyperspectral cube with known ground

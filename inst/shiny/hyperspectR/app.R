@@ -10,6 +10,7 @@ for (mod_file in list.files(
 
 ui <- bslib::page_navbar(
   title = "hyperspectR Explorer",
+  id = "main_nav",
   theme = bslib::bs_theme(
     version = 5,
     bootswatch = "flatly",
@@ -33,20 +34,16 @@ server <- function(input, output, session) {
     original_cube = NULL
   )
 
-  # Receive the cube passed by hs_run_app() via shinyOptions()
-  shiny::observe({
-    obj <- shiny::getShinyOption("hyperspectR_cube", default = NULL)
-    if (!is.null(obj) && inherits(obj, "hsi_cube")) {
-      cube_rv$cube <- obj
-      cube_rv$original_cube <- obj
-    }
+  # Initialize once; subsequent processing and uploads own the session state.
+  obj <- shiny::getShinyOption("hyperspectR_cube", default = NULL)
+  if (is.null(obj)) obj <- hyperspectR::hs_example_cube()
+  stopifnot(inherits(obj, "hsi_cube"))
+  cube_rv$cube <- obj
+  cube_rv$original_cube <- obj
 
-    # Load example cube if nothing was passed
-    if (is.null(cube_rv$cube)) {
-      cube_rv$cube <- hyperspectR::hs_example_cube()
-      cube_rv$original_cube <- cube_rv$cube
-    }
-  })
+  shiny::exportTestValues(cube_dim = dim(cube_rv$cube$data),
+    cube_domain = cube_rv$cube$metadata$processing_mode,
+    cube_first = cube_rv$cube$data[1, 1, ])
 
   mod_viewer_server("viewer", cube_rv)
   mod_spectra_server("spectra", cube_rv)

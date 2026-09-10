@@ -28,13 +28,15 @@ hsi_cube <- function(data, wavelengths, fwhm = NULL, metadata = list(),
                      mask = NULL) {
   # Validate data
 
-if (!is.numeric(data)) {
+  if (!is.numeric(data)) {
     cli::cli_abort("{.arg data} must be numeric.")
   }
 
   if (!is.array(data) || length(dim(data)) != 3L) {
     cli::cli_abort("{.arg data} must be a 3D array with dimensions (rows, cols, bands).")
   }
+
+  if (any(dim(data) == 0L)) cli::cli_abort("Data dimensions must be positive.")
 
   # Validate wavelengths
   wavelengths <- as.numeric(wavelengths)
@@ -44,12 +46,10 @@ if (!is.numeric(data)) {
     )
   }
 
-  if (is.unsorted(wavelengths, strictly = TRUE)) {
-    cli::cli_warn("Wavelengths are not strictly monotonically increasing; sorting.")
-    ord <- order(wavelengths)
-    wavelengths <- wavelengths[ord]
-    data <- data[, , ord, drop = FALSE]
+  if (any(!is.finite(wavelengths)) || any(wavelengths <= 0)) {
+    cli::cli_abort("Wavelengths must be finite and positive.")
   }
+  if (anyDuplicated(wavelengths)) cli::cli_abort("Wavelengths must be unique.")
 
   # Validate / process fwhm
   if (!is.null(fwhm)) {
@@ -62,6 +62,17 @@ if (!is.numeric(data)) {
         "Length of {.arg fwhm} ({length(fwhm)}) must match number of bands ({length(wavelengths)})."
       )
     }
+  }
+
+  if (!is.null(fwhm) && (any(!is.finite(fwhm)) || any(fwhm <= 0))) {
+    cli::cli_abort("FWHM must be finite and positive.")
+  }
+  if (is.unsorted(wavelengths)) {
+    cli::cli_warn("Wavelengths are not strictly monotonically increasing; sorting.")
+    ord <- order(wavelengths)
+    wavelengths <- wavelengths[ord]
+    data <- data[, , ord, drop = FALSE]
+    if (!is.null(fwhm)) fwhm <- fwhm[ord]
   }
 
   # Validate metadata
@@ -90,5 +101,6 @@ if (!is.numeric(data)) {
   )
 
   class(obj) <- "hsi_cube"
+  .validate_cube(obj)
   obj
 }

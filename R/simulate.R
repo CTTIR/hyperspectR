@@ -9,12 +9,15 @@
 #' @param wavelengths Numeric vector. Wavelength grid in nm.
 #'   Default: `seq(430, 910, by = 8)` matching Cubert Ultris X MR.
 #' @param n_regions Integer. Number of distinct tissue regions. Default `4`.
-#' @param sto2_range Numeric vector of length 2. Range of StO2 values (0 to 1).
+#' @param sto2_range Numeric vector of length 2. Synthetic mixture fractions
+#'   (0 to 1), not validated tissue oxygenation measurements.
 #'   Default `c(0.3, 0.95)`.
 #' @param noise_sd Numeric. Gaussian noise standard deviation. Default `0.01`.
 #' @param seed Integer. Random seed for reproducibility. Default `42`.
 #'
-#' @return An [hsi_cube] object with metadata including ground-truth `region_map`.
+#' @return An [hsi_cube] object with known synthetic `region_map`. Legacy
+#'   `sto2_ground_truth` metadata records simulator parameters only; the generated
+#'   spectra are not an independent reference for quantitative tissue validation.
 #'
 #' @examples
 #' cube <- hs_simulate_cube(rows = 20, cols = 20)
@@ -25,6 +28,9 @@ hs_simulate_cube <- function(rows = 50L, cols = 50L,
                              wavelengths = seq(430, 910, by = 8),
                              n_regions = 4L, sto2_range = c(0.3, 0.95),
                              noise_sd = 0.01, seed = 42L) {
+  for (value in list(rows, cols, n_regions)) .validate_components(value)
+  if (length(noise_sd) != 1L || !is.finite(noise_sd) || noise_sd < 0) cli::cli_abort("noise_sd must be finite and non-negative.")
+  if (length(sto2_range) != 2L || any(!is.finite(sto2_range)) || any(sto2_range < 0 | sto2_range > 1) || sto2_range[1] > sto2_range[2]) cli::cli_abort("sto2_range must be an ordered pair between zero and one.")
   rows <- as.integer(rows)
   cols <- as.integer(cols)
   n_regions <- as.integer(n_regions)
@@ -91,7 +97,7 @@ hs_simulate_cube <- function(rows = 50L, cols = 50L,
     # Convert absorption to reflectance-like values
     # Add scattering baseline that increases with wavelength
     scattering <- 0.3 + 0.2 * (wavelengths - min(wavelengths)) /
-      (max(wavelengths) - min(wavelengths))
+      max(max(wavelengths) - min(wavelengths), .Machine$double.eps)
     reflectance <- scattering * exp(-2.5 * absorption)
 
     # Scale to reasonable reflectance range [0.05, 0.7]
@@ -123,6 +129,8 @@ hs_simulate_cube <- function(rows = 50L, cols = 50L,
     fwhm = rep(25, n_bands),
     metadata = list(
       camera = "simulated",
+      spectral_model = "legacy_synthetic_gaussian",
+      interpretation = "Demonstration spectral shapes; assigned fractions are simulator parameters only.",
       processing_mode = "reflectance",
       acquisition_time = Sys.time(),
       region_map = region_map,
@@ -137,7 +145,8 @@ hs_simulate_cube <- function(rows = 50L, cols = 50L,
 #'
 #' Generates a small pre-configured synthetic cube for quick examples and
 #' documentation. The cube simulates a 30x30 pixel tissue scene with four
-#' regions of varying oxygenation (healthy, ischemic, hyperemic, background).
+#' regions of different synthetic spectra. Region names do not identify tissue
+#' diagnoses, and the example does not establish quantitative accuracy.
 #'
 #' @return An [hsi_cube] object (30 x 30 x 61 bands, 430-910 nm).
 #'

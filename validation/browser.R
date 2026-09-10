@@ -1,0 +1,78 @@
+# Run with the development package installed and CHROMOTE_CHROME configured.
+# This exercises the actual browser and app in separate processes.
+library(hyperspectR)
+stopifnot(requireNamespace("shinytest2", quietly = TRUE))
+output <- Sys.getenv("HYPERSPECTR_VALIDATION_OUTPUT", "validation/results")
+dir.create(output, recursive = TRUE, showWarnings = FALSE)
+app <- shinytest2::AppDriver$new(function() {
+  library(hyperspectR)
+  shiny::runApp(system.file("shiny", "hyperspectR", package = "hyperspectR"))
+}, name = "explorer", width = 1280, height = 900, load_timeout = 60000, timeout = 30000)
+tryCatch({
+  stopifnot(identical(as.integer(app$get_value(export = "cube_dim")), c(30L, 30L, 61L)))
+  app$set_inputs(main_nav = "Processing", `processing-method` = "smooth")
+  app$click("processing-apply")
+  app$wait_for_js("document.getElementById('processing-job_status').textContent === 'Complete'")
+  stopifnot(as.integer(app$get_value(export = "cube_dim"))[3] == 57L)
+  app$click("processing-reset")
+  stopifnot(as.integer(app$get_value(export = "cube_dim"))[3] == 61L)
+  app$set_inputs(main_nav = "Analysis", `analysis-analysis_type` = "pca", `analysis-n_components` = 3)
+  app$click("analysis-run")
+  app$wait_for_js("document.getElementById('analysis-job_status').textContent === 'Complete'")
+  stopifnot(grepl("Variance explained", app$get_value(output = "analysis-result_info")))
+  app$set_inputs(main_nav = "Indices", `indices-index_type` = "ndi")
+  app$click("indices-compute")
+  app$wait_for_js("document.getElementById('indices-job_status').textContent === 'Complete'")
+  unlink(file.path(output, "explorer-indices.png"))
+  app$get_screenshot(file.path(output, "explorer-indices.png"))
+  app$set_inputs(main_nav = "Viewer")
+  fixture <- hs_example_cube()[1:3, 1:5, ]
+  files <- hs_write_envi(fixture, file.path(tempdir(), "browser-fixture"), verbose = FALSE)
+  app$upload_file(`viewer-file_upload` = files)
+  stopifnot(identical(as.integer(app$get_value(export = "cube_dim")), c(3L, 5L, 61L)))
+  stopifnot(isTRUE(all.equal(as.numeric(app$get_value(export = "cube_first")), fixture$data[1, 1, ], tolerance = 1e-6)))
+  app$set_inputs(main_nav = "Export", `export-export_format` = "envi")
+  app$wait_for_js("document.getElementById('export-download_image').getAttribute('href').length > 0")
+  downloaded <- app$get_download("export-download_image")
+  stopifnot(setequal(utils::unzip(downloaded, list = TRUE)$Name, c("cube.hdr", "cube.dat", "provenance.rds")))
+  app$set_inputs(main_nav = "Viewer")
+  # A header alone must fail without replacing the current cube.
+  app$upload_file(`viewer-file_upload` = files[1])
+  stopifnot(identical(as.integer(app$get_value(export = "cube_dim")), c(3L, 5L, 61L)))
+  if (requireNamespace("terra", quietly = TRUE)) {
+    tiff_cube <- hsi_cube(array(seq(.1, .9, length.out = 12), c(2, 3, 2)), c(500, 600))
+    tiff_path <- file.path(tempdir(), "browser-tiff.tif")
+    hs_write_tiff(tiff_cube, tiff_path, verbose = FALSE)
+    app$set_inputs(`viewer-wavelengths` = "", wait_ = FALSE)
+    app$upload_file(`viewer-file_upload` = tiff_path)
+    stopifnot(identical(as.integer(app$get_value(export = "cube_dim")), c(3L, 5L, 61L)))
+    app$set_inputs(`viewer-wavelengths` = "500,600", `viewer-domain` = "reflectance", wait_ = FALSE)
+    app$upload_file(`viewer-file_upload` = tiff_path)
+    stopifnot(identical(as.integer(app$get_value(export = "cube_dim")), c(2L, 3L, 2L)))
+  }
+  unlink(file.path(output, "explorer-viewer.png"))
+  app$get_screenshot(file.path(output, "explorer-viewer.png"))
+  writeLines("Browser startup, background processing/reset, PCA, NDI, paired upload, invalid upload, TIFF wavelengths and archive download passed.", file.path(output, "browser.txt"))
+  unlink(file.path(output, "browser-failure.log"))
+}, error = function(e) {
+  writeLines(capture.output(app$get_logs()), file.path(output, "browser-failure.log"))
+  stop(e)
+}, finally = app$stop())
+
+
+# Exercise the supplied-cube startup mode in a separate real browser session.
+app <- shinytest2::AppDriver$new(function() {
+  library(hyperspectR)
+  shiny::shinyOptions(hyperspectR_cube = hs_example_cube()[1:4, 1:6, ])
+  shiny::runApp(system.file("shiny", "hyperspectR", package = "hyperspectR"))
+}, name = "explorer-supplied", load_timeout = 60000, timeout = 30000)
+tryCatch({
+  stopifnot(identical(as.integer(app$get_value(export = "cube_dim")), c(4L, 6L, 61L)))
+  app$set_inputs(main_nav = "Processing", `processing-method` = "snv")
+  app$click("processing-apply")
+  app$wait_for_js("document.getElementById('processing-job_status').textContent === 'Complete'")
+  stopifnot(identical(app$get_value(export = "cube_domain"), "snv"))
+  app$click("processing-reset")
+  stopifnot(identical(app$get_value(export = "cube_domain"), "reflectance"))
+  cat("Supplied-cube startup and persistent processing/reset passed.\n", file = file.path(output, "browser.txt"), append = TRUE)
+}, finally = app$stop())

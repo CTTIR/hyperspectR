@@ -3,7 +3,7 @@ full_cube <- function() {
                    noise_sd = 0.01, seed = 14)
 }
 
-test_that("hs_sto2 ratio method returns 0-100 matrix", {
+test_that("hs_sto2 model fraction returns 0-100 matrix", {
   cube <- full_cube()
   sto2 <- hs_sto2(cube)
   expect_true(is.matrix(sto2))
@@ -27,13 +27,13 @@ test_that("hs_sto2 respects mask (NA in masked pixels)", {
 test_that("hs_sto2 errors when bands unavailable", {
   cube <- hs_simulate_cube(rows = 4, cols = 4, wavelengths = c(430, 450),
                            noise_sd = 0, seed = 1)
-  expect_error(suppressWarnings(hs_sto2(cube)), "not available")
+  expect_error(suppressWarnings(hs_sto2(cube)), "at least 2 bands")
 })
 
-test_that("hs_npi and hs_thi return 0-100 maps", {
+test_that("hs_npi and hs_thi return unscaled ratios", {
   cube <- full_cube()
-  expect_true(all(hs_npi(cube) >= 0 & hs_npi(cube) <= 100, na.rm = TRUE))
-  expect_true(all(hs_thi(cube) >= 0 & hs_thi(cube) <= 100, na.rm = TRUE))
+  expect_equal(hs_npi(cube), hs_band_ratio(cube, c(825, 910), c(655, 735)), tolerance = 1e-7)
+  expect_equal(hs_thi(cube), hs_band_ratio(cube, c(785, 825), c(530, 590)), tolerance = 1e-7)
 })
 
 test_that("hs_npi errors when bands unavailable", {
@@ -83,9 +83,7 @@ test_that("index functions validate cube", {
   expect_error(hs_clinical_indices(list()), "hsi_cube")
 })
 
-test_that("hs_sto2 output is regression-stable", {
-  cube <- hs_simulate_cube(rows = 4, cols = 4, wavelengths = seq(430, 910, by = 40),
-                           noise_sd = 0, seed = 1)
-  sto2 <- hs_sto2(cube)
-  expect_snapshot_value(round(as.vector(sto2), 2), style = "json2")
+test_that("hs_sto2 matches the explicit reference fit", {
+  cube <- full_cube()
+  expect_equal(hs_sto2(cube), hs_beer_lambert(cube)$sto2)
 })

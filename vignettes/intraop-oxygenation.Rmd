@@ -1,8 +1,8 @@
 ---
-title: "Intraoperative Oxygenation Mapping"
+title: "Research Oxygenation Model Workflow"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Intraoperative Oxygenation Mapping}
+  %\VignetteIndexEntry{Research Oxygenation Model Workflow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -33,9 +33,9 @@ library(hyperspectR)
 
 ## Overview
 
-This vignette demonstrates how to use hyperspectR for intraoperative tissue
-oxygenation assessment. We simulate a tissue scene and walk through the
-complete analysis pipeline from raw data to publication-quality figures.
+This vignette demonstrates a research processing workflow on a synthetic scene.
+The simulator is not a tissue measurement or an independent validation dataset.
+No surgical decision or diagnostic threshold follows from these examples.
 
 ## Step 1: Load Data
 
@@ -52,18 +52,18 @@ smoothed <- hs_smooth(cube, window = 7, poly = 3)
 hs_plot_spectra(smoothed)
 ```
 
-## Step 3: Band-Ratio StO2
+## Step 3: Dimensionless Band Ratio
 
 ```{r}
-sto2_ratio <- hs_sto2(smoothed, method = "ratio")
-hs_plot_index(sto2_ratio, title = "StO2 - Band Ratio (%)", palette = "sto2")
+sto2_ratio <- hs_band_ratio(smoothed, c(700, 800), c(500, 650))
+hs_plot_index(sto2_ratio, title = "Relative NIR/visible ratio", palette = "sto2")
 ```
 
 ## Step 4: Beer-Lambert Chromophore Fitting
 
 ```{r}
 fit <- hs_beer_lambert(smoothed)
-hs_plot_index(fit$sto2, title = "StO2 - Beer-Lambert (%)", palette = "sto2")
+hs_plot_index(fit$sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
 ## Step 5: ROI-Based Statistical Analysis
@@ -94,7 +94,7 @@ ggplot() +
   theme_hsi()
 ```
 
-## Step 6: Clinical Panel
+## Step 6: Research Panel
 
 ```{r fig.width=10, fig.height=4}
 hs_plot_clinical(smoothed)

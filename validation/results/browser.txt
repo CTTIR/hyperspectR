@@ -1,0 +1,2 @@
+Browser startup, background processing/reset, PCA, NDI, paired upload, invalid upload, TIFF wavelengths and archive download passed.
+Supplied-cube startup and persistent processing/reset passed.

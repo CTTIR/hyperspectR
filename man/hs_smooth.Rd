@@ -4,7 +4,13 @@
 \alias{hs_smooth}
 \title{Savitzky-Golay Spectral Smoothing}
 \usage{
-hs_smooth(cube, window = 5L, poly = 2L, deriv = 0L)
+hs_smooth(
+  cube,
+  window = 5L,
+  poly = 2L,
+  deriv = 0L,
+  backend = c("builtin", "prospectr", "signal")
+)
 }
 \arguments{
 \item{cube}{An \link{hsi_cube} object.}
@@ -15,14 +21,17 @@ hs_smooth(cube, window = 5L, poly = 2L, deriv = 0L)
 
 \item{deriv}{Integer. Derivative order (0 = smoothing only, 1 = first
 derivative, 2 = second derivative). Default \code{0}.}
+
+\item{backend}{Character. Explicit backend: \code{"builtin"} (default),
+\code{"prospectr"}, or \code{"signal"}. All use the same band support and units.}
 }
 \value{
 An \link{hsi_cube} object with smoothed/differentiated spectra.
 }
 \description{
 Applies a Savitzky-Golay filter along the spectral dimension. Optionally
-computes spectral derivatives. Uses \code{prospectr} or \code{signal} if available,
-otherwise falls back to a built-in convolution implementation.
+computes derivatives per nanometer on a uniform wavelength grid. Only
+full-window center bands are returned. Invalid spectra remain missing.
 }
 \examples{
 cube <- hs_example_cube()

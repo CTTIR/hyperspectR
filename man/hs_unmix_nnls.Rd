@@ -4,7 +4,14 @@
 \alias{hs_unmix_nnls}
 \title{Linear Spectral Unmixing via NNLS}
 \usage{
-hs_unmix_nnls(cube, endmembers, sum_to_one = FALSE)
+hs_unmix_nnls(
+  cube,
+  endmembers,
+  sum_to_one = FALSE,
+  backend = c("builtin", "nnls"),
+  keep_residuals = TRUE,
+  chunk_size = 10000L
+)
 }
 \arguments{
 \item{cube}{An \link{hsi_cube} object (reflectance or absorbance).}
@@ -13,6 +20,12 @@ hs_unmix_nnls(cube, endmembers, sum_to_one = FALSE)
 Column names become abundance map labels.}
 
 \item{sum_to_one}{Logical. Apply sum-to-one constraint. Default \code{FALSE}.}
+
+\item{backend}{Explicit solver: \code{"builtin"} (default) or \code{"nnls"}.}
+
+\item{keep_residuals}{Logical. Retain the full residual cube.}
+
+\item{chunk_size}{Positive integer. Number of pixels per processing block.}
 }
 \value{
 A list with class \code{"hsi_unmix"}:

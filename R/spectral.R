@@ -16,13 +16,17 @@
 hs_absorbance <- function(cube, floor = 1e-6) {
   .validate_cube(cube)
 
-  data <- cube$data
-  data[data <= 0] <- floor
+  if (length(floor) != 1L || !is.finite(floor) || floor <= 0 || floor >= 1) cli::cli_abort("floor must be finite and between zero and one.")
+  domain <- cube$metadata$processing_mode %||% "unknown"
+  if (!domain %in% c("unknown", "reflectance")) cli::cli_abort("Absorbance conversion requires reflectance; current domain is {domain}.")
+  data <- array(.pixel_matrix(cube), dim(cube$data))
+  clipped <- is.finite(data) & data <= 0
+  data[clipped] <- floor
+  cube$metadata$absorbance_clipped <- clipped
   data <- -log10(data)
 
   cube$data <- data
-  cube$metadata$processing_mode <- "absorbance"
-  cube
+  .record_step(cube, "absorbance", list(floor = floor), "absorbance")
 }
 
 #' Continuum Removal
@@ -46,12 +50,12 @@ hs_continuum_removal <- function(cube, method = c("division", "subtraction")) {
   method <- match.arg(method)
 
   d <- dim(cube$data)
-  pixel_mat <- matrix(cube$data, nrow = d[1] * d[2], ncol = d[3])
+  pixel_mat <- .pixel_matrix(cube)
   wl <- cube$wavelengths
 
   cr_mat <- matrix(NA_real_, nrow = nrow(pixel_mat), ncol = ncol(pixel_mat))
 
-  for (i in seq_len(nrow(pixel_mat))) {
+  for (i in which(.valid_pixels(cube))) {
     spec <- pixel_mat[i, ]
     hull <- .convex_hull_upper(wl, spec)
 
@@ -65,7 +69,7 @@ hs_continuum_removal <- function(cube, method = c("division", "subtraction")) {
 
   cube$data <- array(cr_mat, dim = d)
   cube$metadata$continuum_removed <- method
-  cube
+  .record_step(cube, "continuum_removal", list(method = method), "continuum_removed")
 }
 
 #' Resample Spectra to New Wavelength Grid
@@ -90,12 +94,18 @@ hs_resample <- function(cube, target_wavelengths, method = "linear") {
   method <- match.arg(method, c("linear", "spline"))
 
   d <- dim(cube$data)
+  .require_wavelengths(cube)
+  if (length(cube$wavelengths) < 2L) cli::cli_abort("Resampling requires at least two input bands.")
+  if (!length(target_wavelengths) || any(!is.finite(target_wavelengths)) || anyDuplicated(target_wavelengths) ||
+      is.unsorted(target_wavelengths) || min(target_wavelengths) < min(cube$wavelengths) || max(target_wavelengths) > max(cube$wavelengths)) {
+    cli::cli_abort("Target wavelengths must be unique, increasing and within measured wavelength coverage; extrapolation is not supported.")
+  }
   n_new_bands <- length(target_wavelengths)
-  pixel_mat <- matrix(cube$data, nrow = d[1] * d[2], ncol = d[3])
+  pixel_mat <- .pixel_matrix(cube)
 
   resampled <- matrix(NA_real_, nrow = nrow(pixel_mat), ncol = n_new_bands)
 
-  for (i in seq_len(nrow(pixel_mat))) {
+  for (i in which(.valid_pixels(cube))) {
     if (method == "linear") {
       resampled[i, ] <- stats::approx(cube$wavelengths, pixel_mat[i, ],
                                        xout = target_wavelengths,
@@ -114,13 +124,14 @@ hs_resample <- function(cube, target_wavelengths, method = "linear") {
     NULL
   }
 
-  hsi_cube(
+  result <- hsi_cube(
     data = array(resampled, dim = c(d[1], d[2], n_new_bands)),
     wavelengths = target_wavelengths,
     fwhm = new_fwhm,
     metadata = cube$metadata,
     mask = cube$mask
   )
+  .record_step(result, "resample", list(method = method, wavelengths = target_wavelengths))
 }
 
 #' Compute Upper Convex Hull for Continuum Removal

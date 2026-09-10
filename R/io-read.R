@@ -4,8 +4,7 @@
 #' and a binary data file. Supports BSQ, BIL, and BIP interleave formats.
 #'
 #' @param path Path to the ENVI header file (.hdr) or binary file.
-#' @param backend Character. `"auto"` (default) uses terra if available,
-#'   otherwise falls back to built-in reader. `"builtin"` forces pure-R reader.
+#' @param backend Character. `"auto"` (default) uses the deterministic built-in reader. `"builtin"` forces pure-R reader.
 #'   `"terra"` forces terra (errors if not installed).
 #' @param bands Integer vector of band indices to read. Default `NULL` = all.
 #' @param extent Numeric vector `c(row_start, row_end, col_start, col_end)` for
@@ -38,6 +37,7 @@ hs_read_envi <- function(path, backend = "auto", bands = NULL,
 
   # Parse header
   header <- .parse_envi_header(hdr_path)
+  .validate_envi_input(header, dat_path, bands, extent)
 
   if (verbose) {
     cli::cli_inform("Reading ENVI file: {.file {basename(dat_path)}}")
@@ -49,13 +49,7 @@ hs_read_envi <- function(path, backend = "auto", bands = NULL,
     if (!requireNamespace("terra", quietly = TRUE)) {
       cli::cli_abort("Package {.pkg terra} is required for backend='terra'. Install with {.code install.packages('terra')}.")
     }
-    cube_data <- tryCatch(
-      .read_envi_terra(dat_path, header, bands, extent),
-      error = function(e) {
-        cli::cli_warn("terra backend failed, falling back to builtin reader.")
-        .read_envi_builtin(dat_path, header, bands, extent)
-      }
-    )
+    cube_data <- .read_envi_terra(dat_path, header, bands, extent)
   } else {
     cube_data <- .read_envi_builtin(dat_path, header, bands, extent)
   }
@@ -75,7 +69,9 @@ hs_read_envi <- function(path, backend = "auto", bands = NULL,
   metadata <- list(
     source_file = normalizePath(hdr_path, mustWork = FALSE),
     interleave = header$interleave,
-    data_type = header$data_type
+    data_type = header$data_type,
+    wavelengths_known = header$wavelengths_known,
+    processing_mode = header$processing_mode %||% "unknown"
   )
   if (!is.null(header$description)) metadata$description <- header$description
   if (!is.null(header$sensor_type)) metadata$sensor_type <- header$sensor_type
@@ -138,7 +134,7 @@ hs_read_tiff <- function(path, wavelengths, fwhm = NULL, verbose = TRUE) {
   vals <- terra::values(r)
   rows <- terra::nrow(r)
   cols <- terra::ncol(r)
-  data <- array(vals, dim = c(rows, cols, n_layers))
+  data <- aperm(array(vals, dim = c(cols, rows, n_layers)), c(2, 1, 3))
 
   if (verbose) {
     cli::cli_inform("  {cols} cols x {rows} rows x {n_layers} bands")
@@ -229,8 +225,11 @@ hs_read_cube <- function(path, ...) {
     for (e in dat_exts) {
       candidate <- if (e == "") base else paste0(base, ".", e)
       if (file.exists(candidate) && candidate != hdr) {
+        signature <- readBin(candidate, "raw", n = 5L)
+        is_header <- length(signature) == 5L && identical(signature[1:4], charToRaw("ENVI")) && signature[5] %in% as.raw(c(10, 13, 32))
+        if (is_header) next
+        if (!is.null(dat)) cli::cli_abort("Ambiguous ENVI companions; supply the intended binary file path explicitly.")
         dat <- candidate
-        break
       }
     }
     if (is.null(dat)) {
@@ -248,6 +247,7 @@ hs_read_cube <- function(path, ...) {
 #' @noRd
 .parse_envi_header <- function(path) {
   lines <- readLines(path, warn = FALSE)
+  if (!length(lines) || !grepl("^ENVI[[:space:]]*$", lines[1])) cli::cli_abort("Invalid ENVI header signature.")
 
   # Remove "ENVI" header line if present
   if (length(lines) > 0L && grepl("^ENVI", lines[1])) {
@@ -298,14 +298,20 @@ hs_read_cube <- function(path, ...) {
   result$byte_order <- as.integer(header[["byte order"]] %||% "0")
   result$header_offset <- as.integer(header[["header offset"]] %||% "0")
 
+  for (name in c("samples", "lines", "bands")) {
+    value <- suppressWarnings(as.numeric(header[[name]]))
+    if (length(value) != 1L || !is.finite(value) || value <= 0 || value != floor(value) || value > .Machine$integer.max) cli::cli_abort("ENVI header {name} must be a positive integer.")
+  }
   # Parse wavelengths
   wl_str <- header[["wavelength"]]
+  result$wavelengths_known <- !is.null(wl_str)
+  wl_units <- tolower(header[["wavelength units"]] %||% "nanometers")
   if (!is.null(wl_str)) {
     wl_str <- gsub("[{}]", "", wl_str)
     result$wavelength <- as.numeric(strsplit(trimws(wl_str), "[,\\s]+")[[1]])
     # Convert micrometers to nm if needed
     wl_units <- tolower(header[["wavelength units"]] %||% "nanometers")
-    if (grepl("micro", wl_units)) {
+    if (grepl("micro|^um$", wl_units)) {
       result$wavelength <- result$wavelength * 1000
     }
   } else {
@@ -319,6 +325,15 @@ hs_read_cube <- function(path, ...) {
     result$fwhm <- as.numeric(strsplit(trimws(fwhm_str), "[,\\s]+")[[1]])
   }
 
+  if (!is.null(result$fwhm) && grepl("micro|^um$", wl_units)) result$fwhm <- result$fwhm * 1000
+  if (length(result$wavelength) != result$bands || any(!is.finite(result$wavelength)) ||
+      any(result$wavelength <= 0) || anyDuplicated(result$wavelength)) {
+    cli::cli_abort("ENVI wavelengths must be finite, positive, unique and match bands.")
+  }
+  if (!is.null(result$fwhm) && (length(result$fwhm) != result$bands ||
+      any(!is.finite(result$fwhm)) || any(result$fwhm <= 0))) cli::cli_abort("ENVI FWHM must be positive and match bands.")
+  if (!is.null(wl_str) && !grepl("nano|micro|^nm$|^um$", wl_units)) cli::cli_abort("Unsupported wavelength units: {wl_units}")
+  result$processing_mode <- header[["hyperspectr domain"]]
   # Optional fields
   result$description <- header[["description"]]
   result$sensor_type <- header[["sensor type"]]
@@ -336,9 +351,6 @@ hs_read_cube <- function(path, ...) {
     "4"  = list(what = "double",  size = 4L, signed = TRUE),   # float32
     "5"  = list(what = "double",  size = 8L, signed = TRUE),   # float64
     "12" = list(what = "integer", size = 2L, signed = FALSE),  # uint16
-    "13" = list(what = "integer", size = 4L, signed = FALSE),  # uint32
-    "14" = list(what = "integer", size = 8L, signed = TRUE),   # int64
-    "15" = list(what = "integer", size = 8L, signed = FALSE),  # uint64
     cli::cli_abort("Unsupported ENVI data type: {data_type}")
   )
 }
@@ -352,7 +364,7 @@ hs_read_cube <- function(path, ...) {
   n_rows <- header$lines
   n_cols <- header$samples
   n_bands <- header$bands
-  n_total <- n_rows * n_cols * n_bands
+  n_total <- prod(as.double(c(n_rows, n_cols, n_bands)))
 
   con <- file(dat_path, "rb")
   on.exit(close(con), add = TRUE)
@@ -372,6 +384,8 @@ hs_read_cube <- function(path, ...) {
                         endian = endian)
     raw_data <- as.numeric(raw_data)
   }
+
+  if (length(raw_data) != n_total) cli::cli_abort("Truncated ENVI data: expected {n_total} values, received {length(raw_data)}.")
 
   # Reshape based on interleave
   data <- switch(header$interleave,
@@ -409,13 +423,13 @@ hs_read_cube <- function(path, ...) {
 #' Read ENVI via terra Backend
 #' @noRd
 .read_envi_terra <- function(dat_path, header, bands, extent) {
-  r <- terra::rast(dat_path)
+  r <- terra::rast(dat_path, noflip = TRUE)
   vals <- terra::values(r)
   n_rows <- terra::nrow(r)
   n_cols <- terra::ncol(r)
   n_bands <- terra::nlyr(r)
 
-  data <- array(vals, dim = c(n_rows, n_cols, n_bands))
+  data <- aperm(array(vals, dim = c(n_cols, n_rows, n_bands)), c(2, 1, 3))
 
   if (!is.null(extent)) {
     data <- data[extent[1]:extent[2], extent[3]:extent[4], , drop = FALSE]
@@ -425,4 +439,26 @@ hs_read_cube <- function(path, ...) {
   }
 
   data
+}
+
+.validate_envi_input <- function(header, path, bands, extent) {
+  type <- .envi_type_info(header$data_type)
+  if (!header$interleave %in% c("bsq", "bil", "bip")) cli::cli_abort("Unsupported interleave: {header$interleave}")
+  if (length(header$byte_order) != 1L || is.na(header$byte_order) || !header$byte_order %in% 0:1) cli::cli_abort("ENVI byte order must be 0 or 1.")
+  if (length(header$header_offset) != 1L || !is.finite(header$header_offset) || header$header_offset < 0) cli::cli_abort("Invalid ENVI header offset.")
+  expected <- prod(as.double(c(header$lines, header$samples, header$bands))) * type$size + header$header_offset
+  actual <- file.info(path)$size
+  if (!is.finite(expected) || !is.finite(actual) || actual < expected) {
+    cli::cli_abort("Truncated ENVI data: expected at least {expected} bytes, found {actual}.")
+  }
+  if (!is.null(bands) && (!length(bands) || any(!is.finite(bands)) ||
+      any(bands != as.integer(bands)) || any(bands < 1 | bands > header$bands) || anyDuplicated(bands))) {
+    cli::cli_abort("Band indices must be unique integers within the available bands.")
+  }
+  if (!is.null(extent) && (length(extent) != 4L || any(!is.finite(extent)) ||
+      any(extent != as.integer(extent)) || any(extent < 1) || extent[1] > extent[2] ||
+      extent[3] > extent[4] || extent[2] > header$lines || extent[4] > header$samples)) {
+    cli::cli_abort("Extent must contain ordered row/column bounds within image dimensions.")
+  }
+  invisible(header)
 }

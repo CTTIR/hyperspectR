@@ -20,8 +20,13 @@ hs_roi_rect <- function(cube, x_range, y_range) {
   d <- dim(cube$data)
   mask <- matrix(FALSE, nrow = d[1], ncol = d[2])
 
-  y_idx <- max(1L, y_range[1]):min(d[1], y_range[2])
-  x_idx <- max(1L, x_range[1]):min(d[2], x_range[2])
+  for (bounds in list(x_range, y_range)) {
+    if (length(bounds) != 2L || any(!is.finite(bounds)) || any(bounds != as.integer(bounds)) || bounds[1] > bounds[2]) {
+      cli::cli_abort("ROI ranges must be ordered pairs of finite integer coordinates.")
+    }
+  }
+  y_idx <- which(seq_len(d[1]) >= y_range[1] & seq_len(d[1]) <= y_range[2])
+  x_idx <- which(seq_len(d[2]) >= x_range[1] & seq_len(d[2]) <= x_range[2])
   mask[y_idx, x_idx] <- TRUE
 
   result <- list(
@@ -55,7 +60,7 @@ hs_roi_polygon <- function(cube, vertices) {
   .validate_cube(cube)
 
   if (is.data.frame(vertices)) vertices <- as.matrix(vertices)
-  if (ncol(vertices) != 2L) {
+  if (!is.matrix(vertices) || !is.numeric(vertices) || ncol(vertices) != 2L || nrow(vertices) < 3L || any(!is.finite(vertices))) {
     cli::cli_abort("{.arg vertices} must have 2 columns (x, y).")
   }
 
@@ -92,7 +97,9 @@ hs_roi_polygon <- function(cube, vertices) {
 #'   or a logical mask matrix.
 #'
 #' @return A [tibble::tibble] with columns `wavelength`, `mean`, `sd`, `median`,
-#'   `min`, `max`, `n_pixels`.
+#'   `min`, `max`, `n_pixels`, `n_roi_pixels`, `valid_fraction`, and
+#'   `n_repaired_pixels`. Counts and fractions are per band; SD describes
+#'   spatial variation, not uncertainty of an independent-group mean.
 #'
 #' @examples
 #' cube <- hs_example_cube()
@@ -113,6 +120,9 @@ hs_roi_stats <- function(cube, roi) {
   }
 
   d <- dim(cube$data)
+  .validate_spatial_mask(mask, cube)
+  requested_n <- sum(mask)
+  if (!is.null(cube$mask)) mask <- mask & cube$mask
   n_pixels <- sum(mask)
 
   if (n_pixels == 0L) {
@@ -120,7 +130,8 @@ hs_roi_stats <- function(cube, roi) {
     return(tibble::tibble(
       wavelength = cube$wavelengths,
       mean = NA_real_, sd = NA_real_, median = NA_real_,
-      min = NA_real_, max = NA_real_, n_pixels = 0L
+      min = NA_real_, max = NA_real_, n_pixels = 0L, n_roi_pixels = requested_n,
+      valid_fraction = if (requested_n > 0L) 0 else NA_real_, n_repaired_pixels = 0L
     ))
   }
 
@@ -132,11 +143,17 @@ hs_roi_stats <- function(cube, roi) {
     median = NA_real_,
     min = NA_real_,
     max = NA_real_,
-    n_pixels = as.integer(n_pixels)
+    n_pixels = as.integer(n_pixels), n_roi_pixels = requested_n,
+    valid_fraction = NA_real_, n_repaired_pixels = 0L
   )
 
   for (b in seq_len(d[3])) {
-    band_vals <- cube$data[, , b][mask]
+    band_vals <- .band_matrix(cube, b)[mask]
+    band_vals <- band_vals[is.finite(band_vals)]
+    result$n_pixels[b] <- length(band_vals)
+    result$valid_fraction[b] <- length(band_vals) / requested_n
+    if (!is.null(cube$metadata$repair_mask)) result$n_repaired_pixels[b] <- sum(mask & cube$metadata$repair_mask & is.finite(.band_matrix(cube, b)))
+    if (!length(band_vals)) next
     result$mean[b] <- mean(band_vals, na.rm = TRUE)
     result$sd[b] <- stats::sd(band_vals, na.rm = TRUE)
     result$median[b] <- stats::median(band_vals, na.rm = TRUE)

@@ -14,7 +14,9 @@ or a logical mask matrix.}
 }
 \value{
 A \link[tibble:tibble]{tibble::tibble} with columns \code{wavelength}, \code{mean}, \code{sd}, \code{median},
-\code{min}, \code{max}, \code{n_pixels}.
+\code{min}, \code{max}, \code{n_pixels}, \code{n_roi_pixels}, \code{valid_fraction}, and
+\code{n_repaired_pixels}. Counts and fractions are per band; SD describes
+spatial variation, not uncertainty of an independent-group mean.
 }
 \description{
 Computes per-band spectral statistics within a region of interest.

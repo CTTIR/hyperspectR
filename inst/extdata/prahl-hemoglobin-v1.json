@@ -1,0 +1,14 @@
+{
+  "id": "prahl-hemoglobin-v1",
+  "upstream_release": "MNE-Python v1.10.2",
+  "source": "https://omlc.org/spectra/hemoglobin/summary.html",
+  "distribution": "https://github.com/mne-tools/mne-python/blob/v1.10.2/mne/data/extinction_coef.mat",
+  "license_notice": "MNE-LICENSE.txt",
+  "units": "cm^-1 / (mol/L), decadic molar extinction",
+  "wavelength_units": "nm",
+  "sha256": "44de5f03cb517f97271ecddfc08aaca00f612d27a9ea95251a5f50318c0f48c4",
+  "md5": "52710fd13196ed4aeaa00e3a32c0ac02",
+  "upstream_sha256": "6b7fe0d64af92e542741b1a05e9c4a02233d088329e6e9f6ef9c5896f8871843",
+  "conversion": "MAT extinct_coef -> CSV, no numerical transformation",
+  "retrieved": "2026-09-10"
+}

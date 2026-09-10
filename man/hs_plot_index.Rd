@@ -8,7 +8,7 @@ hs_plot_index(
   index_matrix,
   title = "",
   palette = "sto2",
-  range = c(0, 100),
+  range = NULL,
   mask = NULL
 )
 }
@@ -21,7 +21,7 @@ hs_plot_index(
 \code{"perfusion"} (viridis), \code{"hemoglobin"} (magma), \code{"water"} (mako).
 Default \code{"sto2"}.}
 
-\item{range}{Numeric vector of length 2. Display range. Default \code{c(0, 100)}.}
+\item{range}{Numeric vector of length 2. Display range. Default \code{NULL} (data range).}
 
 \item{mask}{Logical matrix. Pixels to mask (FALSE = masked). Default \code{NULL}.}
 }
@@ -30,11 +30,11 @@ A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 }
 \description{
 Displays a single tissue index as a pseudocolor spatial map with
-clinically meaningful color scales.
+color scales selected for research visualization.
 }
 \examples{
 cube <- hs_example_cube()
 sto2 <- hs_sto2(cube)
-hs_plot_index(sto2, title = "StO2 (\%)", palette = "sto2")
+hs_plot_index(sto2, title = "Fitted Hb fraction (\%)", palette = "sto2")
 
 }

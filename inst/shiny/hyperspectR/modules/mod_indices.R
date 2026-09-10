@@ -8,18 +8,23 @@ mod_indices_ui <- function(id) {
       title = "Index Controls",
       width = 300,
       shiny::selectInput(ns("index_type"), "Index",
-                         choices = c("StO2" = "sto2", "NPI" = "npi",
-                                     "THI" = "thi", "TWI" = "twi",
-                                     "Clinical Panel" = "panel",
+                         choices = c("Fitted Hb fraction (%)" = "sto2", "NIR ratio" = "npi",
+                                     "Hb-band ratio" = "thi", "NIR water-band ratio" = "twi",
+                                     "Research Panel" = "panel",
                                      "Custom NDI" = "ndi")),
       shiny::conditionalPanel(
         condition = sprintf("input['%s'] == 'ndi'", ns("index_type")),
         shiny::numericInput(ns("ndi_band1"), "Band 1 (nm)", value = 540),
         shiny::numericInput(ns("ndi_band2"), "Band 2 (nm)", value = 660)
       ),
-      shiny::sliderInput(ns("display_range"), "Display Range",
-                         min = 0, max = 100, value = c(0, 100)),
-      shiny::actionButton(ns("compute"), "Compute", class = "btn-primary")
+      shiny::conditionalPanel(
+        condition = sprintf("input['%s'] == 'sto2'", ns("index_type")),
+        shiny::sliderInput(ns("display_range"), "Display Range (%)",
+                           min = 0, max = 100, value = c(0, 100))
+      ),
+      shiny::actionButton(ns("compute"), "Compute", class = "btn-primary"),
+      shiny::actionButton(ns("cancel"), "Cancel"),
+      shiny::textOutput(ns("job_status"))
     ),
     shiny::plotOutput(ns("index_plot"), height = "500px")
   )
@@ -28,43 +33,49 @@ mod_indices_ui <- function(id) {
 mod_indices_server <- function(id, cube_rv) {
   shiny::moduleServer(id, function(input, output, session) {
     index_result <- shiny::reactiveVal(NULL)
+    pending_type <- NULL
+    job <- .app_job(session, function(value) index_result(list(value = value, type = pending_type)))
+    output$job_status <- shiny::renderText(job$status())
+    shiny::observeEvent(input$cancel, job$cancel())
+
+    shiny::observeEvent(list(cube_rv$cube, input$index_type, input$ndi_band1, input$ndi_band2), {
+      job$cancel()
+      index_result(NULL)
+    }, priority = 100)
 
     shiny::observeEvent(input$compute, {
       cube <- cube_rv$cube
       shiny::req(cube)
 
-      result <- switch(input$index_type,
-        sto2 = hyperspectR::hs_sto2(cube),
-        npi = hyperspectR::hs_npi(cube),
-        thi = hyperspectR::hs_thi(cube),
-        twi = suppressWarnings(hyperspectR::hs_twi(cube)),
-        ndi = hyperspectR::hs_ndi(cube, band1 = input$ndi_band1,
-                                   band2 = input$ndi_band2),
-        panel = NULL
-      )
-      index_result(result)
+      index_result(NULL)
+      pending_type <<- input$index_type
+      method <- switch(input$index_type, sto2 = "hs_sto2", npi = "hs_npi", thi = "hs_thi", twi = "hs_twi", ndi = "hs_ndi", panel = "hs_plot_clinical")
+      args <- list(cube = cube)
+      if (input$index_type == "ndi") { args$band1 <- input$ndi_band1; args$band2 <- input$ndi_band2 }
+      job$start(method, args)
     })
 
     output$index_plot <- shiny::renderPlot({
       cube <- cube_rv$cube
       shiny::req(cube)
 
-      if (input$index_type == "panel") {
-        hyperspectR::hs_plot_clinical(cube)
+      stored <- index_result()
+      shiny::req(stored, stored$value)
+      if (stored$type == "panel") {
+        stored$value
       } else {
-        idx <- index_result()
-        shiny::req(idx)
+        idx <- stored$value
 
-        palette <- switch(input$index_type,
+        palette <- switch(stored$type,
           sto2 = "sto2", npi = "perfusion",
           thi = "hemoglobin", twi = "water", "viridis"
         )
-        title <- switch(input$index_type,
-          sto2 = "StO2 (%)", npi = "NPI (%)",
-          thi = "THI (%)", twi = "TWI (%)", ndi = "NDI"
+        title <- switch(stored$type,
+          sto2 = "Fitted Hb fraction (%)", npi = "NIR ratio (dimensionless)",
+          thi = "Hb-band ratio (dimensionless)", twi = "NIR water-band ratio (dimensionless)", ndi = "NDI"
         )
 
-        rng <- if (input$index_type == "ndi") c(-1, 1) else input$display_range
+        rng <- if (stored$type == "ndi") c(-1, 1) else if (stored$type == "sto2") input$display_range else NULL
         hyperspectR::hs_plot_index(idx, title = title, palette = palette,
                                    range = rng)
       }

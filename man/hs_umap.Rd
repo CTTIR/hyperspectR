@@ -9,7 +9,8 @@ hs_umap(
   n_components = 2L,
   n_neighbors = 15L,
   min_dist = 0.1,
-  pca_pre = 20L
+  pca_pre = 20L,
+  seed = 1L
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ hs_umap(
 \item{min_dist}{Numeric. Default \code{0.1}.}
 
 \item{pca_pre}{Integer or NULL. PCA pre-reduction dimensionality. Default \code{20}.}
+
+\item{seed}{Integer random seed. Default 1; the caller's random state is restored.}
 }
 \value{
 A list with class \code{"hsi_umap"} containing embedding matrix and

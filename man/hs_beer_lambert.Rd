@@ -7,30 +7,46 @@
 hs_beer_lambert(
   cube,
   chromophores = c("HbO2", "Hb"),
-  wavelength_range = c(500, 600)
+  wavelength_range = c(500, 600),
+  input = c("auto", "reflectance", "absorbance"),
+  pathlength_cm = NULL,
+  response = c("point", "gaussian"),
+  keep_residuals = FALSE
 )
 }
 \arguments{
-\item{cube}{An \link{hsi_cube} object. If reflectance, automatically converted
-to absorbance internally.}
+\item{cube}{An \link{hsi_cube} object with an explicit reflectance or absorbance domain.}
 
 \item{chromophores}{Character vector. Default \code{c("HbO2", "Hb")}.}
 
 \item{wavelength_range}{Numeric vector of length 2. Fitting range.
 Default \code{c(500, 600)} (Hb Q-band region for best contrast).}
+
+\item{input}{\code{"auto"} reads the declared processing mode, or explicitly
+specify \code{"reflectance"} or \code{"absorbance"}. Values never determine the domain.}
+
+\item{pathlength_cm}{Positive scalar optical pathlength, or NULL (unknown).}
+
+\item{response}{\code{"point"} (default) samples band centers; \code{"gaussian"}
+integrates reference coefficients using cube FWHM as Gaussian widths.}
+
+\item{keep_residuals}{Logical. Retain spectral residuals. Default FALSE.}
 }
 \value{
 A list with class \code{"hsi_chromophore_fit"}:
 \describe{
-\item{concentrations}{Named list of matrices (one per chromophore).}
+\item{coefficients}{Named matrices of concentration-pathlength products (mol/L * cm).}
+\item{concentrations}{Named matrices in mol/L when pathlength is supplied; otherwise NULL.}
 \item{sto2}{Matrix of oxygen saturation = HbO2 / (HbO2 + Hb) * 100.}
-\item{total_hb}{Matrix of total hemoglobin = HbO2 + Hb.}
+\item{total_hb}{Sum of HbO2 and Hb concentration-pathlength products.}
 \item{rmse}{Matrix of fit residuals.}
 }
 }
 \description{
-Estimates pixel-wise concentrations of tissue chromophores by fitting
-absorbance spectra to published extinction coefficient spectra using NNLS.
+Fits decadic absorbance to reference extinction coefficients with NNLS.
+Without a known optical pathlength, coefficients are concentration-pathlength
+products. The hemoglobin fraction is a research model estimate; diffuse tissue
+scattering and camera response can bias it.
 }
 \examples{
 cube <- hs_example_cube()

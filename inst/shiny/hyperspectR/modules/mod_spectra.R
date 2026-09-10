@@ -18,7 +18,7 @@ mod_spectra_ui <- function(id) {
       ),
       shiny::checkboxInput(ns("show_sd"), "Show +/- SD ribbon", value = TRUE),
       shiny::hr(),
-      shiny::actionButton(ns("export_csv"), "Export as CSV",
+      shiny::downloadButton(ns("export_csv"), "Export as CSV",
                           class = "btn-primary btn-sm")
     ),
     shiny::plotOutput(ns("spectra_plot"), height = "400px"),
@@ -34,6 +34,26 @@ mod_spectra_server <- function(id, cube_rv) {
   shiny::moduleServer(id, function(input, output, session) {
     clicked_pixels <- shiny::reactiveVal(data.frame(x = integer(), y = integer()))
 
+    shiny::observeEvent(cube_rv$cube, {
+      clicked_pixels(data.frame(x = integer(), y = integer()))
+    }, priority = 100)
+    output$export_csv <- shiny::downloadHandler(
+      filename = function() "spectra.csv",
+      content = function(file) {
+        cube <- cube_rv$cube
+        shiny::req(cube)
+        pixels <- clicked_pixels()
+        df <- if (input$spectra_mode == "click" && nrow(pixels)) {
+          do.call(rbind, lapply(seq_len(nrow(pixels)), function(i) {
+            df <- as.data.frame(cube[pixels$y[i], pixels$x[i], ], long = TRUE)
+            df$x <- pixels$x[i]
+            df$y <- pixels$y[i]
+            df
+          }))
+        } else hyperspectR::hs_roi_stats(cube, matrix(TRUE, dim(cube$data)[1], dim(cube$data)[2]))
+        utils::write.csv(df, file, row.names = FALSE)
+      }
+    )
     output$spectra_plot <- shiny::renderPlot({
       cube <- cube_rv$cube
       shiny::req(cube)
@@ -64,7 +84,8 @@ mod_spectra_server <- function(id, cube_rv) {
       click <- input$image_click
       if (!is.null(click)) {
         new_px <- data.frame(x = round(click$x), y = round(click$y))
-        clicked_pixels(rbind(clicked_pixels(), new_px))
+        cube <- cube_rv$cube
+        if (new_px$x >= 1 && new_px$x <= dim(cube$data)[2] && new_px$y >= 1 && new_px$y <= dim(cube$data)[1]) clicked_pixels(unique(rbind(clicked_pixels(), new_px)))
       }
     })
   })

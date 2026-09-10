@@ -1,0 +1,133 @@
+── Installing package hyperspectR into temporary library ───────────────────────
+── Building pkgdown site for package hyperspectR ───────────────────────────────
+Reading from: /data/GitHub/CTTIR/public/hyperspectR
+Writing to: /data/GitHub/CTTIR/public/hyperspectR/docs/dev
+── Sitrep ──────────────────────────────────────────────────────────────────────
+✔ URLs ok.
+✔ Favicons ok.
+✔ Open graph metadata ok.
+✔ Articles metadata ok.
+✔ Reference metadata ok.
+── Initialising site ───────────────────────────────────────────────────────────
+── Building home ───────────────────────────────────────────────────────────────
+✖ Icon "fa-github" lacks an `aria-label`.
+ℹ Specify `aria-label` to make the icon accessible to screen readers.
+ℹ Learn more in `vignette(pkgdown::accessibility)`.
+This message is displayed once every 8 hours.
+Reading MIGRATION.md
+Reading ROADMAP.md
+Reading LICENSE.md
+Reading README.md
+── Building function reference ─────────────────────────────────────────────────
+Writing `reference/index.html`
+hyperspectR v0.2.0.9000 - Hyperspectral Imaging Analysis for Biomedical Applications
+Reading man/as.data.frame.hsi_cube.Rd
+Reading man/as_tibble.hsi_cube.Rd
+Reading man/autoplot.hsi_cube.Rd
+Reading man/dim.hsi_cube.Rd
+Reading man/hs_absorbance.Rd
+Reading man/hs_band_ratio.Rd
+Reading man/hs_batch.Rd
+Reading man/hs_beer_lambert.Rd
+Writing `reference/hs_beer_lambert.html`
+Reading man/hs_calibrate.Rd
+Writing `reference/hs_calibrate.html`
+Reading man/hs_chromophore_data.Rd
+Reading man/hs_classify_rf.Rd
+Reading man/hs_classify_svm.Rd
+Reading man/hs_clinical_indices.Rd
+Reading man/hs_continuum_removal.Rd
+Reading man/hs_dark_correct.Rd
+Reading man/hs_derivative.Rd
+Reading man/hs_endmembers.Rd
+Reading man/hs_example_cube.Rd
+Writing `reference/hs_example_cube.html`
+Reading man/hs_example_files.Rd
+Reading man/hs_export_png.Rd
+Reading man/hs_fix_bad_pixels.Rd
+Writing `reference/hs_fix_bad_pixels.html`
+Reading man/hs_group_summary.Rd
+Reading man/hs_grouped_evaluate.Rd
+Writing `reference/hs_grouped_evaluate.html`
+Reading man/hs_mnf.Rd
+Reading man/hs_msc.Rd
+Reading man/hs_ndi.Rd
+Writing `reference/hs_ndi.html`
+Reading man/hs_npi.Rd
+Reading man/hs_pca.Rd
+Reading man/hs_plot_clinical.Rd
+Reading man/hs_plot_image.Rd
+Reading man/hs_plot_index.Rd
+Reading man/hs_plot_rgb.Rd
+Reading man/hs_plot_spectra.Rd
+Reading man/hs_predict.Rd
+Reading man/hs_process.Rd
+Reading man/hs_read_cube.Rd
+Reading man/hs_read_cubert.Rd
+Reading man/hs_read_envi.Rd
+Reading man/hs_read_tiff.Rd
+Reading man/hs_read_tivita.Rd
+Writing `reference/hs_read_tivita.html`
+Reading man/hs_recipe.Rd
+Reading man/hs_resample.Rd
+Reading man/hs_roi_polygon.Rd
+Reading man/hs_roi_rect.Rd
+Reading man/hs_roi_stats.Rd
+Writing `reference/hs_roi_stats.html`
+Reading man/hs_run_app.Rd
+Writing `reference/hs_run_app.html`
+Reading man/hs_sam.Rd
+Reading man/hs_simulate_cube.Rd
+Writing `reference/hs_simulate_cube.html`
+Reading man/hs_smooth.Rd
+Reading man/hs_snv.Rd
+Reading man/hs_sto2.Rd
+Writing `reference/hs_sto2.html`
+Reading man/hs_thi.Rd
+Reading man/hs_transform.Rd
+Reading man/hs_twi.Rd
+Reading man/hs_umap.Rd
+Reading man/hs_unmix_nnls.Rd
+Reading man/hs_white_normalize.Rd
+Reading man/hs_write_envi.Rd
+Reading man/hs_write_tiff.Rd
+Reading man/hsi_cube.Rd
+Reading man/hyperspectR-package.Rd
+Reading man/print.hsi_cube.Rd
+Writing `reference/print.hsi_cube.html`
+Reading man/scale_color_wavelength.Rd
+Reading man/sub-.hsi_cube.Rd
+Reading man/summary.hsi_cube.Rd
+Reading man/theme_hsi.Rd
+── Building articles ───────────────────────────────────────────────────────────
+Reading vignettes/biomedical-indices.Rmd
+Reading vignettes/compartment-syndrome.Rmd
+Reading vignettes/cubert-workflow.Rmd
+Writing `articles/cubert-workflow.html`
+Reading vignettes/hyperspectR.Rmd
+Writing `articles/hyperspectR.html`
+Reading vignettes/intraop-oxygenation.Rmd
+Writing `articles/intraop-oxygenation.html`
+── Building news ───────────────────────────────────────────────────────────────
+Writing `news/index.html`
+── Building sitemap ────────────────────────────────────────────────────────────
+── Building docs for llms ──────────────────────────────────────────────────────
+── Building redirects ──────────────────────────────────────────────────────────
+── Building search index ───────────────────────────────────────────────────────
+── Checking for problems ───────────────────────────────────────────────────────
+── Finished building pkgdown site for package hyperspectR ──────────────────────
+── Finished building pkgdown site for package hyperspectR ──────────────────────
+
+Homepage refresh after repository documentation links were corrected:
+── Building home ───────────────────────────────────────────────────────────────
+✖ Icon "fa-github" lacks an `aria-label`.
+ℹ Specify `aria-label` to make the icon accessible to screen readers.
+ℹ Learn more in `vignette(pkgdown::accessibility)`.
+This message is displayed once every 8 hours.
+Reading MIGRATION.md
+Writing `MIGRATION.html`
+Reading ROADMAP.md
+Writing `ROADMAP.html`
+Reading LICENSE.md
+Reading README.md
+Writing `index.html`

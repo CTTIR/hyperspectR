@@ -54,12 +54,13 @@ reference:
       - hs_resample
 
   - title: "Biomedical Indices"
-    desc: "Clinical tissue indices for surgical HSI"
+    desc: "Research hemoglobin fractions and dimensionless spectral ratios"
     contents:
       - hs_sto2
       - hs_npi
       - hs_thi
       - hs_twi
+      - hs_band_ratio
       - hs_ndi
       - hs_clinical_indices
 
@@ -75,6 +76,9 @@ reference:
       - hs_unmix_nnls
       - hs_beer_lambert
       - hs_endmembers
+      - hs_transform
+      - hs_predict
+      - hs_grouped_evaluate
 
   - title: "ROI Analysis"
     desc: "Region-of-interest tools"
@@ -82,9 +86,10 @@ reference:
       - hs_roi_rect
       - hs_roi_polygon
       - hs_roi_stats
+      - hs_group_summary
 
   - title: "Visualization"
-    desc: "Plotting and clinical display"
+    desc: "Plotting and research display"
     contents:
       - starts_with("autoplot")
       - hs_plot_spectra
@@ -103,6 +108,12 @@ reference:
       - hs_simulate_cube
       - hs_example_cube
       - hs_example_files
+
+  - title: "Reproducible Workflows"
+    contents:
+      - hs_recipe
+      - hs_process
+      - hs_batch
 
   - title: "Shiny Application"
     desc: "Interactive HSI explorer"

@@ -1,8 +1,8 @@
 #' Savitzky-Golay Spectral Smoothing
 #'
 #' Applies a Savitzky-Golay filter along the spectral dimension. Optionally
-#' computes spectral derivatives. Uses `prospectr` or `signal` if available,
-#' otherwise falls back to a built-in convolution implementation.
+#' computes derivatives per nanometer on a uniform wavelength grid. Only
+#' full-window center bands are returned. Invalid spectra remain missing.
 #'
 #' @param cube An [hsi_cube] object.
 #' @param window Integer (odd). Filter window size in bands. Default `5`.
@@ -10,6 +10,8 @@
 #' @param deriv Integer. Derivative order (0 = smoothing only, 1 = first
 #'   derivative, 2 = second derivative). Default `0`.
 #'
+#' @param backend Character. Explicit backend: `"builtin"` (default),
+#'   `"prospectr"`, or `"signal"`. All use the same band support and units.
 #' @return An [hsi_cube] object with smoothed/differentiated spectra.
 #'
 #' @examples
@@ -18,73 +20,53 @@
 #' dim(smoothed)
 #'
 #' @export
-hs_smooth <- function(cube, window = 5L, poly = 2L, deriv = 0L) {
+hs_smooth <- function(cube, window = 5L, poly = 2L, deriv = 0L,
+                      backend = c("builtin", "prospectr", "signal")) {
   .validate_cube(cube)
-
-  window <- as.integer(window)
-  poly <- as.integer(poly)
-  deriv <- as.integer(deriv)
-
-  if (window %% 2L == 0L) {
-    cli::cli_abort("{.arg window} must be odd. Got {window}.")
-  }
-  if (poly >= window) {
-    cli::cli_abort("{.arg poly} ({poly}) must be less than {.arg window} ({window}).")
-  }
-  if (deriv > poly) {
-    cli::cli_abort("{.arg deriv} ({deriv}) must be <= {.arg poly} ({poly}).")
-  }
-  if (window > dim(cube$data)[3L]) {
-    cli::cli_abort("{.arg window} ({window}) exceeds number of bands ({dim(cube$data)[3L]}).")
-  }
-
-  d <- dim(cube$data)
-  # Reshape to pixel matrix (n_pixels x n_bands)
-  pixel_mat <- matrix(cube$data, nrow = d[1] * d[2], ncol = d[3])
-
-  # Apply SG filter
-  if (requireNamespace("prospectr", quietly = TRUE)) {
-    smoothed <- prospectr::savitzkyGolay(pixel_mat, m = deriv, p = poly, w = window)
-  } else if (requireNamespace("signal", quietly = TRUE)) {
-    filt <- signal::sgolay(p = poly, n = window, m = deriv)
-    smoothed <- t(apply(pixel_mat, 1L, function(x) signal::filter(filt, x)))
-  } else {
-    # Built-in fallback
-    coeffs <- .sg_coefficients(window, poly, deriv)
-    half <- (window - 1L) / 2L
-    smoothed <- matrix(NA_real_, nrow = nrow(pixel_mat), ncol = ncol(pixel_mat))
-    for (i in seq_len(nrow(pixel_mat))) {
-      padded <- c(rep(pixel_mat[i, 1L], half), pixel_mat[i, ],
-                  rep(pixel_mat[i, ncol(pixel_mat)], half))
-      smoothed[i, ] <- stats::filter(padded, coeffs, sides = 1L)[(window):length(padded)]
+  .require_wavelengths(cube)
+  backend <- match.arg(backend)
+  for (value in list(window, poly, deriv)) {
+    if (length(value) != 1L || !is.finite(value) || value < 0 || value != as.integer(value)) {
+      cli::cli_abort("SG parameters must be non-negative integers.")
     }
   }
-
-  # Handle NA columns from edge effects
-  keep_cols <- which(colSums(is.na(smoothed)) < nrow(smoothed))
-  if (length(keep_cols) < ncol(smoothed)) {
-    smoothed <- smoothed[, keep_cols, drop = FALSE]
-    new_wl <- cube$wavelengths[keep_cols]
-    new_fwhm <- if (!is.null(cube$fwhm)) cube$fwhm[keep_cols] else NULL
-  } else {
-    new_wl <- cube$wavelengths
-    new_fwhm <- cube$fwhm
+  if (window < 1L || window %% 2L == 0L) cli::cli_abort("{.arg window} must be odd and positive.")
+  if (poly >= window) cli::cli_abort("{.arg poly} must be less than {.arg window}.")
+  if (deriv > poly) cli::cli_abort("{.arg deriv} must be <= {.arg poly}.")
+  if (window > dim(cube$data)[3L]) cli::cli_abort("{.arg window} exceeds number of bands.")
+  spacing <- diff(cube$wavelengths)
+  delta <- if (length(spacing)) mean(spacing) else 1
+  if (length(spacing) && max(abs(spacing - delta)) > 1e-7 * delta) {
+    cli::cli_abort("Savitzky-Golay filtering requires a uniform wavelength grid; resample first.")
   }
-
-  # Fill remaining NAs with 0
-  smoothed[is.na(smoothed)] <- 0
-
-  new_data <- array(smoothed, dim = c(d[1], d[2], length(new_wl)))
-
-  hsi_cube(
-    data = new_data,
-    wavelengths = new_wl,
-    fwhm = new_fwhm,
-    metadata = c(cube$metadata, list(
-      sg_window = window, sg_poly = poly, sg_deriv = deriv
-    )),
-    mask = cube$mask
-  )
+  half <- (window - 1L) / 2L
+  keep <- seq.int(half + 1L, length(cube$wavelengths) - half)
+  pixels <- .pixel_matrix(cube)
+  valid <- .valid_pixels(cube)
+  out <- matrix(NA_real_, nrow(pixels), length(keep))
+  if (backend != "builtin") rlang::check_installed(backend)
+  if (any(valid)) {
+    x <- pixels[valid, , drop = FALSE]
+    if (backend == "prospectr") {
+      filtered <- prospectr::savitzkyGolay(x, m = deriv, p = poly, w = window, delta.wav = delta)
+    } else if (backend == "signal") {
+      filtered <- t(vapply(seq_len(nrow(x)), function(i) {
+        as.numeric(signal::sgolayfilt(x[i, ], p = poly, n = window, m = deriv, ts = delta))[keep]
+      }, numeric(length(keep))))
+    } else {
+      coefficients <- .sg_coefficients(window, poly, deriv) / delta^deriv
+      filtered <- vapply(keep, function(k) as.vector(x[, seq.int(k - half, k + half), drop = FALSE] %*% coefficients), numeric(nrow(x)))
+    }
+    out[valid, ] <- matrix(filtered, nrow = sum(valid), ncol = length(keep))
+  }
+  result <- cube[, , keep]
+  result$data <- array(out, dim(result$data))
+  result$metadata$sg_window <- window
+  result$metadata$sg_poly <- poly
+  result$metadata$sg_deriv <- deriv
+  domain <- if (deriv > 0) "derivative" else NULL
+  .record_step(result, "savitzky_golay", list(window = window, poly = poly,
+    deriv = deriv, delta_nm = delta, backend = backend, edge = "trim"), domain)
 }
 
 #' Standard Normal Variate Correction
@@ -105,7 +87,7 @@ hs_snv <- function(cube) {
   .validate_cube(cube)
 
   d <- dim(cube$data)
-  pixel_mat <- matrix(cube$data, nrow = d[1] * d[2], ncol = d[3])
+  pixel_mat <- .pixel_matrix(cube)
 
   row_means <- rowMeans(pixel_mat)
   row_sds <- apply(pixel_mat, 1L, stats::sd)
@@ -115,7 +97,7 @@ hs_snv <- function(cube) {
 
   cube$data <- array(snv_mat, dim = d)
   cube$metadata$snv_applied <- TRUE
-  cube
+  .record_step(cube, "snv", domain = "snv")
 }
 
 #' Multiplicative Scatter Correction
@@ -139,25 +121,29 @@ hs_msc <- function(cube, reference = NULL) {
   .validate_cube(cube)
 
   d <- dim(cube$data)
-  pixel_mat <- matrix(cube$data, nrow = d[1] * d[2], ncol = d[3])
+  pixel_mat <- .pixel_matrix(cube)
 
   if (is.null(reference)) {
-    reference <- colMeans(pixel_mat)
+    reference <- colMeans(pixel_mat[.valid_pixels(cube), , drop = FALSE])
   }
 
+  if (length(reference) != d[3] || any(!is.finite(reference)) || stats::sd(reference) == 0) {
+    cli::cli_abort("MSC reference must be finite, non-constant and match the band count.")
+  }
   msc_mat <- matrix(NA_real_, nrow = nrow(pixel_mat), ncol = ncol(pixel_mat))
 
-  for (i in seq_len(nrow(pixel_mat))) {
+  for (i in which(.valid_pixels(cube))) {
     fit <- stats::lm.fit(cbind(1, reference), pixel_mat[i, ])
     intercept <- fit$coefficients[1]
     slope <- fit$coefficients[2]
-    if (is.na(slope) || slope == 0) slope <- 1
+    if (!is.finite(slope) || abs(slope) < sqrt(.Machine$double.eps)) next
     msc_mat[i, ] <- (pixel_mat[i, ] - intercept) / slope
   }
 
   cube$data <- array(msc_mat, dim = d)
   cube$metadata$msc_applied <- TRUE
-  cube
+  cube$metadata$msc_reference <- reference
+  .record_step(cube, "msc", list(reference = reference), "msc")
 }
 
 #' Spectral Derivative

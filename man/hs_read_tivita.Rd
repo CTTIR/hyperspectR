@@ -30,8 +30,8 @@ a plain binary format and \pkg{tivis.r} is pure R.
 Acquisition metadata from the Suite's \verb{*_meta.log} is attached to the cube
 when present, along with the paths of the parameter images the Suite
 exported beside the recording (RGB rendering, oxygenation, NIR perfusion,
-THI, TWI). Those are the Suite's own results and are useful as a reference
-when checking independently computed indices such as \code{\link[=hs_sto2]{hs_sto2()}}.
+THI, TWI). Those are vendor outputs for comparison, not independent
+physiological ground truth or equivalents of this package's research indices.
 }
 \examples{
 \donttest{

@@ -1,16 +1,13 @@
-#' Compute Tissue Oxygen Saturation (StO2)
+#' Estimate the Oxygenated Hemoglobin Fraction for Research
 #'
-#' Estimates superficial tissue oxygenation from visible-range hemoglobin
-#' absorption. Uses the ratio of reflectance in the 500-650 nm (oxy/deoxy-Hb
-#' Q-bands) and 700-815 nm (NIR oxy-Hb shoulder) regions.
+#' Returns the fitted HbO2 fraction from [hs_beer_lambert()]. This is a
+#' research model estimate and requires empirical validation for tissue use.
 #'
 #' @param cube An [hsi_cube] object with reflectance data.
-#' @param band1 Numeric vector of length 2. Wavelength range for first band
-#'   (default `c(500, 650)`, visible Hb absorption).
-#' @param band2 Numeric vector of length 2. Wavelength range for second band
-#'   (default `c(700, 815)`, NIR region).
-#' @param method Character. `"ratio"` for band-ratio index (default),
-#'   `"beer_lambert"` for full chromophore fitting.
+#' @param band1,band2 Retired ratio-method arguments. Supplying either raises a
+#'   migration error; use [hs_band_ratio()] or the fitting range in [hs_beer_lambert()].
+#' @param method `"beer_lambert"` (default). The former `"ratio"` method
+#'   is rejected; use [hs_band_ratio()] for a relative band ratio.
 #'
 #' @return A numeric matrix (rows x cols) with values 0-100 representing
 #'   estimated tissue oxygen saturation percentage. Returns `NA` for masked pixels.
@@ -22,44 +19,26 @@
 #'
 #' @export
 hs_sto2 <- function(cube, band1 = c(500, 650), band2 = c(700, 815),
-                    method = "ratio") {
+                    method = "beer_lambert") {
   .validate_cube(cube)
-  method <- match.arg(method, c("ratio", "beer_lambert"))
-
-  .check_wavelength_coverage(cube$wavelengths, c(band1[1], band2[2]), "StO2")
-
-  if (method == "beer_lambert") {
-    fit <- hs_beer_lambert(cube, wavelength_range = c(500, 600))
-    return(fit$sto2)
+  method <- match.arg(method, c("beer_lambert", "ratio"))
+  if (method == "ratio") {
+    cli::cli_abort("The scene-stretched ratio was not oxygen saturation. Use hs_band_ratio(cube, band2, band1) for a dimensionless relative index.")
   }
-
-  b1 <- .band_mean(cube, band1)
-  b2 <- .band_mean(cube, band2)
-
-  if (is.null(b1) || is.null(b2)) {
-    cli::cli_abort("Required wavelength bands not available for StO2 computation.")
-  }
-
-  # StO2 ~ ratio of absorption regions
-  # Higher b2/b1 = higher oxygenation (less deoxy-Hb absorption in NIR)
-  ratio <- b2 / (b1 + 1e-10)
-  # Scale to 0-100
-  result <- .linear_stretch(ratio) * 100
-
-  .apply_mask(result, cube$mask)
+  if (!missing(band1) || !missing(band2)) cli::cli_abort("band1/band2 belong to the retired ratio method. Use hs_band_ratio() or hs_beer_lambert(wavelength_range=...).")
+  hs_beer_lambert(cube, wavelength_range = c(500, 600))$sto2
 }
 
 #' Compute Near-Infrared Perfusion Index (NPI)
 #'
-#' Estimates deeper tissue perfusion (4-6 mm depth) from NIR wavelengths.
-#' Note: Cubert Ultris X MR upper limit is 910 nm; the original TIVITA NPI
-#' extends to 925 nm. Results are approximate with Cubert data.
+#' Legacy name for a dimensionless NIR band ratio. It is not a validated
+#' perfusion measurement or an implementation of a vendor index.
 #'
 #' @param cube An [hsi_cube] object with reflectance data.
 #' @param band1 Numeric vector of length 2. Default `c(655, 735)`.
 #' @param band2 Numeric vector of length 2. Default `c(825, 910)`.
 #'
-#' @return A numeric matrix with values 0-100.
+#' @return A numeric matrix of unscaled dimensionless band ratios.
 #'
 #' @examples
 #' cube <- hs_example_cube()
@@ -77,21 +56,23 @@ hs_npi <- function(cube, band1 = c(655, 735), band2 = c(825, 910)) {
     cli::cli_abort("Required wavelength bands not available for NPI computation.")
   }
 
-  ratio <- b2 / (b1 + 1e-10)
-  result <- .linear_stretch(ratio) * 100
+  ratio <- b2 / b1
+  result <- ratio
 
+  result[!is.finite(result)] <- NA_real_
   .apply_mask(result, cube$mask)
 }
 
 #' Compute Tissue Hemoglobin Index (THI)
 #'
-#' Estimates relative hemoglobin concentration at superficial depth.
+#' Legacy name for a dimensionless reference/Hb-band reflectance ratio.
+#' It is not a hemoglobin concentration measurement.
 #'
 #' @param cube An [hsi_cube] object.
 #' @param band1 Numeric vector of length 2. Default `c(530, 590)` (Hb Q-bands).
 #' @param band2 Numeric vector of length 2. Default `c(785, 825)` (reference).
 #'
-#' @return A numeric matrix with values 0-100.
+#' @return A numeric matrix of unscaled dimensionless band ratios.
 #'
 #' @examples
 #' cube <- hs_example_cube()
@@ -109,25 +90,26 @@ hs_thi <- function(cube, band1 = c(530, 590), band2 = c(785, 825)) {
     cli::cli_abort("Required wavelength bands not available for THI computation.")
   }
 
-  # THI ~ inverse of reflectance in Hb absorption region relative to NIR
-  # Lower reflectance in Q-bands = higher Hb concentration
-  ratio <- b1 / (b2 + 1e-10)
-  result <- (1 - .linear_stretch(ratio)) * 100
+  # Reference-band reflectance relative to the Hb-band reflectance.
+  ratio <- b1 / b2
+  result <- 1 / ratio
 
+  result[!is.finite(result)] <- NA_real_
   .apply_mask(result, cube$mask)
 }
 
 #' Compute Tissue Water Index (TWI)
 #'
-#' Estimates tissue water content from the 960 nm water absorption band.
-#' The Cubert Ultris X MR (430-910 nm) does NOT fully cover this range.
+#' Legacy name for a dimensionless NIR reflectance ratio. The default
+#' 830-910 nm bands do not include the 970 nm water peak and do not measure
+#' water content.
 #'
 #' @param cube An [hsi_cube] object.
 #' @param numerator Numeric vector of length 2. Default `c(880, 910)` (adapted
 #'   for Cubert range).
 #' @param denominator Numeric vector of length 2. Default `c(830, 870)`.
 #'
-#' @return A numeric matrix with values 0-100, or an NA matrix with a warning
+#' @return A numeric matrix of unscaled dimensionless ratios, or an NA matrix with a warning
 #'   if required wavelengths are unavailable.
 #'
 #' @examples
@@ -152,9 +134,10 @@ hs_twi <- function(cube, numerator = c(880, 910), denominator = c(830, 870)) {
 
   .check_wavelength_coverage(cube$wavelengths, c(denominator[1], numerator[2]), "TWI")
 
-  ratio <- num / (den + 1e-10)
-  result <- (1 - .linear_stretch(ratio)) * 100
+  ratio <- num / den
+  result <- 1 / ratio
 
+  result[!is.finite(result)] <- NA_real_
   .apply_mask(result, cube$mask)
 }
 
@@ -167,7 +150,8 @@ hs_twi <- function(cube, numerator = c(880, 910), denominator = c(830, 870)) {
 #' @param band1 Numeric. Center wavelength or range `c(min, max)` for first band.
 #' @param band2 Numeric. Center wavelength or range `c(min, max)` for second band.
 #'
-#' @return A numeric matrix with values in `[-1, 1]`.
+#' @return A numeric matrix, in `[-1, 1]` for nonnegative input spectra.
+#'   Zero denominators are NA; transformed signed spectra can exceed these bounds.
 #'
 #' @examples
 #' cube <- hs_example_cube()
@@ -177,17 +161,18 @@ hs_twi <- function(cube, numerator = c(880, 910), denominator = c(830, 870)) {
 #' @export
 hs_ndi <- function(cube, band1, band2) {
   .validate_cube(cube)
+  .require_wavelengths(cube)
 
   if (length(band1) == 1L) {
     idx1 <- .band_index(cube$wavelengths, band1)
-    b1 <- cube$data[, , idx1]
+    b1 <- .band_matrix(cube, idx1)
   } else {
     b1 <- .band_mean(cube, band1)
   }
 
   if (length(band2) == 1L) {
     idx2 <- .band_index(cube$wavelengths, band2)
-    b2 <- cube$data[, , idx2]
+    b2 <- .band_matrix(cube, idx2)
   } else {
     b2 <- .band_mean(cube, band2)
   }
@@ -197,9 +182,10 @@ hs_ndi <- function(cube, band1, band2) {
   }
 
   denom <- b1 + b2
-  denom[denom == 0] <- 1e-10
+  denom[denom == 0] <- NA_real_
 
   result <- (b1 - b2) / denom
+  result[!is.finite(result)] <- NA_real_
   .apply_mask(result, cube$mask)
 }
 
@@ -228,4 +214,27 @@ hs_clinical_indices <- function(cube) {
     thi = hs_thi(cube),
     twi = suppressWarnings(hs_twi(cube))
   )
+}
+
+#' Compute an Unscaled Spectral Band Ratio
+#'
+#' A scene-independent, dimensionless ratio of mean spectral values. It is
+#' not calibrated oxygen saturation, perfusion, concentration or water content.
+#' @param cube An [hsi_cube] object.
+#' @param numerator,denominator Numeric scalar wavelength or two-element range in nm.
+#' @return A spatial numeric matrix. Zero denominators and invalid pixels are NA.
+#' @export
+hs_band_ratio <- function(cube, numerator, denominator) {
+  .validate_cube(cube)
+  .require_wavelengths(cube)
+  band <- function(x) {
+    if (length(x) == 1L) .band_matrix(cube, .band_index(cube$wavelengths, x)) else .band_mean(cube, x)
+  }
+  num <- band(numerator)
+  den <- band(denominator)
+  if (is.null(num) || is.null(den)) cli::cli_abort("Required wavelength bands not available for band ratio.")
+  result <- num / den
+  result[!is.finite(result)] <- NA_real_
+  result[!is.finite(result)] <- NA_real_
+  .apply_mask(result, cube$mask)
 }

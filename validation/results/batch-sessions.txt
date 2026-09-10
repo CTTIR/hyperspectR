@@ -1,0 +1,8 @@
+hyperspectR v0.2.0.9000 - Hyperspectral Imaging Analysis for Biomedical Applications
+Reading ENVI file: 'batch-input.dat'
+3 cols x 2 rows x 61 bands (bsq)
+Wavelength range: 430-910 nm
+Fresh-session batch status: complete
+
+hyperspectR v0.2.0.9000 - Hyperspectral Imaging Analysis for Biomedical Applications
+Fresh-session batch status: resumed

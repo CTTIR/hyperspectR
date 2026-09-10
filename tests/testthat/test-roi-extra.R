@@ -74,3 +74,13 @@ test_that("roi functions validate cube", {
   expect_error(hs_roi_polygon(list(), matrix(1, 2, 2)), "hsi_cube")
   expect_error(hs_roi_stats(list(), matrix(TRUE, 2, 2)), "hsi_cube")
 })
+
+test_that("ROI quality counts distinguish requested, valid and repaired pixels", {
+  cube <- hsi_cube(array(c(1, 2, 3, NA), c(2, 2, 1)), 500, mask = matrix(c(TRUE, FALSE, TRUE, TRUE), 2))
+  cube$metadata$repair_mask <- matrix(c(TRUE, FALSE, FALSE, FALSE), 2)
+  result <- hs_roi_stats(cube, matrix(TRUE, 2, 2))
+  expect_equal(result$n_roi_pixels, 4)
+  expect_equal(result$n_pixels, 2)
+  expect_equal(result$valid_fraction, .5)
+  expect_equal(result$n_repaired_pixels, 1)
+})

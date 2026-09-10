@@ -1,8 +1,8 @@
 ---
-title: "Compartment Syndrome HSI Assessment"
+title: "Synthetic Regional Spectral Comparison"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Compartment Syndrome HSI Assessment}
+  %\VignetteIndexEntry{Synthetic Regional Spectral Comparison}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -31,21 +31,16 @@ knitr::opts_chunk$set(
 library(hyperspectR)
 ```
 
-## Clinical Background
+## Scope
 
-Acute compartment syndrome (ACS) is a surgical emergency where increased
-pressure within a closed muscle compartment compromises tissue perfusion.
-Traditional diagnosis relies on clinical assessment and invasive intra-
-compartmental pressure (ICP) measurement.
+This example compares regions in a synthetic image. The package has not been
+validated to diagnose compartment syndrome, detect ischemia, or replace clinical
+assessment. No clinical threshold is defined by these simulated outputs.
 
-Hyperspectral imaging offers a non-invasive alternative by quantifying
-tissue oxygenation through the skin surface, enabling spatial mapping of
-perfusion compromise.
+## Simulating a Demonstration Scene
 
-## Simulating an Extremity Scene
-
-We simulate a tissue scene with a region of reduced oxygenation representing
-compartment syndrome:
+The region parameters vary synthetic spectral shapes. Their assigned values are
+simulation inputs, not established tissue oxygenation ground truth.
 
 ```{r}
 cube <- hs_simulate_cube(rows = 50, cols = 50, n_regions = 4,
@@ -56,19 +51,19 @@ cube <- hs_simulate_cube(rows = 50, cols = 50, n_regions = 4,
 
 ```{r}
 sto2 <- hs_sto2(cube)
-hs_plot_index(sto2, title = "StO2 - Extremity (%)", palette = "sto2")
+hs_plot_index(sto2, title = "Research Hb fraction (%)", palette = "sto2")
 ```
 
-Regions with StO2 below 40% may indicate critical ischemia.
+The fitted fractions may disagree with simulation parameters because the simulator and reference inversion use different models.
 
 ## Perfusion Assessment
 
 ```{r}
 npi <- hs_npi(cube)
-hs_plot_index(npi, title = "NPI - Deep Perfusion (%)", palette = "perfusion")
+hs_plot_index(npi, title = "NIR ratio (dimensionless)", palette = "perfusion")
 ```
 
-## Clinical Panel Overview
+## Research Panel Overview
 
 ```{r fig.width=10, fig.height=4}
 hs_plot_clinical(cube, indices = c("sto2", "npi", "thi"))
@@ -95,6 +90,6 @@ ggplot() +
   theme_hsi()
 ```
 
-The affected compartment shows reduced reflectance in the visible range
-(increased Hb absorption) and altered spectral shape, consistent with
-venous congestion and tissue deoxygenation.
+This plot describes within-image spectral variation. Pixel SD is not a confidence
+interval for a population effect. For repeated measurements, define subjects as
+independent groups and use `hs_group_summary()` on prespecified ROI summaries.

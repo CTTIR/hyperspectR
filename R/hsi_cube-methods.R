@@ -30,7 +30,8 @@ print.hsi_cube <- function(x, ...) {
     cli::cli_text("Mask: {n_valid}/{n_total} valid pixels ({round(100 * n_valid / n_total, 1)}%)")
   }
 
-  data_range <- range(x$data, na.rm = TRUE)
+  values <- .pixel_matrix(x)
+  data_range <- if (any(is.finite(values))) range(values, na.rm = TRUE) else c(NA_real_, NA_real_)
   cli::cli_text("Data range: [{round(data_range[1], 4)}, {round(data_range[2], 4)}]")
 
   if (length(x$metadata) > 0L) {
@@ -63,17 +64,21 @@ summary.hsi_cube <- function(object, ...) {
   d <- dim(object$data)
   n_pixels <- d[1] * d[2]
 
-  band_means <- apply(object$data, 3L, mean, na.rm = TRUE)
-  band_sds <- apply(object$data, 3L, stats::sd, na.rm = TRUE)
+  .validate_cube(object)
+  pixels <- .pixel_matrix(object)
+  band_means <- colMeans(pixels, na.rm = TRUE)
+  band_means[!is.finite(band_means)] <- NA_real_
+  band_sds <- apply(pixels, 2L, stats::sd, na.rm = TRUE)
 
   result <- list(
     dimensions = d,
     wavelength_range = range(object$wavelengths),
     n_bands = d[3],
-    data_range = range(object$data, na.rm = TRUE),
+    data_range = if (any(is.finite(pixels))) range(pixels, na.rm = TRUE) else c(NA_real_, NA_real_),
     band_means = stats::setNames(band_means, round(object$wavelengths)),
     band_sds = stats::setNames(band_sds, round(object$wavelengths)),
-    n_valid_pixels = if (!is.null(object$mask)) sum(object$mask) else n_pixels,
+    band_counts = colSums(is.finite(pixels)),
+    n_valid_pixels = sum(.valid_pixels(object)),
     n_total_pixels = n_pixels,
     metadata = object$metadata
   )
@@ -128,11 +133,18 @@ dim.hsi_cube <- function(x) {
   new_fwhm <- if (!is.null(x$fwhm)) x$fwhm[k] else NULL
   new_mask <- if (!is.null(x$mask)) x$mask[i, j, drop = FALSE] else NULL
 
+  metadata <- x$metadata
+  for (field in c("region_map", "repair_mask", "defect_mask")) {
+    if (is.matrix(metadata[[field]]) && identical(dim(metadata[[field]]), d[1:2])) metadata[[field]] <- metadata[[field]][i, j, drop = FALSE]
+  }
+  for (field in c("calibration_invalid", "calibration_clipped", "calibration_saturated", "absorbance_clipped")) {
+    if (is.array(metadata[[field]]) && identical(dim(metadata[[field]]), d)) metadata[[field]] <- metadata[[field]][i, j, k, drop = FALSE]
+  }
   hsi_cube(
     data = new_data,
     wavelengths = new_wl,
     fwhm = new_fwhm,
-    metadata = x$metadata,
+    metadata = metadata,
     mask = new_mask
   )
 }
@@ -159,7 +171,7 @@ as.data.frame.hsi_cube <- function(x, ..., long = FALSE) {
 
   if (long) {
     # Reshape to long format
-    pixel_mat <- matrix(x$data, nrow = d[1] * d[2], ncol = d[3])
+    pixel_mat <- .pixel_matrix(x)
     long_coords <- coords[rep(seq_len(nrow(coords)), each = d[3]), ]
     long_coords$wavelength <- rep(x$wavelengths, times = nrow(coords))
     long_coords$value <- as.vector(t(pixel_mat))
@@ -167,7 +179,7 @@ as.data.frame.hsi_cube <- function(x, ..., long = FALSE) {
     long_coords[, c("x", "y", "wavelength", "value")]
   } else {
     # Wide format
-    pixel_mat <- matrix(x$data, nrow = d[1] * d[2], ncol = d[3])
+    pixel_mat <- .pixel_matrix(x)
     colnames(pixel_mat) <- paste0("band_", round(x$wavelengths))
     cbind(coords[, c("x", "y")], as.data.frame(pixel_mat))
   }

@@ -24,6 +24,16 @@ hs_write_envi <- function(cube, path, interleave = "bsq", data_type = 4L,
   .validate_cube(cube)
   interleave <- match.arg(interleave, c("bsq", "bil", "bip"))
 
+  type_info <- .envi_type_info(data_type)
+  output_data <- array(.pixel_matrix(cube), dim(cube$data))
+  if (type_info$what == "integer") {
+    limits <- switch(as.character(data_type), "1" = c(0, 255), "2" = c(-32768, 32767),
+                     "3" = c(-2147483647, 2147483647), "12" = c(0, 65535))
+    if (any(!is.finite(output_data)) || any(output_data != trunc(output_data)) ||
+        any(output_data < limits[1] | output_data > limits[2])) {
+      cli::cli_abort("Integer ENVI output requires finite whole values within the selected type range; use floating point for masks or missing data.")
+    }
+  }
   hdr_path <- paste0(path, ".hdr")
   dat_path <- paste0(path, ".dat")
 
@@ -47,40 +57,49 @@ hs_write_envi <- function(cube, path, interleave = "bsq", data_type = 4L,
     paste0("interleave = ", interleave),
     "byte order = 0",
     "header offset = 0",
-    paste0("wavelength units = Nanometers"),
-    paste0("wavelength = {"),
-    paste0("  ", paste(round(cube$wavelengths, 2), collapse = ", ")),
-    "}"
+    paste0("hyperspectr domain = ", cube$metadata$processing_mode %||% "unknown"),
+    if (!identical(cube$metadata$wavelengths_known, FALSE)) c(
+      "wavelength units = Nanometers", "wavelength = {",
+      paste0("  ", paste(format(cube$wavelengths, digits = 17, trim = TRUE), collapse = ", ")),
+      "}")
   )
 
   if (!is.null(cube$fwhm)) {
     hdr_lines <- c(hdr_lines,
       paste0("fwhm = {"),
-      paste0("  ", paste(round(cube$fwhm, 2), collapse = ", ")),
+      paste0("  ", paste(format(cube$fwhm, digits = 17, trim = TRUE), collapse = ", ")),
       "}"
     )
   }
 
-  writeLines(hdr_lines, hdr_path)
+  staged_header <- tempfile(tmpdir = dirname(hdr_path))
+  staged_data <- tempfile(tmpdir = dirname(dat_path))
+  on.exit(unlink(c(staged_header, staged_data)), add = TRUE)
+  writeLines(hdr_lines, staged_header)
 
   # Write binary data
   type_info <- .envi_type_info(data_type)
 
   # Reorder for interleave
   flat <- switch(interleave,
-    bsq = as.vector(aperm(cube$data, c(2, 1, 3))),
-    bil = as.vector(aperm(cube$data, c(2, 3, 1))),
-    bip = as.vector(aperm(cube$data, c(3, 2, 1)))
+    bsq = as.vector(aperm(output_data, c(2, 1, 3))),
+    bil = as.vector(aperm(output_data, c(2, 3, 1))),
+    bip = as.vector(aperm(output_data, c(3, 2, 1)))
   )
 
-  con <- file(dat_path, "wb")
-  on.exit(close(con), add = TRUE)
+  con <- file(staged_data, "wb")
+  on.exit(if (isOpen(con)) close(con), add = TRUE)
 
   if (type_info$what == "double") {
     writeBin(as.double(flat), con, size = type_info$size, endian = "little")
   } else {
     writeBin(as.integer(flat), con, size = type_info$size, endian = "little")
   }
+
+  close(con)
+  on.exit(NULL, add = FALSE)
+  on.exit(unlink(c(staged_header, staged_data)), add = TRUE)
+  .publish_file_pair(c(staged_header, staged_data), c(hdr_path, dat_path))
 
   if (verbose) {
     cli::cli_inform("  Written: {.file {hdr_path}}, {.file {dat_path}}")
@@ -123,7 +142,7 @@ hs_write_tiff <- function(cube, path, verbose = TRUE) {
 
   # Create raster from array
   r <- terra::rast(nrows = d[1], ncols = d[2], nlyrs = d[3])
-  terra::values(r) <- matrix(cube$data, nrow = d[1] * d[2], ncol = d[3])
+  terra::values(r) <- matrix(aperm(array(.pixel_matrix(cube), d), c(2, 1, 3)), nrow = d[1] * d[2], ncol = d[3])
   names(r) <- paste0("band_", round(cube$wavelengths))
 
   terra::writeRaster(r, path, overwrite = TRUE)
@@ -190,7 +209,7 @@ hs_export_png <- function(data, path, palette = "viridis", range = NULL,
   on.exit(grDevices::dev.off(), add = TRUE)
   graphics::par(mar = c(0, 0, 0, 0))
   graphics::plot.new()
-  graphics::plot.window(xlim = c(0, ncol(data)), ylim = c(0, nrow(data)))
+  graphics::plot.window(xlim = c(0, ncol(data)), ylim = c(0, nrow(data)), xaxs = "i", yaxs = "i")
   # Convert hex colors to raster
   graphics::rasterImage(
     as.raster(col_matrix),
@@ -200,4 +219,30 @@ hs_export_png <- function(data, path, palette = "viridis", range = NULL,
   )
 
   invisible(path)
+}
+
+.publish_file_pair <- function(staged, targets) {
+  if (any(dir.exists(targets))) cli::cli_abort("Output target must be a file, not a directory.")
+  backups <- vapply(targets, function(path) tempfile(tmpdir = dirname(path)), character(1))
+  existed <- file.exists(targets)
+  saved <- logical(length(targets))
+  published <- logical(length(targets))
+  complete <- FALSE
+  on.exit({
+    if (!complete) {
+      unlink(targets[published])
+      for (i in which(saved)) file.rename(backups[i], targets[i])
+    }
+    unlink(backups[file.exists(targets)])
+  }, add = TRUE)
+  for (i in which(existed)) {
+    saved[i] <- file.rename(targets[i], backups[i])
+    if (!saved[i]) cli::cli_abort("Cannot stage existing output for replacement: {targets[i]}")
+  }
+  for (i in seq_along(staged)) {
+    published[i] <- file.rename(staged[i], targets[i])
+    if (!published[i]) cli::cli_abort("Cannot publish output: {targets[i]}")
+  }
+  complete <- TRUE
+  invisible(targets)
 }

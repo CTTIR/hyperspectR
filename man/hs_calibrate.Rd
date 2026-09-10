@@ -4,7 +4,7 @@
 \alias{hs_calibrate}
 \title{Calibrate Raw HSI Data to Reflectance}
 \usage{
-hs_calibrate(cube, dark, white, clamp = TRUE)
+hs_calibrate(cube, dark, white, clamp = TRUE, saturation = NULL)
 }
 \arguments{
 \item{cube}{An \link{hsi_cube} object with raw data.}
@@ -16,6 +16,10 @@ hs_calibrate(cube, dark, white, clamp = TRUE)
 reference (Spectralon panel measurement).}
 
 \item{clamp}{Logical. Clamp output to \verb{[0, 1]}. Default \code{TRUE}.}
+
+\item{saturation}{Optional finite saturation threshold in raw data units.
+Defaults to \code{metadata$saturation_value} when present; otherwise saturation
+remains an unresolved QC check.}
 }
 \value{
 An \link{hsi_cube} object with reflectance values.
