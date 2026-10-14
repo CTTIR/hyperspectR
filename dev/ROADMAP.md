@@ -13,18 +13,18 @@ sensitivity analysis and responsive explorer jobs. The work-package
 descriptions below preserve the planned acceptance criteria. Verified
 changes and outstanding release, hardware and study gates are tracked in
 [the implementation
-record](https://cttir.github.io/hyperspectR/dev/planning/implementation-status.md)
+record](https://github.com/CTTIR/hyperspectR/blob/main/planning/implementation-status.md)
 and [analysis
-results](https://cttir.github.io/hyperspectR/dev/planning/analysis-results.md).
+results](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-results.md).
 Estimates remain planning ranges; they are not measured effort or
 delivery commitments.
 
 Supporting documents:
 
 - [Audit baseline and all 25
-  findings](https://cttir.github.io/hyperspectR/dev/planning/audit-baseline.md)
+  findings](https://github.com/CTTIR/hyperspectR/blob/main/planning/audit-baseline.md)
 - [Detailed analytical validation
-  plan](https://cttir.github.io/hyperspectR/dev/planning/analysis-validation.md)
+  plan](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-validation.md)
 
 ## 1. Delivery strategy and assumptions
 
@@ -378,7 +378,7 @@ through the established maintainer workflow.
 
 Implementation details, datasets, model assumptions, metrics and
 stopping rules are in the [analytical validation
-plan](https://cttir.github.io/hyperspectR/dev/planning/analysis-validation.md).
+plan](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-validation.md).
 
 ## 4. First implementation wave
 
