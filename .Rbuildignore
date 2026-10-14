@@ -23,3 +23,8 @@
 ^planning$
 ^validation$
 ^MIGRATION\.md$
+
+^\.local-private$
+^AGENTS\.md$
+^CLAUDE.*$
+^admin$

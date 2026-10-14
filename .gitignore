@@ -17,3 +17,25 @@ DROPHERE/
 *.orig
 *.Rcheck/
 _coverage/
+
+# Local records and development material
+/.local-private/
+/admin/
+AGENTS.md
+CLAUDE.md
+CLAUDE_CODE_*.md
+.claude/
+.codex/
+*PROMPT*.md
+*prompt*.md
+*.log
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rcheck/
+*.tar.gz
+
+__pycache__/
+*.pyc
+Rplots.pdf
