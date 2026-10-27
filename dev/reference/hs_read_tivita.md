@@ -56,6 +56,6 @@ for Cubert session files.
 ``` r
 # \donttest{
 # Requires the tivis.r package
-# cube <- hs_read_tivita("2019_11_25_13_29_24_SpecCube.dat")
+# cube <- hs_read_tivita("2000_01_01_12_00_00_SpecCube.dat")
 # }
 ```
