@@ -9,7 +9,8 @@ for (mod_file in list.files(
 }
 
 ui <- bslib::page_navbar(
-  title = "hyperspectR Explorer",
+    window_title = "hyperspectR",
+  title = shiny::tagList(utils::getFromNamespace(".cttir_brand_logo", "hyperspectR")(mode = "dark"), "hyperspectR Explorer"),
   id = "main_nav",
   theme = bslib::bs_theme(
     version = 5,

@@ -1,5 +1,9 @@
 # hyperspectR 0.2.0.9000
 
+* Standardize the named v5 package logo across README, documentation pages
+  and available application headers, with matching light and dark artwork.
+
+
 * Corrected cube dimensions, masks, wavelength/FWHM alignment, spatial plotting,
   TIFF/ENVI pixel order, truncated ENVI input and unsupported integer exports.
 * SG smoothing now returns full-window center bands consistently across explicit
