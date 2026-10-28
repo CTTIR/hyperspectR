@@ -12,6 +12,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
+    <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">hyperspectR</a>
 
     <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
@@ -39,13 +40,14 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0.9000" id="hyperspectr-0209000">hyperspectR 0.2.0.9000<a class="anchor" aria-label="anchor" href="#hyperspectr-0209000"></a></h2>
-<ul><li>Corrected cube dimensions, masks, wavelength/FWHM alignment, spatial plotting, TIFF/ENVI pixel order, truncated ENVI input and unsupported integer exports.</li>
-<li>SG smoothing now returns full-window center bands consistently across explicit backends; derivatives use wavelength units. Calibration validates reference compatibility and bad-pixel repair uses immutable valid neighbors.</li>
-<li>Replaced generated hemoglobin fitting references with a pinned tabulated source. Beer-Lambert fitting requires an explicit domain and separates coefficients from concentrations requiring optical pathlength. Default StO2 is a research model fraction. The former ratio method errors; relative indices are unscaled.</li>
-<li>Added equality-constrained nonnegative unmixing with convergence diagnostics, optional residual storage and chunk equivalence. PCA/MNF respect masks and rank limits and expose reusable transforms.</li>
-<li>Repaired explorer initialization, stale results, paired uploads, TIFF metadata entry and complete archive downloads; added cancellable background computations.</li>
-<li>Added processing recipes, resumable manifest analysis, reusable classifier prediction, group-separated evaluation and group-level uncertainty summaries.</li>
-<li>Expanded exact-value regressions, browser and minimal-dependency validation, reference sensitivity reports, and performance measurements. Clinical claims remain outside the evidence supplied by synthetic tests. See MIGRATION.md for breaking changes and planning/implementation-status.md for release evidence.</li>
+<ul><li><p>Standardize the named v5 package logo across README, documentation pages and available application headers, with matching light and dark artwork.</p></li>
+<li><p>Corrected cube dimensions, masks, wavelength/FWHM alignment, spatial plotting, TIFF/ENVI pixel order, truncated ENVI input and unsupported integer exports.</p></li>
+<li><p>SG smoothing now returns full-window center bands consistently across explicit backends; derivatives use wavelength units. Calibration validates reference compatibility and bad-pixel repair uses immutable valid neighbors.</p></li>
+<li><p>Replaced generated hemoglobin fitting references with a pinned tabulated source. Beer-Lambert fitting requires an explicit domain and separates coefficients from concentrations requiring optical pathlength. Default StO2 is a research model fraction. The former ratio method errors; relative indices are unscaled.</p></li>
+<li><p>Added equality-constrained nonnegative unmixing with convergence diagnostics, optional residual storage and chunk equivalence. PCA/MNF respect masks and rank limits and expose reusable transforms.</p></li>
+<li><p>Repaired explorer initialization, stale results, paired uploads, TIFF metadata entry and complete archive downloads; added cancellable background computations.</p></li>
+<li><p>Added processing recipes, resumable manifest analysis, reusable classifier prediction, group-separated evaluation and group-level uncertainty summaries.</p></li>
+<li><p>Expanded exact-value regressions, browser and minimal-dependency validation, reference sensitivity reports, and performance measurements. Clinical claims remain outside the evidence supplied by synthetic tests. See MIGRATION.md for breaking changes and planning/implementation-status.md for release evidence.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="hyperspectr-010">hyperspectR 0.1.0<a class="anchor" aria-label="anchor" href="#hyperspectr-010"></a></h2>

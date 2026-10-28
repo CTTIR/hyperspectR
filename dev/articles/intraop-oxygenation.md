@@ -1,5 +1,8 @@
 # Research Oxygenation Model Workflow
 
+![hyperspectR logo](figures/logo.svg)![hyperspectR
+logo](figures/logo-dark.svg)
+
 [![R-CMD-check](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/hyperspectR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/hyperspectR/)
 [![CRAN
