@@ -2,7 +2,8 @@
 
 Applies dark current subtraction and white reference normalization:
 `R(x,y,lambda) = (raw - dark) / (white - dark)`. Values are clamped to
-`[0, 1]` unless `clamp = FALSE`.
+`[0, 1]` unless `clamp = FALSE`. Nonfinite input or intermediate values
+remain missing and are recorded as invalid; clamping never repairs them.
 
 ## Usage
 

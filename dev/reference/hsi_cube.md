@@ -19,7 +19,9 @@ hsi_cube(data, wavelengths, fwhm = NULL, metadata = list(), mask = NULL)
 - wavelengths:
 
   Numeric vector of band center wavelengths in nanometers. Length must
-  match `dim(data)[3]`.
+  match `dim(data)[3]`; values must be finite, positive and unique.
+  Unsorted wavelengths reorder data, FWHM and matching per-band quality
+  arrays together. Factors, character values and arrays are rejected.
 
 - fwhm:
 

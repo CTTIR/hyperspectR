@@ -1,5 +1,31 @@
 # Changelog
 
+## hyperspectR 0.2.0.9001 (development candidate)
+
+- Preserve cube quality metadata through band selection and spatial
+  subsets; reject ambiguous fields and malformed coordinate vectors.
+  Resampling retains source-grid quality flags separately from
+  current-grid data.
+- Validate ENVI metadata and missing values, preserve int32 input,
+  reject lossy float32 overflow, and stage TIFF exports before replacing
+  existing files. TIFF output explicitly uses float64. Cubert
+  measurement indices must be whole.
+- Preserve calibration invalidity, avoid integer subtraction overflow,
+  stabilize spectral angles, and validate derivative orders before
+  conversion.
+- Check ordered preprocessing when reusing fitted models; validate batch
+  output schemas and checksums before resuming. See MIGRATION.md for
+  saved-model and batch-output changes.
+- Align explorer image/spectra downloads with the displayed selection,
+  support unknown wavelengths as band indices, and restore launcher
+  state on exit.
+- Preserve scientific coverage warnings, anchor wavelength colors to
+  physical wavelengths, and correct image scaling for small and large
+  finite ranges.
+- Require viridisLite \>= 0.4.0 for the documented palettes, repair
+  standalone first-use instructions, and align citation metadata with
+  the development state.
+
 ## hyperspectR 0.2.0.9000
 
 - Standardize the named v5 package logo across README, documentation

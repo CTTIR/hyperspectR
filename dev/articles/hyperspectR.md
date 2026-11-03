@@ -5,14 +5,8 @@ logo](figures/logo-dark.svg)
 
 [![R-CMD-check](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/hyperspectR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/hyperspectR/)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/hyperspectR)](https://CRAN.R-project.org/package=hyperspectR)
 [![Codecov test
 coverage](https://codecov.io/gh/CTTIR/hyperspectR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/hyperspectR?branch=main)
-[![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
-[![CRAN downloads
-total](https://cranlogs.r-pkg.org/badges/grand-total/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle:
@@ -22,9 +16,10 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 ``` r
 
-# Install from GitHub
-# install.packages("remotes")
-remotes::install_github("cttir/hyperspectR")
+# From a local source checkout, with R >= 4.1.0
+install.packages("remotes", repos = "https://cloud.r-project.org")
+remotes::install_local(".", dependencies = NA, upgrade = "never",
+                       build_vignettes = FALSE)
 ```
 
 ### Loading the Package
@@ -32,7 +27,7 @@ remotes::install_github("cttir/hyperspectR")
 ``` r
 
 library(hyperspectR)
-#> hyperspectR v0.2.0.9000 - Hyperspectral Imaging Analysis for Biomedical Applications
+#> hyperspectR v0.2.0.9001 - Hyperspectral Imaging Analysis for Biomedical Applications
 ```
 
 ### Creating and Inspecting a Cube
@@ -178,7 +173,7 @@ To cite hyperspectR in publications, please use:
   title = {hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications},
   author = {R. Heller and V. Forstmeier},
   year = {2026},
-  note = {R package version 0.1.0},
+  note = {R package version 0.2.0.9001, development candidate},
   url = {https://github.com/cttir/hyperspectR},
 }
 ```

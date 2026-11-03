@@ -1,7 +1,9 @@
 # Read an ENVI Hyperspectral Image File
 
 Reads ENVI format hyperspectral data consisting of a `.hdr` header file
-and a binary data file. Supports BSQ, BIL, and BIP interleave formats.
+and a binary data file. Supports BSQ, BIL, and BIP interleave formats. A
+declared `data ignore value` becomes `NA` in either backend. Signed
+32-bit integer payloads retain their full range as R double values.
 
 ## Usage
 

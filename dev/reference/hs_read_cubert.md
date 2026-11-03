@@ -23,7 +23,9 @@ hs_read_cubert(
 
 - index:
 
-  Integer. Measurement index within session (1-based). Default `1`.
+  Integer. Measurement index within session (1-based). Default `1`. Must
+  be a finite positive whole number within the session's measurements;
+  fractional indices are rejected before SDK initialization.
 
 - mode:
 

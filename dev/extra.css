@@ -1,0 +1,5 @@
+/* Scientific figure colours encode measured or fitted values. Preserve the
+   rendered colours when the surrounding documentation changes colour mode. */
+html[data-bs-theme] img.r-plt {
+  filter: none;
+}

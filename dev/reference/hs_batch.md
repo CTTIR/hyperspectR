@@ -3,8 +3,17 @@
 Each recording is isolated: failures are recorded without discarding
 successful results. Resume requires matching input checksums, recipe,
 analysis parameters, package implementation, R version and dependency
-versions. Input and output paths are local; no network or hardware
-acquisition is performed.
+versions, plus an intact versioned output record. Legacy or damaged
+records are recomputed. The output checksum detects accidental changes;
+it does not authenticate an untrusted file. Failed recomputation leaves
+the previous result file unchanged. Input and output paths are local; no
+network or hardware acquisition is performed. TIVITA input identity
+includes the consumed metadata log and the names/paths of reference
+images returned by the reader. Reference image bytes are not read by the
+analysis and are not checksummed. For Cubert sessions, file bytes and
+explicit reader arguments are tracked, but external vendor SDK settings
+and assets are not enumerated. Use `resume = FALSE` when that external
+configuration may have changed.
 
 ## Usage
 
@@ -45,7 +54,7 @@ hs_batch(
 
 - resume:
 
-  Logical. Reuse results only if their fingerprint matches.
+  Logical. Reuse intact results only if their fingerprint matches.
 
 ## Value
 

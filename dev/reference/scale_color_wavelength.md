@@ -1,7 +1,11 @@
 # Wavelength-to-Color Scale for Spectral Plots
 
 Maps wavelength values to approximate visible light colors for spectral
-line coloring. Returns a ggplot2 continuous color scale.
+line coloring. The default scale is fixed at 380-780 nm, so a wavelength
+retains its colour when the plotted range changes. Values outside the
+display limits use the scale's missing-value colour. Numeric increasing
+`limits` supplied in `...` may restrict or extend the displayed range
+while preserving the wavelength mapping.
 
 ## Usage
 
