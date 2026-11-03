@@ -1,6 +1,6 @@
 Package: hyperspectR
 Title: Hyperspectral Imaging Analysis for Biomedical Applications
-Version: 0.2.0.9000
+Version: 0.2.0.9001
 Authors@R: c(
     person("R.", "Heller", email = "raban.heller@charite.de",
         role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8006-9742")),
@@ -36,12 +36,12 @@ Imports:
     graphics,
     tools,
     patchwork,
-    viridisLite,
+    viridisLite (>= 0.4.0),
     scales
 Suggests:
     bslib,
     callr,
-    shiny,
+    shiny (>= 1.6.0),
     dplyr,
     plotly,
     DT,

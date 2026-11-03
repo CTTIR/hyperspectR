@@ -1,4 +1,6 @@
 ^_build\.R$
+^\.git$
+^Rplots\.pdf$
 ^showcase$
 ^\.github$
 ^docs$

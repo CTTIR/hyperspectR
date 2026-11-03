@@ -1,10 +1,8 @@
 cff-version: 1.2.0
-message: If you use this software, please cite it as below.
+message: Development candidate 0.2.0.9001 is not yet published. Cite the version and source revision actually used.
 type: software
 title: 'hyperspectR: Hyperspectral imaging analysis for biomedical applications'
-version: 0.1.0
-date-released: '2026-08-11'
-doi: 10.5281/zenodo.21889940
+version: 0.2.0.9001
 authors:
 - family-names: Heller
   given-names: Raban

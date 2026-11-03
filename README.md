@@ -1,28 +1,34 @@
 # hyperspectR <picture class="cttir-readme-logo"><source class="cttir-logo-dark-source" media="(prefers-color-scheme: dark)" srcset="man/figures/logo-with-name-dark.png" /><img src="man/figures/logo-with-name.png" align="right" alt="hyperspectR logo" width="120" height="139" /></picture>
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21889940.svg)](https://doi.org/10.5281/zenodo.21889940)
-
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/hyperspectR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/hyperspectR/)
-[![CRAN status](https://www.r-pkg.org/badges/version/hyperspectR)](https://CRAN.R-project.org/package=hyperspectR)
 [![Codecov test coverage](https://codecov.io/gh/CTTIR/hyperspectR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/hyperspectR?branch=main)
-[![CRAN downloads](https://cranlogs.r-pkg.org/badges/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
-[![CRAN downloads total](https://cranlogs.r-pkg.org/badges/grand-total/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-**hyperspectR** provides a complete R pipeline for biomedical hyperspectral
-imaging analysis -- from camera data to reproducible research
-maps.
+**hyperspectR** provides R workflows for hyperspectral research: file import,
+calibration, spectral processing, model fitting, inspection and reproducible
+exports. The **0.2.0.9001 development candidate** produces research outputs;
+camera-specific and clinical accuracy require independent validation.
 
 ## Installation
 
-```r
-# install.packages("remotes")
-remotes::install_github("cttir/hyperspectR")
+Requires R >= 4.1.0 and the required packages in `DESCRIPTION`, including
+viridisLite >= 0.4.0. From a local source checkout:
+
+```sh
+Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org")'
+Rscript -e 'remotes::install_local(".", dependencies = NA, upgrade = "never", build_vignettes = FALSE)'
 ```
+
+These commands install required dependencies without updating unrelated packages.
+Update a dependency explicitly if an installed version is below its declared
+minimum. A source installation of compiled dependencies requires the platform's
+R development toolchain. Building articles additionally requires knitr,
+rmarkdown and Pandoc. Optional readers and analysis backends are checked when
+their functions are called.
 
 ## Quick Start
 
@@ -34,18 +40,28 @@ cube <- hs_example_cube()
 print(cube)
 
 # Plot RGB composite
-autoplot(cube, type = "rgb")
+rgb <- ggplot2::autoplot(cube, type = "rgb")
+rgb
+ggplot2::ggsave("example-rgb.png", rgb, width = 7, height = 6)
 
-# Compute tissue oxygenation
+# Fit the research hemoglobin fraction under the stated model
 sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 
-# Clinical 5-panel display (TIVITA-style)
+# Research panel display; these are not vendor clinical indices
 hs_plot_clinical(cube)
-
-# Launch interactive explorer
-hs_run_app(cube)
 ```
+
+For the optional interactive explorer, install its runtime dependencies once,
+then launch it in an interactive R session:
+
+```r
+install.packages(c("shiny", "bslib", "callr"), repos = "https://cloud.r-project.org")
+hyperspectR::hs_run_app(hyperspectR::hs_example_cube())
+```
+
+The default example is synthetic. Recording uploads and background workers must
+fit available memory; `max_upload_mb` sets the upload limit in MiB.
 
 ## Features
 
@@ -55,7 +71,8 @@ hs_run_app(cube)
 - **Research indices**: fitted hemoglobin fraction, dimensionless band ratios and normalized differences
 - **Analysis**: PCA, MNF, SAM classification, SVM/RF pixel classification, Beer-Lambert unmixing
 - **Visualization**: ggplot2-based spectral plots, research panel displays, interactive Shiny app
-- **Clinical focus**: Intraoperative oxygenation mapping, compartment syndrome assessment
+- **Research scope**: Spectral measurements and model sensitivity; the supplied
+  examples do not establish tissue oxygen saturation or diagnostic performance
 
 ## Citation
 
@@ -66,14 +83,19 @@ To cite hyperspectR in publications, please use:
   title = {hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications},
   author = {R. Heller and V. Forstmeier},
   year = {2026},
-  note = {R package version 0.1.0},
+  note = {R package version 0.2.0.9001, development candidate},
   url = {https://github.com/cttir/hyperspectR},
 }
 ```
 
+Use the version actually analyzed and retain its source revision. This candidate
+has no confirmed published DOI; the prior identifier and observed publication
+state are retained in [the maintenance record](https://github.com/CTTIR/hyperspectR/blob/main/planning/maintenance-2026-11-02.md).
+
 ## License
 
-MIT
+MIT; see [the full license](LICENSE.md). The pinned hemoglobin reference data
+retain their [upstream notice and provenance](https://github.com/CTTIR/hyperspectR/blob/main/inst/extdata/README-spectra.md).
 
 
 ## Corrected research semantics

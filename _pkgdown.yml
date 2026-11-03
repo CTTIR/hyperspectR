@@ -5,14 +5,7 @@ template:
 
 development:
   mode: auto
-navbar:
-  structure:
-    left: [home, reference, articles, news]
-    right: [github]
-  components:
-    github:
-      icon: fa-github
-      href: https://github.com/cttir/hyperspectR
+# Inherit navigation, search and the colour-mode switch from themakR.
 
 reference:
   - title: "Data I/O"

@@ -1,4 +1,43 @@
-# Migrating from 0.1.0
+# Migration notes
+
+## Maintenance candidate 0.2.0.9001
+
+Saved PCA/MNF transforms and SVM/random-forest classifiers now carry an ordered
+preprocessing contract. Refit or retrain older saved models using their original
+training data and recipe before calling `hs_transform()` or `hs_predict()`.
+Do not add a contract field manually: the older object does not establish which
+operations and parameters produced its features. Apply the same fitted recipe
+to held-out data with `learn = FALSE`; a different continuum method or processing
+order is rejected even when the final wavelength grid and domain agree.
+
+Batch output records now contain a versioned result schema and checksum.
+`hs_batch(..., resume = TRUE)` recomputes older, incomplete or altered outputs
+instead of reporting them as resumed. Keep historical results with their original
+version and use a separate output directory when preserving a previous analysis.
+Checksums detect accidental changes; they do not authenticate untrusted RDS files.
+
+After resampling, original band-specific quality arrays are stored in
+`metadata$source_spectral_qc` with their original wavelengths. Their former
+current-grid fields are removed because logical flags cannot be interpreted as
+interpolated measurements. Spatial subsets retain the matching source flags;
+repeated resampling without new quality arrays adds no duplicate record. Save
+the complete cube as RDS to retain this metadata. ENVI does not represent these
+arbitrary R metadata records.
+
+Finite data outside the float32 range are rejected before ENVI destination files
+are replaced; use `data_type = 5` for double-precision ENVI output. TIFF exports
+explicitly use float64 to preserve supported R doubles, which can increase file
+size. Invalid calibration inputs remain missing even with clamping enabled.
+Factors and arrays are rejected as wavelength/FWHM vectors; use an explicit
+numeric vector containing the intended physical values.
+
+Explorer PNG downloads now contain the current masked viewer plot, including its
+selected band/RGB mapping, palette and labels. ENVI downloads still contain the
+whole cube. Random/clicked spectrum CSVs contain the displayed sample and pixel
+coordinates; they are no longer replaced by a summary table. Unknown-wavelength
+cubes use band indices and cannot be used for physical RGB selection.
+
+## Migrating from 0.1.0
 
 The development version 0.2.0.9000 corrects spatial and numerical behavior. Re-run analyses from source recordings; retain old outputs with their original version. Do not relabel historical maps as corrected measurements.
 
