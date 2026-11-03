@@ -48,7 +48,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0.9001" id="hyperspectr-0209001-development-candidate">hyperspectR 0.2.0.9001 (development candidate)<a class="anchor" aria-label="anchor" href="#hyperspectr-0209001-development-candidate"></a></h2>
-<ul><li>Preserve cube quality metadata through band selection and spatial subsets; reject ambiguous fields and malformed coordinate vectors. Resampling retains source-grid quality flags separately from current-grid data.</li>
+<ul><li>Retry UMAP’s identified older-R PCA dependency failure with base SVD while preserving embedding settings and propagating unrelated errors. Compare canonical filesystem paths in the cross-platform TIVITA resume regression.</li>
+<li>Preserve cube quality metadata through band selection and spatial subsets; reject ambiguous fields and malformed coordinate vectors. Resampling retains source-grid quality flags separately from current-grid data.</li>
 <li>Validate ENVI metadata and missing values, preserve int32 input, reject lossy float32 overflow, and stage TIFF exports before replacing existing files. TIFF output explicitly uses float64. Cubert measurement indices must be whole.</li>
 <li>Preserve calibration invalidity, avoid integer subtraction overflow, stabilize spectral angles, and validate derivative orders before conversion.</li>
 <li>Check ordered preprocessing when reusing fitted models; validate batch output schemas and checksums before resuming. See MIGRATION.md for saved-model and batch-output changes.</li>

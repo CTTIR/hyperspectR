@@ -99,6 +99,13 @@ of the spectral data. Requires the <code>uwot</code> package.</p>
     <p>A list with class <code>"hsi_umap"</code> containing embedding matrix and
 spatial coordinates.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>If the PCA dependency raises its known NULL-input error on older R,
+UMAP retries with base SVD for PCA when supported by <code>uwot</code> and reports a
+message of class <code>hyperspectR_umap_pca_fallback</code>. Other errors, including
+failures in older <code>uwot</code> versions without this option, propagate unchanged.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

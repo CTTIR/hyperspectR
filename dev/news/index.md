@@ -2,6 +2,10 @@
 
 ## hyperspectR 0.2.0.9001 (development candidate)
 
+- Retry UMAP’s identified older-R PCA dependency failure with base SVD
+  while preserving embedding settings and propagating unrelated errors.
+  Compare canonical filesystem paths in the cross-platform TIVITA resume
+  regression.
 - Preserve cube quality metadata through band selection and spatial
   subsets; reject ambiguous fields and malformed coordinate vectors.
   Resampling retains source-grid quality flags separately from

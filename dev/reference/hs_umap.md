@@ -49,6 +49,14 @@ hs_umap(
 A list with class `"hsi_umap"` containing embedding matrix and spatial
 coordinates.
 
+## Details
+
+If the PCA dependency raises its known NULL-input error on older R, UMAP
+retries with base SVD for PCA when supported by `uwot` and reports a
+message of class `hyperspectR_umap_pca_fallback`. Other errors,
+including failures in older `uwot` versions without this option,
+propagate unchanged.
+
 ## Examples
 
 ``` r
