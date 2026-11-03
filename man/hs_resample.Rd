@@ -20,6 +20,14 @@ An \link{hsi_cube} object with resampled spectra.
 \description{
 Interpolates the spectral data to a new set of wavelength positions.
 }
+\details{
+Band-specific quality flags are not interpolated. Existing
+calibration and absorbance flags move to \code{metadata$source_spectral_qc},
+where each record retains its original \code{wavelengths} and named \code{flags}.
+Their former current-grid fields are removed. Repeated resampling without
+new flags does not duplicate these records; spatial subsetting retains
+aligned source flags without changing their original spectral axis.
+}
 \examples{
 cube <- hs_example_cube()
 resampled <- hs_resample(cube, target_wavelengths = seq(450, 900, by = 10))

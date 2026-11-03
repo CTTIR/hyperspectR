@@ -51,15 +51,24 @@ hs_process <- function(cube, recipe = hs_recipe(), learn = TRUE) {
 #'
 #' Each recording is isolated: failures are recorded without discarding successful
 #' results. Resume requires matching input checksums, recipe, analysis parameters,
-#' package implementation, R version and dependency versions. Input and output
+#' package implementation, R version and dependency versions, plus an intact
+#' versioned output record. Legacy or damaged records are recomputed. The output
+#' checksum detects accidental changes; it does not authenticate an untrusted
+#' file. Failed recomputation leaves the previous result file unchanged. Input and output
 #' paths are local; no network or hardware acquisition is performed.
+#' TIVITA input identity includes the consumed metadata log and the names/paths
+#' of reference images returned by the reader. Reference image bytes are not
+#' read by the analysis and are not checksummed.
+#' For Cubert sessions, file bytes and explicit reader arguments are tracked,
+#' but external vendor SDK settings and assets are not enumerated. Use
+#' `resume = FALSE` when that external configuration may have changed.
 #' @param manifest Data frame with distinct `id` and `path` columns. Optional
 #'   `reader_args` list-column provides per-recording reader arguments.
 #' @param recipe A recipe from [hs_recipe()].
 #' @param out_dir Directory for per-recording RDS files and `run-summary.csv`.
 #' @param analysis One of `"summary"`, `"beer_lambert"`, or `"pca"`.
 #' @param analysis_args Named list of arguments for the analysis function.
-#' @param resume Logical. Reuse results only if their fingerprint matches.
+#' @param resume Logical. Reuse intact results only if their fingerprint matches.
 #' @return Data frame of recording identifiers, statuses, result files and errors.
 #' @export
 hs_batch <- function(manifest, recipe = hs_recipe(), out_dir,
@@ -88,18 +97,26 @@ hs_batch <- function(manifest, recipe = hs_recipe(), out_dir,
       path <- as.character(manifest$path[i])
       reader_args <- if ("reader_args" %in% names(manifest)) manifest$reader_args[[i]] else list()
       paths <- path
+      references <- character()
       if (tolower(tools::file_ext(path)) == "hdr") paths <- unlist(.resolve_envi_paths(path), use.names = FALSE)
       if (tolower(tools::file_ext(path)) %in% c("dat", "img", "raw", "bsq", "bil", "bip")) {
         header <- paste0(tools::file_path_sans_ext(path), ".hdr")
-        if (file.exists(header)) paths <- c(path, header)
+        if (file.exists(header)) {
+          paths <- c(path, header)
+        } else if (tolower(tools::file_ext(path)) == "dat" && .is_tivita_file(path)) {
+          log_file <- sub("_SpecCube[.]dat$", "_meta.log", path)
+          if (file.exists(log_file)) paths <- unique(c(paths, log_file))
+          rlang::check_installed("tivis.r")
+          references <- tivis.r::tivis_reference_images(path)
+        }
       }
       if (any(!file.exists(paths))) stop("Input file is missing.")
       hashes <- tools::md5sum(paths)
-      fingerprint <- .object_checksum(list(input = hashes, recipe = recipe,
+      fingerprint <- .object_checksum(list(input = hashes, references = references, recipe = recipe,
         analysis = analysis, args = analysis_args, reader = reader_args, record = manifest[i, , drop = FALSE],
         environment = environment, implementation = implementation))
       cached <- if (resume && file.exists(result_path)) tryCatch(readRDS(result_path), error = function(e) NULL) else NULL
-      if (!is.null(cached) && identical(cached$fingerprint, fingerprint)) {
+      if (.batch_cache_valid(cached, fingerprint, id, analysis)) {
         status <- "resumed"
       } else {
         cube <- do.call(hs_read_cube, c(list(path = path), reader_args))
@@ -107,11 +124,13 @@ hs_batch <- function(manifest, recipe = hs_recipe(), out_dir,
         processed <- hs_process(cube, recipe)
         fun <- switch(analysis, summary = summary.hsi_cube, beer_lambert = hs_beer_lambert, pca = hs_pca)
         result <- do.call(fun, c(list(processed$cube), analysis_args))
-        output <- list(id = id, fingerprint = fingerprint, input_checksums = hashes,
+        output <- list(schema_version = 1L, id = id, fingerprint = fingerprint,
+          input_checksums = hashes, input_references = references,
           manifest_record = manifest[i, , drop = FALSE], recipe = processed$recipe,
           analysis = analysis, analysis_args = analysis_args, result = result,
           history = processed$cube$metadata$history, environment = environment,
           implementation = implementation, completed_at = format(Sys.time(), tz = "UTC", usetz = TRUE))
+        output$output_checksum <- .object_checksum(output)
         .atomic_save_rds(output, result_path)
       }
     }, error = function(e) {
@@ -123,6 +142,24 @@ hs_batch <- function(manifest, recipe = hs_recipe(), out_dir,
     utils::write.csv(do.call(rbind, records[seq_len(i)]), file.path(out_dir, "run-summary.csv"), row.names = FALSE)
   }
   do.call(rbind, records)
+}
+
+.batch_cache_valid <- function(cached, fingerprint, id, analysis) {
+  fields <- c("schema_version", "id", "fingerprint", "input_checksums", "input_references",
+              "manifest_record", "recipe", "analysis", "analysis_args", "result",
+              "history", "environment", "implementation", "completed_at",
+              "output_checksum")
+  if (!is.list(cached) || is.null(names(cached)) ||
+      anyDuplicated(names(cached)) || !setequal(names(cached), fields) ||
+      !identical(cached$schema_version, 1L) ||
+      !identical(cached$id, id) || !identical(cached$analysis, analysis) ||
+      !identical(cached$fingerprint, fingerprint) || !is.list(cached$result) ||
+      !length(cached$result) || !is.character(cached$output_checksum) ||
+      length(cached$output_checksum) != 1L || is.na(cached$output_checksum)) {
+    return(FALSE)
+  }
+  payload <- cached[names(cached) != "output_checksum"]
+  identical(cached$output_checksum, .object_checksum(payload))
 }
 
 .object_checksum <- function(object) {

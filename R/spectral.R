@@ -81,6 +81,12 @@ hs_continuum_removal <- function(cube, method = c("division", "subtraction")) {
 #' @param method Character. Interpolation method: `"linear"` (default),
 #'   `"spline"`.
 #'
+#' @details Band-specific quality flags are not interpolated. Existing
+#'   calibration and absorbance flags move to `metadata$source_spectral_qc`,
+#'   where each record retains its original `wavelengths` and named `flags`.
+#'   Their former current-grid fields are removed. Repeated resampling without
+#'   new flags does not duplicate these records; spatial subsetting retains
+#'   aligned source flags without changing their original spectral axis.
 #' @return An [hsi_cube] object with resampled spectra.
 #'
 #' @examples
@@ -124,11 +130,26 @@ hs_resample <- function(cube, target_wavelengths, method = "linear") {
     NULL
   }
 
+  metadata <- cube$metadata
+  fields <- intersect(.spectral_quality_fields(), names(metadata))
+  flags <- metadata[fields]
+  flags <- flags[!vapply(flags, is.null, logical(1))]
+  if (length(flags)) {
+    for (flag in flags) {
+      if (!is.logical(flag) || !is.array(flag) ||
+          !identical(unname(dim(flag)), unname(d))) {
+        cli::cli_abort("Current spectral QC flags must match the cube before resampling.")
+      }
+    }
+    metadata[["source_spectral_qc"]] <- c(metadata[["source_spectral_qc"]] %||% list(),
+      list(list(wavelengths = cube$wavelengths, flags = flags)))
+  }
+  metadata[fields] <- NULL
   result <- hsi_cube(
     data = array(resampled, dim = c(d[1], d[2], n_new_bands)),
     wavelengths = target_wavelengths,
     fwhm = new_fwhm,
-    metadata = cube$metadata,
+    metadata = metadata,
     mask = cube$mask
   )
   .record_step(result, "resample", list(method = method, wavelengths = target_wavelengths))

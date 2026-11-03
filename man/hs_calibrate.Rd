@@ -27,7 +27,8 @@ An \link{hsi_cube} object with reflectance values.
 \description{
 Applies dark current subtraction and white reference normalization:
 \code{R(x,y,lambda) = (raw - dark) / (white - dark)}. Values are clamped to
-\verb{[0, 1]} unless \code{clamp = FALSE}.
+\verb{[0, 1]} unless \code{clamp = FALSE}. Nonfinite input or intermediate values
+remain missing and are recorded as invalid; clamping never repairs them.
 }
 \examples{
 cube <- hs_simulate_cube(rows = 10, cols = 10, noise_sd = 0)

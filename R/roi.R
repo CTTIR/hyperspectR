@@ -41,7 +41,9 @@ hs_roi_rect <- function(cube, x_range, y_range) {
 
 #' Define Polygon ROI
 #'
-#' Creates a polygon region of interest using point-in-polygon testing.
+#' Creates a polygon region of interest using point-in-polygon testing of
+#' integer pixel centers. A half-open ray-crossing rule handles boundaries;
+#' reversing the vertex order leaves the selected pixels unchanged.
 #'
 #' @param cube An [hsi_cube] object.
 #' @param vertices Matrix with columns `x` and `y` (polygon vertices in pixel
@@ -170,10 +172,13 @@ hs_roi_stats <- function(cube, roi) {
   inside <- FALSE
   j <- n
   for (i in seq_len(n)) {
-    if (((poly_y[i] > py) != (poly_y[j] > py)) &&
-        (px < (poly_x[j] - poly_x[i]) * (py - poly_y[i]) /
-         (poly_y[j] - poly_y[i] + 1e-10) + poly_x[i])) {
-      inside <- !inside
+    if ((poly_y[i] > py) != (poly_y[j] > py)) {
+      # Use the same lower-to-upper edge arithmetic for either winding. A
+      # crossing edge cannot be horizontal, so no denominator epsilon is needed.
+      edge <- if (poly_y[i] < poly_y[j]) c(i, j) else c(j, i)
+      weight <- .normalize_range(py, poly_y[edge])
+      crossing <- (1 - weight) * poly_x[edge[1]] + weight * poly_x[edge[2]]
+      if (px < crossing) inside <- !inside
     }
     j <- i
   }

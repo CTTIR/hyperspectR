@@ -16,7 +16,9 @@ coordinates).}
 A list with class \code{"hsi_roi"} containing the mask.
 }
 \description{
-Creates a polygon region of interest using point-in-polygon testing.
+Creates a polygon region of interest using point-in-polygon testing of
+integer pixel centers. A half-open ray-crossing rule handles boundaries;
+reversing the vertex order leaves the selected pixels unchanged.
 }
 \examples{
 cube <- hs_example_cube()

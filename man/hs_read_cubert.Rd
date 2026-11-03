@@ -15,7 +15,9 @@ hs_read_cubert(
 \arguments{
 \item{path}{Path to \code{.cu3s} Cubert session file.}
 
-\item{index}{Integer. Measurement index within session (1-based). Default \code{1}.}
+\item{index}{Integer. Measurement index within session (1-based). Default \code{1}.
+Must be a finite positive whole number within the session's measurements;
+fractional indices are rejected before SDK initialization.}
 
 \item{mode}{Character. Processing mode: \code{"reflectance"} (default),
 \code{"spectral_radiance"}, \code{"dark_subtract"}, \code{"raw"}.}

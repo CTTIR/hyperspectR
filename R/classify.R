@@ -32,7 +32,9 @@ hs_sam <- function(cube, endmembers, threshold = 0.1) {
 
   if (is.data.frame(endmembers)) endmembers <- as.matrix(endmembers)
 
-  if (!is.matrix(endmembers) || !is.numeric(endmembers) || !nrow(endmembers) || any(!is.finite(endmembers)) || any(rowSums(endmembers^2) == 0)) cli::cli_abort("Endmembers must be finite non-zero spectra.")
+  if (!is.matrix(endmembers) || !is.numeric(endmembers) || is.complex(endmembers) ||
+      !nrow(endmembers) || any(!is.finite(endmembers)) ||
+      any(rowSums(endmembers != 0) == 0)) cli::cli_abort("Endmembers must be finite non-zero spectra.")
   if (length(threshold) != 1L || !is.finite(threshold) || threshold < 0 || threshold > pi) cli::cli_abort("Threshold must be between zero and pi radians.")
   if (ncol(endmembers) != dim(cube$data)[3L]) {
     cli::cli_abort(
@@ -53,18 +55,19 @@ hs_sam <- function(cube, endmembers, threshold = 0.1) {
   # Compute spectral angles
   angle_mat <- matrix(NA_real_, nrow = nrow(pixel_mat), ncol = n_em)
 
-  # Precompute endmember norms
-  em_norms <- sqrt(rowSums(endmembers^2))
-
+  # Normalize before products so changing spectral magnitude cannot overflow
+  # or underflow the angle. The half-angle formula also preserves zero angles
+  # between identical normalized spectra, including threshold = 0.
+  pixel_unit <- .sam_unit_spectra(pixel_mat)
+  em_unit <- .sam_unit_spectra(endmembers)
+  valid <- .valid_pixels(cube) & rowSums(abs(pixel_mat), na.rm = TRUE) > 0
   for (e in seq_len(n_em)) {
-    dots <- pixel_mat %*% endmembers[e, ]
-    pixel_norms <- sqrt(rowSums(pixel_mat^2))
-    cos_angle <- dots / (pixel_norms * em_norms[e])
-    cos_angle <- pmin(pmax(cos_angle, -1), 1)
-    angle_mat[, e] <- acos(cos_angle)
+    difference <- sweep(pixel_unit, 2L, em_unit[e, ], "-")
+    combined <- sweep(pixel_unit, 2L, em_unit[e, ], "+")
+    angle_mat[, e] <- 2 * atan2(sqrt(rowSums(difference^2)),
+                                 sqrt(rowSums(combined^2)))
   }
 
-  valid <- .valid_pixels(cube) & rowSums(pixel_mat^2, na.rm = TRUE) > 0
   class_vec <- rep(NA_character_, nrow(pixel_mat))
   for (i in which(valid)) {
     closest <- which.min(angle_mat[i, ])
@@ -82,6 +85,15 @@ hs_sam <- function(cube, endmembers, threshold = 0.1) {
   )
 
   class(result) <- "hsi_classification"
+  result
+}
+
+.sam_unit_spectra <- function(x) {
+  magnitude <- apply(abs(x), 1L, max)
+  valid <- is.finite(magnitude) & magnitude > 0
+  result <- matrix(NA_real_, nrow(x), ncol(x))
+  scaled <- x[valid, , drop = FALSE] / magnitude[valid]
+  result[valid, ] <- scaled / sqrt(rowSums(scaled^2))
   result
 }
 
@@ -303,6 +315,10 @@ hs_endmembers <- function(cube, pixels, labels = NULL) {
 hs_predict <- function(model, cube) {
   .validate_cube(cube)
   if (!inherits(model, "hsi_classification") || is.null(model$model)) cli::cli_abort("Supply a fitted SVM or random forest classification result.")
+  if (!is.list(model$feature_contract) ||
+      !identical(model$feature_contract$schema_version, 2L)) {
+    cli::cli_abort("This saved classifier lacks the current preprocessing contract. Retrain it with the current package and the original training recipe.")
+  }
   if (!isTRUE(all.equal(model$wavelengths, cube$wavelengths, tolerance = 1e-8))) cli::cli_abort("Prediction wavelengths must match training wavelengths.")
   if (!identical(model$input_domain, cube$metadata$processing_mode %||% "unknown")) cli::cli_abort("Prediction preprocessing domain must match training.")
   if (!isTRUE(all.equal(model$feature_contract, .feature_contract(cube)))) cli::cli_abort("Prediction preprocessing and band response must match training.")

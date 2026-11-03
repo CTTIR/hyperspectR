@@ -8,6 +8,10 @@
 #' @param interleave Character. Data interleave format: `"bsq"` (default),
 #'   `"bil"`, or `"bip"`.
 #' @param data_type Integer. ENVI data type code. Default `4` (float32).
+#'   Float32 rounds values to single precision; finite values outside its
+#'   nonzero range are rejected before replacing files. Use `5` (float64)
+#'   to retain the full R double range. Missing and masked values require a
+#'   floating-point output type.
 #' @param verbose Logical. Print progress. Default `TRUE`.
 #'
 #' @return Invisible character vector of written file paths.
@@ -28,12 +32,13 @@ hs_write_envi <- function(cube, path, interleave = "bsq", data_type = 4L,
   output_data <- array(.pixel_matrix(cube), dim(cube$data))
   if (type_info$what == "integer") {
     limits <- switch(as.character(data_type), "1" = c(0, 255), "2" = c(-32768, 32767),
-                     "3" = c(-2147483647, 2147483647), "12" = c(0, 65535))
+                     "3" = c(-2147483648, 2147483647), "12" = c(0, 65535))
     if (any(!is.finite(output_data)) || any(output_data != trunc(output_data)) ||
         any(output_data < limits[1] | output_data > limits[2])) {
       cli::cli_abort("Integer ENVI output requires finite whole values within the selected type range; use floating point for masks or missing data.")
     }
   }
+  if (as.character(data_type) == "4") .validate_float32_range(output_data)
   hdr_path <- paste0(path, ".hdr")
   dat_path <- paste0(path, ".dat")
 
@@ -93,6 +98,9 @@ hs_write_envi <- function(cube, path, interleave = "bsq", data_type = 4L,
   if (type_info$what == "double") {
     writeBin(as.double(flat), con, size = type_info$size, endian = "little")
   } else {
+    # The NA integer bit pattern is the valid ENVI int32 lower endpoint.
+    # Input missingness was rejected above, so only that endpoint is encoded here.
+    if (as.character(data_type) == "3") flat[flat == -2147483648] <- NA_real_
     writeBin(as.integer(flat), con, size = type_info$size, endian = "little")
   }
 
@@ -111,7 +119,10 @@ hs_write_envi <- function(cube, path, interleave = "bsq", data_type = 4L,
 #' Write an HSI Cube to Multi-Band TIFF
 #'
 #' Writes an [hsi_cube] object as a multi-band GeoTIFF file. Requires the
-#' `terra` package.
+#' `terra` package. Values are stored as float64 to preserve the R double
+#' range and precision; this can use more disk space than float32 TIFF.
+#' A completed temporary TIFF replaces the target only after
+#' encoding succeeds; ordinary write failures leave an existing target intact.
 #'
 #' @param cube An [hsi_cube] object.
 #' @param path Character. Output path (should end in .tif).
@@ -145,7 +156,10 @@ hs_write_tiff <- function(cube, path, verbose = TRUE) {
   terra::values(r) <- matrix(aperm(array(.pixel_matrix(cube), d), c(2, 1, 3)), nrow = d[1] * d[2], ncol = d[3])
   names(r) <- paste0("band_", round(cube$wavelengths))
 
-  terra::writeRaster(r, path, overwrite = TRUE)
+  staged <- tempfile(tmpdir = dirname(path), fileext = ".tif")
+  on.exit(unlink(staged), add = TRUE)
+  terra::writeRaster(r, staged, overwrite = TRUE, datatype = "FLT8S")
+  .publish_file_pair(staged, path)
 
   if (verbose) cli::cli_inform("  Written: {.file {path}}")
   invisible(path)
@@ -160,7 +174,9 @@ hs_write_tiff <- function(cube, path, verbose = TRUE) {
 #' @param palette Character. Color palette: `"viridis"`, `"magma"`, `"inferno"`,
 #'   `"plasma"`, `"grey"`. Default `"viridis"`.
 #' @param range Numeric vector of length 2. Data range for color mapping.
-#'   Default `NULL` (auto from data range).
+#'   Default `NULL` (auto from finite data). Finite ordered endpoints are
+#'   required; a constant range uses the first palette color. Non-finite
+#'   pixels are black, including an image with no finite pixels.
 #' @param width Integer. Image width in pixels. Default `NULL` (matches data cols).
 #' @param height Integer. Image height in pixels. Default `NULL` (matches data rows).
 #'
@@ -175,18 +191,29 @@ hs_write_tiff <- function(cube, path, verbose = TRUE) {
 #' @export
 hs_export_png <- function(data, path, palette = "viridis", range = NULL,
                           width = NULL, height = NULL) {
-  if (!is.matrix(data)) {
+  if (!is.matrix(data) || !is.numeric(data) || is.complex(data) || any(dim(data) == 0L)) {
     cli::cli_abort("{.arg data} must be a numeric matrix.")
   }
 
-  if (is.null(range)) range <- range(data, na.rm = TRUE)
+  if (is.null(range)) {
+    finite <- data[is.finite(data)]
+    range <- if (length(finite)) base::range(finite) else c(0, 0)
+  }
+  if (!is.numeric(range) || is.complex(range) || !is.null(dim(range)) ||
+      length(range) != 2L || any(!is.finite(range)) || range[1] > range[2]) {
+    cli::cli_abort("Color range must contain two finite ordered numeric values.")
+  }
   if (is.null(width)) width <- ncol(data)
   if (is.null(height)) height <- nrow(data)
+  for (size in list(width, height)) {
+    if (!is.numeric(size) || length(size) != 1L || !is.finite(size) ||
+        size < 1 || size != floor(size) || size > .Machine$integer.max) {
+      cli::cli_abort("PNG width and height must be positive whole pixel counts.")
+    }
+  }
 
   # Normalize data to [0, 1]
-  norm_data <- (data - range[1]) / (range[2] - range[1] + 1e-10)
-  norm_data[norm_data < 0] <- 0
-  norm_data[norm_data > 1] <- 1
+  norm_data <- .normalize_range(data, range)
 
   # Get color palette
   n_colors <- 256L
@@ -202,11 +229,14 @@ hs_export_png <- function(data, path, palette = "viridis", range = NULL,
   # Map values to colors
   idx <- pmin(pmax(round(norm_data * (n_colors - 1)) + 1L, 1L), n_colors)
   col_matrix <- matrix(pal[idx], nrow = nrow(data), ncol = ncol(data))
-  col_matrix[is.na(data)] <- "#000000"
+  col_matrix[!is.finite(data)] <- "#000000"
 
   # Write PNG
-  grDevices::png(path, width = width, height = height)
-  on.exit(grDevices::dev.off(), add = TRUE)
+  staged <- tempfile(tmpdir = dirname(path), fileext = ".png")
+  on.exit(unlink(staged), add = TRUE)
+  grDevices::png(staged, width = width, height = height)
+  device <- grDevices::dev.cur()
+  on.exit(if (device %in% grDevices::dev.list()) grDevices::dev.off(device), add = TRUE, after = FALSE)
   graphics::par(mar = c(0, 0, 0, 0))
   graphics::plot.new()
   graphics::plot.window(xlim = c(0, ncol(data)), ylim = c(0, nrow(data)), xaxs = "i", yaxs = "i")
@@ -217,8 +247,18 @@ hs_export_png <- function(data, path, palette = "viridis", range = NULL,
     xright = ncol(data), ytop = nrow(data),
     interpolate = FALSE
   )
+  grDevices::dev.off(device)
+  .publish_file_pair(staged, path)
 
   invisible(path)
+}
+
+.validate_float32_range <- function(x) {
+  magnitude <- abs(x[is.finite(x)])
+  if (any(magnitude > (2 - 2^-23) * 2^127 | (magnitude > 0 & magnitude < 2^-149))) {
+    cli::cli_abort("Finite values exceed the nonzero float32 range; use data_type = 5 (float64).")
+  }
+  invisible(x)
 }
 
 .publish_file_pair <- function(staged, targets) {

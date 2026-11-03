@@ -22,7 +22,9 @@ hs_export_png(
 \code{"plasma"}, \code{"grey"}. Default \code{"viridis"}.}
 
 \item{range}{Numeric vector of length 2. Data range for color mapping.
-Default \code{NULL} (auto from data range).}
+Default \code{NULL} (auto from finite data). Finite ordered endpoints are
+required; a constant range uses the first palette color. Non-finite
+pixels are black, including an image with no finite pixels.}
 
 \item{width}{Integer. Image width in pixels. Default \code{NULL} (matches data cols).}
 

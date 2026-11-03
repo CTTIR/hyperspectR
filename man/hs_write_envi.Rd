@@ -15,7 +15,11 @@ will be created.}
 \item{interleave}{Character. Data interleave format: \code{"bsq"} (default),
 \code{"bil"}, or \code{"bip"}.}
 
-\item{data_type}{Integer. ENVI data type code. Default \code{4} (float32).}
+\item{data_type}{Integer. ENVI data type code. Default \code{4} (float32).
+Float32 rounds values to single precision; finite values outside its
+nonzero range are rejected before replacing files. Use \code{5} (float64)
+to retain the full R double range. Missing and masked values require a
+floating-point output type.}
 
 \item{verbose}{Logical. Print progress. Default \code{TRUE}.}
 }

@@ -2,7 +2,8 @@
 #'
 #' Applies dark current subtraction and white reference normalization:
 #' `R(x,y,lambda) = (raw - dark) / (white - dark)`. Values are clamped to
-#' `[0, 1]` unless `clamp = FALSE`.
+#' `[0, 1]` unless `clamp = FALSE`. Nonfinite input or intermediate values
+#' remain missing and are recorded as invalid; clamping never repairs them.
 #'
 #' @param cube An [hsi_cube] object with raw data.
 #' @param dark An [hsi_cube] object or 3D array representing the dark reference
@@ -29,10 +30,11 @@ hs_calibrate <- function(cube, dark, white, clamp = TRUE, saturation = NULL) {
 
   dark_data <- .extract_cal_data(dark, cube)
   white_data <- .extract_cal_data(white, cube)
+  input_data <- array(as.double(.pixel_matrix(cube)), dim(cube$data))
 
   denom <- white_data - dark_data
   tolerance <- sqrt(.Machine$double.eps) * pmax(1, abs(white_data), abs(dark_data))
-  invalid <- !is.finite(denom) | denom <= tolerance
+  invalid <- !is.finite(input_data) | !is.finite(denom) | denom <= tolerance
   saturation <- saturation %||% cube$metadata$saturation_value
   saturated <- array(FALSE, dim(cube$data))
   if (!is.null(saturation)) {
@@ -46,7 +48,9 @@ hs_calibrate <- function(cube, dark, white, clamp = TRUE, saturation = NULL) {
   cube$metadata$saturation_checked <- !is.null(saturation)
   denom[invalid] <- NA_real_
 
-  cal_data <- (cube$data - dark_data) / denom
+  cal_data <- (input_data - dark_data) / denom
+  invalid <- invalid | !is.finite(cal_data)
+  cal_data[!is.finite(cal_data)] <- NA_real_
 
   clipped <- is.finite(cal_data) & (cal_data < 0 | cal_data > 1)
   cube$metadata$calibration_clipped <- clipped
@@ -213,7 +217,10 @@ hs_fix_bad_pixels <- function(cube, threshold = 3, method = "median") {
   } else {
     cli::cli_abort("Calibration reference must be an {.cls hsi_cube} or 3D array.")
   }
-  if (!identical(dim(data), dim(cube$data))) cli::cli_abort("Calibration reference dimensions must match the cube.")
+  if (!identical(unname(dim(data)), unname(dim(cube$data)))) cli::cli_abort("Calibration reference dimensions must match the cube.")
+  # Sensor arrays may use integer storage; subtraction must not overflow R's
+  # 32-bit integer arithmetic before a representable ratio can be computed.
+  storage.mode(data) <- "double"
   data
 }
 

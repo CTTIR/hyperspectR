@@ -122,6 +122,7 @@ dim.hsi_cube <- function(x) {
 #'
 #' @export
 `[.hsi_cube` <- function(x, i, j, k, ...) {
+  .validate_cube(x)
   d <- dim(x$data)
 
   if (missing(i)) i <- seq_len(d[1])
@@ -135,10 +136,16 @@ dim.hsi_cube <- function(x) {
 
   metadata <- x$metadata
   for (field in c("region_map", "repair_mask", "defect_mask")) {
-    if (is.matrix(metadata[[field]]) && identical(dim(metadata[[field]]), d[1:2])) metadata[[field]] <- metadata[[field]][i, j, drop = FALSE]
+    if (is.matrix(metadata[[field]]) && identical(unname(dim(metadata[[field]])), unname(d[1:2]))) metadata[[field]] <- metadata[[field]][i, j, drop = FALSE]
   }
-  for (field in c("calibration_invalid", "calibration_clipped", "calibration_saturated", "absorbance_clipped")) {
-    if (is.array(metadata[[field]]) && identical(dim(metadata[[field]]), d)) metadata[[field]] <- metadata[[field]][i, j, k, drop = FALSE]
+  for (field in .spectral_quality_fields()) {
+    if (is.array(metadata[[field]]) && identical(unname(dim(metadata[[field]])), unname(d))) metadata[[field]] <- metadata[[field]][i, j, k, drop = FALSE]
+  }
+  if (!is.null(metadata[["source_spectral_qc"]])) {
+    metadata[["source_spectral_qc"]] <- lapply(metadata[["source_spectral_qc"]], function(record) {
+      record[["flags"]] <- lapply(record[["flags"]], function(flag) flag[i, j, , drop = FALSE])
+      record
+    })
   }
   hsi_cube(
     data = new_data,
@@ -166,6 +173,7 @@ dim.hsi_cube <- function(x) {
 #'
 #' @export
 as.data.frame.hsi_cube <- function(x, ..., long = FALSE) {
+  .validate_cube(x)
   d <- dim(x$data)
   coords <- expand.grid(y = seq_len(d[1]), x = seq_len(d[2]))
 

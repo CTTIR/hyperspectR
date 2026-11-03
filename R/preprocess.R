@@ -163,6 +163,10 @@ hs_msc <- function(cube, reference = NULL) {
 #'
 #' @export
 hs_derivative <- function(cube, order = 1L, window = 5L) {
-  hs_smooth(cube, window = window, poly = max(as.integer(order) + 1L, 2L),
+  if (length(order) != 1L || !is.numeric(order) || !is.finite(order) ||
+      order < 1 || order >= .Machine$integer.max || order != floor(order)) {
+    cli::cli_abort("Derivative order must be a positive integer.")
+  }
+  hs_smooth(cube, window = window, poly = max(order + 1, 2),
             deriv = as.integer(order))
 }

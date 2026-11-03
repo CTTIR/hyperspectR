@@ -218,6 +218,10 @@ hs_umap <- function(cube, n_components = 2L, n_neighbors = 15L,
 hs_transform <- function(model, cube) {
   .validate_cube(cube)
   if (!inherits(model, c("hsi_pca", "hsi_mnf"))) cli::cli_abort("Model must be a fitted PCA or MNF transform.")
+  if (!is.list(model$feature_contract) ||
+      !identical(model$feature_contract$schema_version, 2L)) {
+    cli::cli_abort("This saved transform lacks the current preprocessing contract. Refit it with the current package and the original training recipe.")
+  }
   if (!isTRUE(all.equal(model$wavelengths, cube$wavelengths, tolerance = 1e-8))) cli::cli_abort("Prediction wavelengths must match the fitted transform.")
   if (!isTRUE(all.equal(model$feature_contract, .feature_contract(cube)))) cli::cli_abort("Prediction preprocessing and band response must match the fitted transform.")
   pixels <- .pixel_matrix(cube)

@@ -18,7 +18,10 @@ Invisible path to the written file.
 }
 \description{
 Writes an \link{hsi_cube} object as a multi-band GeoTIFF file. Requires the
-\code{terra} package.
+\code{terra} package. Values are stored as float64 to preserve the R double
+range and precision; this can use more disk space than float32 TIFF.
+A completed temporary TIFF replaces the target only after
+encoding succeeds; ordinary write failures leave an existing target intact.
 }
 \examples{
 \donttest{

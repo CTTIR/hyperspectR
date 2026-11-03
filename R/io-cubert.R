@@ -13,6 +13,8 @@
 #'
 #' @param path Path to `.cu3s` Cubert session file.
 #' @param index Integer. Measurement index within session (1-based). Default `1`.
+#'   Must be a finite positive whole number within the session's measurements;
+#'   fractional indices are rejected before SDK initialization.
 #' @param mode Character. Processing mode: `"reflectance"` (default),
 #'   `"spectral_radiance"`, `"dark_subtract"`, `"raw"`.
 #' @param settings_dir Character or `NULL`. Path to the CUVIS settings
@@ -34,6 +36,12 @@ hs_read_cubert <- function(path, index = 1L,
                                     "dark_subtract", "raw"),
                            settings_dir = NULL,
                            verbose = TRUE) {
+  if (!is.numeric(index) || is.complex(index) || length(index) != 1L ||
+      !is.finite(index) || index < 1 || index != floor(index) ||
+      index > .Machine$integer.max) {
+    cli::cli_abort("Measurement index must be a finite positive integer.")
+  }
+  index <- as.integer(index)
   rlang::check_installed("cuvis.r",
     reason = "to read Cubert .cu3s files",
     action = function(pkg, ...) {
@@ -64,12 +72,15 @@ hs_read_cubert <- function(path, index = 1L,
 
   # Open session and extract measurement
   session <- cuvis.r::cuvis_session(path)
+  if (index > length(session)) {
+    cli::cli_abort("Measurement index {index} exceeds the session's {length(session)} measurements.")
+  }
 
   if (verbose) {
     cli::cli_inform("  Session contains {length(session)} measurement(s).")
   }
 
-  mesu <- cuvis.r::cuvis_get_measurement(session, as.integer(index))
+  mesu <- cuvis.r::cuvis_get_measurement(session, index)
   md <- cuvis.r::cuvis_get_metadata(mesu)
 
   # Processing context auto-loads embedded dark/white references
@@ -103,7 +114,7 @@ hs_read_cubert <- function(path, index = 1L,
       processing_mode = mode,
       integration_time_ms = md$integration_time,
       measurement_name = md$name,
-      measurement_index = as.integer(index)
+      measurement_index = index
     )
   )
 }

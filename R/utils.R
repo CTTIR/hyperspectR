@@ -6,14 +6,24 @@
 #' @return Invisible `x` if valid; otherwise errors.
 #' @noRd
 .validate_cube <- function(x) {
-  if (!inherits(x, "hsi_cube")) {
+  if (!inherits(x, "hsi_cube") || !is.list(x)) {
     cli::cli_abort("{.arg x} must be an {.cls hsi_cube} object.")
   }
 
-  if (!is.numeric(x$data) || !is.array(x$data) || length(dim(x$data)) != 3L || any(dim(x$data) == 0L)) {
+  fields <- c("data", "wavelengths", "fwhm", "metadata", "mask")
+  if (anyDuplicated(names(x)) || !all(c("data", "wavelengths", "metadata") %in% names(x)) ||
+      any(vapply(fields, function(field) {
+        !identical(x[[field, exact = TRUE]], x[[field, exact = FALSE]])
+      }, logical(1)))) {
+    cli::cli_abort("An hsi_cube must have exact, unambiguous data, wavelengths and metadata fields.")
+  }
+  if (!is.list(x[["metadata"]])) cli::cli_abort("Cube metadata must be a list.")
+  if (!is.numeric(x$data) || is.complex(x$data) || !is.array(x$data) || length(dim(x$data)) != 3L || any(dim(x$data) == 0L)) {
     cli::cli_abort("{.field data} must be a 3D array (rows x cols x bands).")
   }
 
+  .validate_spectral_vector(x$wavelengths, "wavelengths")
+  if (!is.null(x$fwhm)) .validate_spectral_vector(x$fwhm, "fwhm")
   if (any(!is.finite(x$wavelengths)) || any(x$wavelengths <= 0) ||
       is.unsorted(x$wavelengths, strictly = TRUE)) {
     cli::cli_abort("Wavelengths must be finite, positive, unique and increasing.")
@@ -29,8 +39,9 @@
     )
   }
   if (!is.null(x$mask)) .validate_spatial_mask(x$mask, x)
+  .validate_spectral_qc_archive(x$metadata[["source_spectral_qc"]], dim(x$data))
 
-  if (!is.null(x$mask) && !identical(dim(x$mask), dim(x$data)[1:2])) {
+  if (!is.null(x$mask) && !identical(unname(dim(x$mask)), unname(dim(x$data)[1:2]))) {
     cli::cli_abort(
       "{.field mask} dimensions must match spatial dimensions of {.field data}."
     )
@@ -39,9 +50,46 @@
   invisible(x)
 }
 
+.validate_spectral_vector <- function(x, name) {
+  if (!is.numeric(x) || is.complex(x) || is.object(x) || !is.null(dim(x))) {
+    cli::cli_abort("{name} must be a numeric vector, not a factor, character value or array.")
+  }
+  invisible(x)
+}
+
+.spectral_quality_fields <- function() {
+  c("calibration_invalid", "calibration_clipped", "calibration_saturated", "absorbance_clipped")
+}
+
+.validate_spectral_qc_archive <- function(archive, dims) {
+  if (is.null(archive)) return(invisible(NULL))
+  if (!is.list(archive)) cli::cli_abort("Source spectral QC must be a list of records.")
+  for (record in archive) {
+    if (!is.list(record) || anyDuplicated(names(record))) {
+      cli::cli_abort("Each source spectral QC record must contain wavelengths and named flags.")
+    }
+    wavelengths <- record[["wavelengths"]]
+    flags <- record[["flags"]]
+    .validate_spectral_vector(wavelengths, "Source spectral QC wavelengths")
+    if (!length(wavelengths) || any(!is.finite(wavelengths)) || any(wavelengths <= 0) ||
+        is.unsorted(wavelengths, strictly = TRUE) || !is.list(flags) || !length(flags) ||
+        is.null(names(flags)) || anyDuplicated(names(flags)) ||
+        any(!names(flags) %in% .spectral_quality_fields())) {
+      cli::cli_abort("Source spectral QC requires increasing wavelengths and named quality flags.")
+    }
+    expected <- c(unname(dims[1:2]), length(wavelengths))
+    for (flag in flags) {
+      if (!is.logical(flag) || !is.array(flag) || !identical(unname(dim(flag)), expected)) {
+        cli::cli_abort("Source spectral QC flag dimensions must match the spatial image and source wavelength grid.")
+      }
+    }
+  }
+  invisible(archive)
+}
+
 .validate_spatial_mask <- function(mask, cube) {
   if (!is.logical(mask) || !is.matrix(mask) || anyNA(mask) ||
-      !identical(dim(mask), dim(cube$data)[1:2])) {
+      !identical(unname(dim(mask)), unname(dim(cube$data)[1:2]))) {
     cli::cli_abort("Mask must be a logical matrix without NA matching spatial dimensions.")
   }
   invisible(mask)
@@ -196,11 +244,21 @@
   if (all(is.na(x))) return(x)
   lo <- stats::quantile(x, quantiles[1], na.rm = TRUE)
   hi <- stats::quantile(x, quantiles[2], na.rm = TRUE)
-  if (hi == lo) return(x * 0 + 0.5)
-  out <- (x - lo) / (hi - lo)
-  out[out < 0] <- 0
-  out[out > 1] <- 1
-  out
+  .normalize_range(x, c(lo, hi), constant = 0.5)
+}
+
+.normalize_range <- function(x, limits, constant = 0) {
+  x[!is.finite(x)] <- NA_real_
+  if (limits[1] == limits[2]) return(x * 0 + constant)
+  clipped <- pmin(pmax(x, limits[1]), limits[2])
+  span <- limits[2] - limits[1]
+  if (is.finite(span)) {
+    (clipped - limits[1]) / span
+  } else {
+    # Opposite finite extremes can overflow their difference. Halving by a
+    # power of two keeps the endpoints representable without an absolute epsilon.
+    (clipped / 2 - limits[1] / 2) / (limits[2] / 2 - limits[1] / 2)
+  }
 }
 
 #' Savitzky-Golay Convolution Coefficients (built-in fallback)
@@ -232,8 +290,22 @@
   invisible(pixels)
 }
 
-.feature_contract <- function(cube) list(
-  domain = cube$metadata$processing_mode %||% "unknown", fwhm = cube$fwhm,
-  msc_reference = cube$metadata$msc_reference,
-  sg_window = cube$metadata$sg_window, sg_poly = cube$metadata$sg_poly,
-  sg_deriv = cube$metadata$sg_deriv)
+.feature_contract <- function(cube) {
+  history <- cube$metadata[["history"]] %||% list()
+  if (!is.list(history)) cli::cli_abort("Cube processing history must be a list.")
+  transforms <- lapply(history, function(step) {
+    if (!is.list(step) || anyDuplicated(names(step)) ||
+        !is.character(step[["method"]]) || length(step[["method"]]) != 1L ||
+        is.na(step[["method"]]) || !nzchar(step[["method"]]) ||
+        !is.list(step[["parameters"]])) {
+      cli::cli_abort("Each processing history entry must contain a method and a parameter list.")
+    }
+    list(method = step[["method"]], parameters = step[["parameters"]])
+  })
+  list(schema_version = 2L,
+       domain = cube$metadata[["processing_mode"]] %||% "unknown", fwhm = cube$fwhm,
+       wavelengths_known = !identical(cube$metadata[["wavelengths_known"]], FALSE),
+       msc_reference = cube$metadata[["msc_reference"]],
+       sg_window = cube$metadata[["sg_window"]], sg_poly = cube$metadata[["sg_poly"]],
+       sg_deriv = cube$metadata[["sg_deriv"]], transforms = transforms)
+}

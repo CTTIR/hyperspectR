@@ -2,6 +2,8 @@
 #'
 #' Reads ENVI format hyperspectral data consisting of a `.hdr` header file
 #' and a binary data file. Supports BSQ, BIL, and BIP interleave formats.
+#' A declared `data ignore value` becomes `NA` in either backend. Signed
+#' 32-bit integer payloads retain their full range as R double values.
 #'
 #' @param path Path to the ENVI header file (.hdr) or binary file.
 #' @param backend Character. `"auto"` (default) uses the deterministic built-in reader. `"builtin"` forces pure-R reader.
@@ -52,6 +54,16 @@ hs_read_envi <- function(path, backend = "auto", bands = NULL,
     cube_data <- .read_envi_terra(dat_path, header, bands, extent)
   } else {
     cube_data <- .read_envi_builtin(dat_path, header, bands, extent)
+  }
+
+  if (!is.null(header$data_ignore_value)) {
+    ignored <- header$data_ignore_value
+    if (header$data_type == 4L && is.finite(ignored)) {
+      # Compare in the payload's precision, including decimal float32 sentinels.
+      ignored <- readBin(writeBin(ignored, raw(), size = 4L), "double", n = 1L, size = 4L)
+    }
+    if (is.nan(ignored)) cube_data[is.nan(cube_data)] <- NA_real_
+    else cube_data[!is.na(cube_data) & cube_data == ignored] <- NA_real_
   }
 
   # Extract wavelengths
@@ -277,6 +289,7 @@ hs_read_cube <- function(path, ...) {
       joined <- c(joined, line)
     }
   }
+  if (in_braces) cli::cli_abort("Unterminated ENVI header field.")
 
   # Parse key = value pairs
   header <- list()
@@ -290,17 +303,19 @@ hs_read_cube <- function(path, ...) {
 
   # Extract required fields
   result <- list()
-  result$samples <- as.integer(header[["samples"]])
-  result$lines <- as.integer(header[["lines"]])
-  result$bands <- as.integer(header[["bands"]])
-  result$data_type <- as.integer(header[["data type"]] %||% "4")
-  result$interleave <- tolower(header[["interleave"]] %||% "bsq")
-  result$byte_order <- as.integer(header[["byte order"]] %||% "0")
-  result$header_offset <- as.integer(header[["header offset"]] %||% "0")
-
   for (name in c("samples", "lines", "bands")) {
-    value <- suppressWarnings(as.numeric(header[[name]]))
-    if (length(value) != 1L || !is.finite(value) || value <= 0 || value != floor(value) || value > .Machine$integer.max) cli::cli_abort("ENVI header {name} must be a positive integer.")
+    result[[name]] <- .envi_header_integer(header[[name]], name, minimum = 1)
+  }
+  result$data_type <- .envi_header_integer(header[["data type"]] %||% "4", "data type", minimum = 1)
+  result$interleave <- tolower(header[["interleave"]] %||% "bsq")
+  result$byte_order <- .envi_header_integer(header[["byte order"]] %||% "0", "byte order")
+  result$header_offset <- .envi_header_integer(header[["header offset"]] %||% "0", "header offset")
+  if (!is.null(header[["data ignore value"]])) {
+    ignored <- suppressWarnings(as.numeric(header[["data ignore value"]]))
+    if (length(ignored) != 1L || (!is.finite(ignored) && !is.nan(ignored))) {
+      cli::cli_abort("ENVI data ignore value must be a finite number or NaN.")
+    }
+    result$data_ignore_value <- ignored
   }
   # Parse wavelengths
   wl_str <- header[["wavelength"]]
@@ -339,6 +354,15 @@ hs_read_cube <- function(path, ...) {
   result$sensor_type <- header[["sensor type"]]
 
   result
+}
+
+.envi_header_integer <- function(value, name, minimum = 0) {
+  value <- suppressWarnings(as.numeric(value))
+  if (length(value) != 1L || !is.finite(value) || value < minimum ||
+      value != floor(value) || value > .Machine$integer.max) {
+    cli::cli_abort("ENVI header {name} must be a whole integer of at least {minimum} within the supported range.")
+  }
+  as.integer(value)
 }
 
 #' ENVI Data Type to R Type Mapping
@@ -383,6 +407,8 @@ hs_read_cube <- function(path, ...) {
                         size = type_info$size, signed = type_info$signed,
                         endian = endian)
     raw_data <- as.numeric(raw_data)
+    # R reserves this int32 bit pattern for NA; ENVI signed integers do not.
+    if (header$data_type == 3L) raw_data[is.na(raw_data)] <- -2147483648
   }
 
   if (length(raw_data) != n_total) cli::cli_abort("Truncated ENVI data: expected {n_total} values, received {length(raw_data)}.")

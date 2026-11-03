@@ -31,6 +31,8 @@ An \link{hsi_cube} object.
 \description{
 Reads ENVI format hyperspectral data consisting of a \code{.hdr} header file
 and a binary data file. Supports BSQ, BIL, and BIP interleave formats.
+A declared \verb{data ignore value} becomes \code{NA} in either backend. Signed
+32-bit integer payloads retain their full range as R double values.
 }
 \examples{
 hdr_path <- hs_example_files()

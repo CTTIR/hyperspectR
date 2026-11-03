@@ -6,7 +6,9 @@
 #'
 #' @param data Numeric 3D array with dimensions (rows, cols, bands).
 #' @param wavelengths Numeric vector of band center wavelengths in nanometers.
-#'   Length must match `dim(data)[3]`.
+#'   Length must match `dim(data)[3]`; values must be finite, positive and
+#'   unique. Unsorted wavelengths reorder data, FWHM and matching per-band
+#'   quality arrays together. Factors, character values and arrays are rejected.
 #' @param fwhm Numeric vector of full-width-at-half-maximum values per band in nm.
 #'   Default `NULL` (unknown). If scalar, recycled to all bands.
 #' @param metadata Named list of metadata (camera model, integration time,
@@ -28,7 +30,7 @@ hsi_cube <- function(data, wavelengths, fwhm = NULL, metadata = list(),
                      mask = NULL) {
   # Validate data
 
-  if (!is.numeric(data)) {
+  if (!is.numeric(data) || is.complex(data)) {
     cli::cli_abort("{.arg data} must be numeric.")
   }
 
@@ -39,6 +41,7 @@ hsi_cube <- function(data, wavelengths, fwhm = NULL, metadata = list(),
   if (any(dim(data) == 0L)) cli::cli_abort("Data dimensions must be positive.")
 
   # Validate wavelengths
+  .validate_spectral_vector(wavelengths, "wavelengths")
   wavelengths <- as.numeric(wavelengths)
   if (length(wavelengths) != dim(data)[3L]) {
     cli::cli_abort(
@@ -53,6 +56,7 @@ hsi_cube <- function(data, wavelengths, fwhm = NULL, metadata = list(),
 
   # Validate / process fwhm
   if (!is.null(fwhm)) {
+    .validate_spectral_vector(fwhm, "fwhm")
     fwhm <- as.numeric(fwhm)
     if (length(fwhm) == 1L) {
       fwhm <- rep(fwhm, length(wavelengths))
@@ -67,17 +71,22 @@ hsi_cube <- function(data, wavelengths, fwhm = NULL, metadata = list(),
   if (!is.null(fwhm) && (any(!is.finite(fwhm)) || any(fwhm <= 0))) {
     cli::cli_abort("FWHM must be finite and positive.")
   }
+  # Check metadata before using it to carry band-linked quality information.
+  if (!is.list(metadata)) {
+    cli::cli_abort("{.arg metadata} must be a list.")
+  }
   if (is.unsorted(wavelengths)) {
     cli::cli_warn("Wavelengths are not strictly monotonically increasing; sorting.")
     ord <- order(wavelengths)
     wavelengths <- wavelengths[ord]
     data <- data[, , ord, drop = FALSE]
     if (!is.null(fwhm)) fwhm <- fwhm[ord]
-  }
-
-  # Validate metadata
-  if (!is.list(metadata)) {
-    cli::cli_abort("{.arg metadata} must be a list.")
+    for (field in .spectral_quality_fields()) {
+      value <- metadata[[field]]
+      if (is.array(value) && identical(unname(dim(value)), unname(dim(data)))) {
+        metadata[[field]] <- value[, , ord, drop = FALSE]
+      }
+    }
   }
 
   # Validate mask
@@ -85,7 +94,7 @@ hsi_cube <- function(data, wavelengths, fwhm = NULL, metadata = list(),
     if (!is.logical(mask) || !is.matrix(mask)) {
       cli::cli_abort("{.arg mask} must be a logical matrix.")
     }
-    if (!identical(dim(mask), dim(data)[1:2])) {
+    if (!identical(unname(dim(mask)), unname(dim(data)[1:2]))) {
       cli::cli_abort(
         "{.arg mask} dimensions ({paste(dim(mask), collapse='x')}) must match spatial dimensions ({paste(dim(data)[1:2], collapse='x')})."
       )
