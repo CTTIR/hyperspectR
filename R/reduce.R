@@ -148,6 +148,11 @@ hs_mnf <- function(cube, n_components = 5L) {
 #' @return A list with class `"hsi_umap"` containing embedding matrix and
 #'   spatial coordinates.
 #'
+#' @details If the PCA dependency raises its known NULL-input error on older R,
+#'   UMAP retries with base SVD for PCA when supported by `uwot` and reports a
+#'   message of class `hyperspectR_umap_pca_fallback`. Other errors, including
+#'   failures in older `uwot` versions without this option, propagate unchanged.
+#'
 #' @examples
 #' \donttest{
 #' # Requires uwot package
@@ -185,10 +190,27 @@ hs_umap <- function(cube, n_components = 2L, n_neighbors = 15L,
   }
 
   if (nrow(input_mat) <= n_neighbors) cli::cli_abort("UMAP needs more valid pixels than n_neighbors.")
-  valid_embedding <- uwot::umap(input_mat,
-                           n_components = as.integer(n_components),
-                           n_neighbors = as.integer(n_neighbors),
-                           min_dist = min_dist, n_threads = 1, n_sgd_threads = 1)
+  run <- function(pca_method = NULL) {
+    args <- list(input_mat,
+                 n_components = as.integer(n_components),
+                 n_neighbors = as.integer(n_neighbors),
+                 min_dist = min_dist, n_threads = 1, n_sgd_threads = 1)
+    if (!is.null(pca_method)) args$pca_method <- pca_method
+    do.call(uwot::umap, args)
+  }
+  valid_embedding <- tryCatch(run(), error = function(cnd) {
+    origin <- conditionCall(cnd)
+    null_error <- identical(conditionMessage(cnd),
+                            "LENGTH or similar applied to NULL object")
+    from_pca <- is.call(origin) && identical(origin[[1]], quote(oknum))
+    supports_svd <- any(c("pca_method", "...") %in% names(formals(uwot::umap)))
+    if (!null_error || !from_pca || !supports_svd) stop(cnd)
+    cli::cli_inform(
+      "The PCA dependency failed on this R version; retrying UMAP with base SVD.",
+      class = "hyperspectR_umap_pca_fallback"
+    )
+    run("svd")
+  })
   embedding <- matrix(NA_real_, prod(d[1:2]), n_components)
   embedding[valid, ] <- valid_embedding
 

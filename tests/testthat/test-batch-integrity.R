@@ -72,7 +72,9 @@ test_that("TIVITA resume tracks consumed sidecar metadata and reference membersh
   writeBin(charToRaw("reference bytes are not read"), png)
   run <- hs_batch(manifest, out_dir = output)
   expect_equal(run$status, "complete")
-  expect_equal(unname(readRDS(run$result_file)$input_references), png)
+  references <- unname(readRDS(run$result_file)$input_references)
+  expect_equal(normalizePath(references, winslash = "/", mustWork = TRUE),
+               normalizePath(png, winslash = "/", mustWork = TRUE))
   writeBin(charToRaw("different bytes, same path"), png)
   expect_equal(hs_batch(manifest, out_dir = output)$status, "resumed")
   unlink(png)

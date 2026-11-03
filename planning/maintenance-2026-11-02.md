@@ -172,3 +172,37 @@ The shared pkgdown first-focus search race remains a dependency follow-up.
 Source merge/push to `main` is now authorized as a separate fleet task. Local
 validation does not establish the subsequent hosted CI or deployed site result;
 publication receipts are recorded separately. No release or submission was made.
+
+## Hosted compatibility follow-up, 2026-11-03
+
+Hosted R-CMD-check run `41608256212` for published commit `4430874` exposed two
+platform cases absent from the local macOS qualification. On Windows, a TIVITA
+resume test compared equivalent image paths with different separators. The test
+now resolves both paths through the filesystem before comparing them; it still
+checks reference membership, resumption after image-byte changes and invalidation
+after image removal. Normalizing both also respects macOS temporary-directory
+symlinks.
+
+On Ubuntu oldrel-3, three UMAP tests reached an irlba PCA failure with the exact
+message `LENGTH or similar applied to NULL object` from `oknum(scale)`. UMAP now
+retries only that identified error with uwot's base-SVD PCA method and emits a
+classed informational message. Ordinary calls retain the original argument set;
+older uwot versions without that PCA option keep their original failure rather
+than receiving an unsupported argument. The input matrix, neighborhood and embedding
+settings, default metric and thread settings remain unchanged. Other dependency
+errors retain their original condition. See the upstream
+[uwot parameter documentation](https://jlmelville.github.io/uwot/reference/umap.html).
+
+The regression exercises actual uwot with the identified irlba failure injected,
+both with and without PCA pre-reduction. It checks finite results, repeated-seed
+identity, caller random-state restoration, retained settings and unrelated-error
+propagation. A restricted historical uwot signature also exercises ordinary
+success and unchanged-error behavior. All 125 affected assertions and all 1,037 full-suite assertions pass
+locally without warnings or skips. Local source packaging also succeeds; the
+package-check and exact-commit hosted results are recorded in the follow-up
+receipt. Local execution does not establish Windows or oldrel hosted acceptance.
+
+The existing report-only house-lint policy remains unchanged: 104 findings
+versus the prior 100. The four additions are deliberate upstream-condition
+signaling in three regression fixtures and rethrowing the original error condition;
+no checks or supported interfaces were disabled to reduce that count.

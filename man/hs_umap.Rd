@@ -34,6 +34,12 @@ spatial coordinates.
 Computes a UMAP (Uniform Manifold Approximation and Projection) embedding
 of the spectral data. Requires the \code{uwot} package.
 }
+\details{
+If the PCA dependency raises its known NULL-input error on older R,
+UMAP retries with base SVD for PCA when supported by \code{uwot} and reports a
+message of class \code{hyperspectR_umap_pca_fallback}. Other errors, including
+failures in older \code{uwot} versions without this option, propagate unchanged.
+}
 \examples{
 \donttest{
 # Requires uwot package
