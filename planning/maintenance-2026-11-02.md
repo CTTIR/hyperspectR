@@ -206,3 +206,14 @@ The existing report-only house-lint policy remains unchanged: 104 findings
 versus the prior 100. The four additions are deliberate upstream-condition
 signaling in three regression fixtures and rethrowing the original error condition;
 no checks or supported interfaces were disabled to reduce that count.
+
+The first follow-up commit `a01f59b` passed the Windows job and the original UMAP
+tests, but the informational oldrel-3 job exposed one new fixture error: its
+restricted historical-signature wrapper called the affected modern dependency
+on an 11-band cube, then correctly could not request the unsupported retry option.
+The ordinary historical-signature fixture now uses four bands, whose PCA uses
+base SVD. Its explicit unsupported-error assertion remains, as do the separate
+11/8-band failure/retry cases. The entire compatibility suite is also exercised
+with the oldrel-like irlba failure injected globally; the prior fixture fails and
+the corrected fixture passes. No runtime implementation or CI policy changed in
+this test follow-up.

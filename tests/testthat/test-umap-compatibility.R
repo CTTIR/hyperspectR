@@ -61,8 +61,11 @@ test_that("UMAP retains the older dependency signature and its errors", {
     actual_umap(X, n_components = n_components, n_neighbors = n_neighbors,
                  min_dist = min_dist, n_threads = n_threads, n_sgd_threads = n_sgd_threads)
   }, .package = "uwot")
+  # Four bands keep this ordinary old-signature case on base PCA even when
+  # the installed irlba has the known NULL-input failure. The high-dimensional
+  # failure/retry paths are exercised separately above.
   cube <- hs_simulate_cube(rows = 8, cols = 8,
-                           wavelengths = seq(500, 600, by = 10), seed = 6)
+                           wavelengths = seq(500, 600, length.out = 4), seed = 6)
   before <- .Random.seed
   result <- hs_umap(cube, n_neighbors = 5L)
   expect_true(all(is.finite(result$embedding)))
