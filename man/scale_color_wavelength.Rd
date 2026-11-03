@@ -17,7 +17,11 @@ A \link[ggplot2:Scale]{ggplot2::Scale} object.
 }
 \description{
 Maps wavelength values to approximate visible light colors for spectral
-line coloring. Returns a ggplot2 continuous color scale.
+line coloring. The default scale is fixed at 380-780 nm, so a wavelength
+retains its colour when the plotted range changes. Values outside the
+display limits use the scale's missing-value colour. Numeric increasing
+\code{limits} supplied in \code{...} may restrict or extend the displayed range while
+preserving the wavelength mapping.
 }
 \examples{
 cube <- hs_example_cube()

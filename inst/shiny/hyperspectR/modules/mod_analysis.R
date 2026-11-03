@@ -31,7 +31,7 @@ mod_analysis_server <- function(id, cube_rv) {
     shiny::observeEvent(input$cancel, job$cancel())
 
     shiny::observeEvent(list(cube_rv$cube, input$analysis_type, input$n_components), {
-      job$cancel()
+      job$invalidate()
       analysis_result(NULL)
     }, priority = 100)
 
@@ -73,6 +73,15 @@ mod_analysis_server <- function(id, cube_rv) {
         hyperspectR::hs_plot_index(res$sto2, title = "Fitted hemoglobin oxygenated fraction (%)",
                                    palette = "sto2")
       }
+    }, alt = function() {
+      res <- analysis_result()
+      shiny::req(res)
+      description <- if (inherits(res, "hsi_pca")) {
+        "Principal-component score maps."
+      } else if (inherits(res, "hsi_mnf")) {
+        "Minimum-noise-fraction component score maps."
+      } else "Research fitted oxygenated hemoglobin fraction map under the Beer-Lambert model."
+      paste(description, "Columns run horizontally and rows vertically. Missing and masked pixels are excluded.")
     })
 
     output$result_info <- shiny::renderText({

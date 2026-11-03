@@ -23,11 +23,23 @@ test_that("hs_plot_clinical warns and skips unknown index", {
 test_that("hs_plot_clinical skips all-NA index (TWI on short range)", {
   cube <- hs_simulate_cube(rows = 6, cols = 6, wavelengths = seq(500, 700, by = 20),
                            noise_sd = 0, seed = 1)
-  expect_warning(
-    p <- hs_plot_clinical(cube, indices = c("sto2", "twi")),
-    "all NA"
-  )
+  warnings <- character()
+  p <- withCallingHandlers(hs_plot_clinical(cube, indices = c("sto2", "twi")),
+    warning = function(w) {
+      warnings <<- c(warnings, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    })
+  expect_length(warnings, 2)
+  expect_match(warnings[1], "Required wavelength bands not available")
+  expect_match(warnings[2], "all NA")
   expect_s3_class(p, "patchwork")
+})
+
+test_that("research panels retain incomplete-coverage warnings", {
+  cube <- hs_example_cube()[1:2, 1:3, ]
+  cube <- cube[, , which(cube$wavelengths <= 850)]
+  expect_warning(panel <- hs_plot_clinical(cube, indices = "npi"), "does not fully cover NPI")
+  expect_s3_class(panel, "patchwork")
 })
 
 test_that("hs_plot_index renders each palette", {

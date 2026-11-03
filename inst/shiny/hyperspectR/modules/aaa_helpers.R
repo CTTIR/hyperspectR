@@ -8,6 +8,12 @@
   })
 }
 
+.app_spectral_axis <- function(cube) {
+  if (identical(cube$metadata$wavelengths_known, FALSE)) {
+    "Horizontal axis: band index; measured wavelengths are unknown."
+  } else "Horizontal axis: measured wavelength in nanometers."
+}
+
 .read_uploaded_cube <- function(info, wavelengths = "", domain = "auto") {
   if (!is.data.frame(info) || !all(c("name", "datapath") %in% names(info)) || !nrow(info)) stop("Select a cube file or an ENVI header/binary pair.")
   names <- basename(info$name)
@@ -72,6 +78,11 @@
     }
     invisible(NULL)
   }
+  invalidate <- function() {
+    cancel()
+    state("Ready")
+    invisible(NULL)
+  }
   start <- function(method, args) {
     cancel()
     state("Running")
@@ -111,5 +122,5 @@
     }
   })
   session$onSessionEnded(cancel)
-  list(start = start, cancel = cancel, status = state)
+  list(start = start, cancel = cancel, invalidate = invalidate, status = state)
 }

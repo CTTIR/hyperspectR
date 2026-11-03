@@ -68,6 +68,21 @@ test_that("scale_color_wavelength returns a scale", {
   expect_s3_class(scale_colour_wavelength(), "Scale")
 })
 
+test_that("physical wavelength colours do not depend on the scene range", {
+  colours <- function(wavelengths, ...) {
+    df <- data.frame(wavelength = wavelengths, value = seq_along(wavelengths))
+    ggplot2::ggplot_build(ggplot2::ggplot(df,
+      ggplot2::aes(.data$wavelength, .data$value, colour = .data$wavelength)) +
+      ggplot2::geom_point() + scale_color_wavelength(...))$data[[1L]]$colour
+  }
+  expected <- c("#00FF80", "#FFB100")
+  expect_equal(colours(c(500, 600)), expected)
+  expect_equal(colours(c(500, 600, 380, 780))[1:2], expected)
+  expect_equal(colours(c(500, 600), limits = c(500, 600)), expected)
+  expect_equal(colours(c(300, 900)), rep("grey50", 2))
+  expect_error(scale_color_wavelength(limits = c(600, 500)), "increasing")
+})
+
 test_that("plot functions validate cube", {
   expect_error(hs_plot_spectra(list()), "hsi_cube")
   expect_error(hs_plot_image(list()), "hsi_cube")

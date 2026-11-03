@@ -1,7 +1,11 @@
 #' Wavelength-to-Color Scale for Spectral Plots
 #'
 #' Maps wavelength values to approximate visible light colors for spectral
-#' line coloring. Returns a ggplot2 continuous color scale.
+#' line coloring. The default scale is fixed at 380-780 nm, so a wavelength
+#' retains its colour when the plotted range changes. Values outside the
+#' display limits use the scale's missing-value colour. Numeric increasing
+#' `limits` supplied in `...` may restrict or extend the displayed range while
+#' preserving the wavelength mapping.
 #'
 #' @param ... Additional arguments passed to [ggplot2::scale_color_gradientn()].
 #'
@@ -22,12 +26,17 @@
 scale_color_wavelength <- function(...) {
   wl_seq <- seq(380, 780, by = 5)
   colors <- .wavelength_to_color(wl_seq)
-
-  ggplot2::scale_color_gradientn(
+  args <- list(...)
+  limits <- args$limits %||% c(380, 780)
+  if (!is.numeric(limits) || length(limits) != 2L ||
+      any(!is.finite(limits)) || limits[1L] >= limits[2L]) {
+    cli::cli_abort("Wavelength colour limits must be two finite increasing wavelengths.")
+  }
+  args$limits <- limits
+  do.call(ggplot2::scale_color_gradientn, c(list(
     colors = colors,
-    values = scales::rescale(wl_seq),
-    ...
-  )
+    values = scales::rescale(wl_seq, from = limits)
+  ), args))
 }
 
 #' @rdname scale_color_wavelength

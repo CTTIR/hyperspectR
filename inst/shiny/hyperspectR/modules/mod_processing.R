@@ -31,10 +31,18 @@ mod_processing_ui <- function(id) {
 
 mod_processing_server <- function(id, cube_rv) {
   shiny::moduleServer(id, function(input, output, session) {
-    job <- .app_job(session, function(value) cube_rv$cube <- value)
+    published_cube <- NULL
+    job <- .app_job(session, function(value) {
+      published_cube <<- value
+      cube_rv$cube <- value
+    })
     output$job_status <- shiny::renderText(job$status())
     shiny::observeEvent(input$cancel, job$cancel())
-    shiny::observeEvent(list(cube_rv$cube, input$method, input$sg_window, input$sg_poly), job$cancel(), priority = 100)
+    shiny::observeEvent(cube_rv$cube, {
+      if (!identical(cube_rv$cube, published_cube)) job$invalidate()
+      published_cube <<- NULL
+    }, priority = 100)
+    shiny::observeEvent(list(input$method, input$sg_window, input$sg_poly), job$invalidate(), priority = 100)
     shiny::observeEvent(input$apply, {
       cube <- cube_rv$cube
       shiny::req(cube)
@@ -47,7 +55,7 @@ mod_processing_server <- function(id, cube_rv) {
     })
 
     shiny::observeEvent(input$reset, {
-      job$cancel()
+      job$invalidate()
       cube_rv$cube <- cube_rv$original_cube
     })
 
@@ -55,6 +63,11 @@ mod_processing_server <- function(id, cube_rv) {
       cube <- cube_rv$cube
       shiny::req(cube)
       hyperspectR::hs_plot_spectra(cube, pixels = "mean", show_sd = TRUE)
+    }, alt = function() {
+      cube <- cube_rv$cube
+      shiny::req(cube)
+      paste("Current-cube spatial mean spectrum with a sample standard deviation ribbon.",
+            .app_spectral_axis(cube), "Vertical axis: spectral value.")
     })
   })
 }

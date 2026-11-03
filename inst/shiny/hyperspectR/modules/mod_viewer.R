@@ -30,6 +30,7 @@ mod_viewer_ui <- function(id) {
       ),
       shiny::selectInput(ns("palette"), "Palette",
                          choices = c("viridis", "magma", "inferno", "plasma")),
+      shiny::helpText("PNG export uses this viewer selection. RGB requires measured wavelengths."),
       shiny::hr(),
       shiny::verbatimTextOutput(ns("cube_info"))
     ),
@@ -72,37 +73,74 @@ mod_viewer_server <- function(id, cube_rv) {
       cube <- cube_rv$cube
       if (!is.null(cube)) {
         wl <- cube$wavelengths
+        known <- !identical(cube$metadata$wavelengths_known, FALSE)
+        positions <- if (known) wl else seq_along(wl)
         shiny::updateSliderInput(session, "band_slider",
-                                 min = round(min(wl)), max = round(max(wl)),
-                                 value = round(stats::median(wl)),
-                                 step = if (length(wl) > 1L) min(diff(wl)) else 1)
+                                 label = if (known) "Wavelength (nm)" else "Band index (wavelength unknown)",
+                                 min = min(positions), max = max(positions),
+                                 value = positions[ceiling(length(positions) / 2)],
+                                 step = if (length(positions) > 1L) min(diff(positions)) else 1)
+        if (!known) shiny::updateSelectInput(session, "display_mode", selected = "band")
       }
     })
 
-    output$image_plot <- shiny::renderPlot({
+    viewer_plot <- shiny::reactive({
       cube <- cube_rv$cube
       shiny::req(cube)
+      shiny::req(input$display_mode)
+      known <- !identical(cube$metadata$wavelengths_known, FALSE)
 
       if (input$display_mode == "band") {
-        hyperspectR::hs_plot_image(cube, wavelength = input$band_slider,
-                                   palette = input$palette)
+        selected <- input$band_slider
+        positions <- if (known) cube$wavelengths else seq_along(cube$wavelengths)
+        shiny::validate(shiny::need(is.numeric(selected) && length(selected) == 1L &&
+          is.finite(selected) && selected >= min(positions) && selected <= max(positions) &&
+          (known || selected == floor(selected)), "Select a band within the current cube."))
+        if (known) {
+          hyperspectR::hs_plot_image(cube, wavelength = selected, palette = input$palette)
+        } else {
+          hyperspectR::hs_plot_image(cube, band = selected, palette = input$palette)
+        }
       } else {
+        shiny::validate(shiny::need(known, "RGB requires measured wavelengths; select a single band."))
         hyperspectR::hs_plot_rgb(cube, r = input$r_wl, g = input$g_wl,
                                  b = input$b_wl)
       }
+    })
+    output$image_plot <- shiny::renderPlot(viewer_plot(), alt = function() {
+      cube <- cube_rv$cube
+      shiny::req(cube, input$display_mode)
+      description <- if (input$display_mode == "rgb") {
+        "Pseudo-color RGB composite from the selected measured-wavelength channels."
+      } else if (identical(cube$metadata$wavelengths_known, FALSE)) {
+        "Single-band spatial image selected by band index; measured wavelengths are unknown."
+      } else "Single-band spatial image selected by measured wavelength."
+      paste(description, "Columns run horizontally and rows vertically. Masked and nonfinite selected pixels are excluded.")
     })
 
     output$cube_info <- shiny::renderText({
       cube <- cube_rv$cube
       shiny::req(cube)
       d <- dim(cube$data)
+      known <- !identical(cube$metadata$wavelengths_known, FALSE)
+      source <- cube$metadata$source_file
+      if (is.null(source)) source <- cube$metadata$file
+      if (is.null(source)) source <- "Supplied or example cube"
+      domain <- cube$metadata$processing_mode
+      if (is.null(domain)) domain <- "unknown"
+      values <- utils::getFromNamespace(".pixel_matrix", "hyperspectR")(cube)
+      values <- values[is.finite(values)]
       paste0(
+        "Source: ", basename(source), "\n",
         "Dimensions: ", d[1], " x ", d[2], " x ", d[3], "\n",
-        "Wavelengths: ", round(min(cube$wavelengths)), "-",
-        round(max(cube$wavelengths)), " nm\n",
-        "Data range: [", round(min(cube$data, na.rm = TRUE), 4), ", ",
-        round(max(cube$data, na.rm = TRUE), 4), "]"
+        if (known) paste0("Wavelengths: ", min(cube$wavelengths), "-",
+                          max(cube$wavelengths), " nm\n") else
+          paste0("Band indices: 1-", d[3], " (wavelengths unknown)\n"),
+        "Input values: ", domain, "\n",
+        if (length(values)) paste0("Valid data range: [", round(min(values), 4), ", ",
+                                  round(max(values), 4), "]") else "No finite unmasked values"
       )
     })
+    viewer_plot
   })
 }

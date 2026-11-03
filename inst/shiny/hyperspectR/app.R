@@ -38,7 +38,7 @@ server <- function(input, output, session) {
   # Initialize once; subsequent processing and uploads own the session state.
   obj <- shiny::getShinyOption("hyperspectR_cube", default = NULL)
   if (is.null(obj)) obj <- hyperspectR::hs_example_cube()
-  stopifnot(inherits(obj, "hsi_cube"))
+  utils::getFromNamespace(".validate_cube", "hyperspectR")(obj)
   cube_rv$cube <- obj
   cube_rv$original_cube <- obj
 
@@ -46,12 +46,12 @@ server <- function(input, output, session) {
     cube_domain = cube_rv$cube$metadata$processing_mode,
     cube_first = cube_rv$cube$data[1, 1, ])
 
-  mod_viewer_server("viewer", cube_rv)
+  viewer_plot <- mod_viewer_server("viewer", cube_rv)
   mod_spectra_server("spectra", cube_rv)
   mod_indices_server("indices", cube_rv)
   mod_processing_server("processing", cube_rv)
   mod_analysis_server("analysis", cube_rv)
-  mod_export_server("export", cube_rv)
+  mod_export_server("export", cube_rv, viewer_plot)
 }
 
 shiny::shinyApp(ui, server)

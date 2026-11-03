@@ -39,7 +39,7 @@ mod_indices_server <- function(id, cube_rv) {
     shiny::observeEvent(input$cancel, job$cancel())
 
     shiny::observeEvent(list(cube_rv$cube, input$index_type, input$ndi_band1, input$ndi_band2), {
-      job$cancel()
+      job$invalidate()
       index_result(NULL)
     }, priority = 100)
 
@@ -79,6 +79,17 @@ mod_indices_server <- function(id, cube_rv) {
         hyperspectR::hs_plot_index(idx, title = title, palette = palette,
                                    range = rng)
       }
+    }, alt = function() {
+      stored <- index_result()
+      shiny::req(stored)
+      description <- switch(stored$type,
+        panel = "RGB and available research index maps.",
+        sto2 = "Research fitted oxygenated hemoglobin fraction map.",
+        npi = "Dimensionless NIR band-ratio map.",
+        thi = "Dimensionless hemoglobin-band-ratio map.",
+        twi = "Dimensionless NIR water-band-ratio map.",
+        ndi = "Normalized difference index map.")
+      paste(description, "Columns run horizontally and rows vertically. Missing and masked pixels are excluded.")
     })
   })
 }

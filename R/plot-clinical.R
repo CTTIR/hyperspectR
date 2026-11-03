@@ -52,7 +52,7 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
       next
     }
     idx_info <- index_funs[[idx_name]]
-    idx_mat <- suppressWarnings(idx_info$fn(cube))
+    idx_mat <- idx_info$fn(cube)
 
     if (all(is.na(idx_mat))) {
       cli::cli_warn("{idx_name} returned all NA values. Skipping panel.")

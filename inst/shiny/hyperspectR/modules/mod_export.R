@@ -6,10 +6,10 @@ mod_export_ui <- function(id) {
   bslib::layout_columns(
     col_widths = c(6, 6),
     bslib::card(
-      bslib::card_header("Export Image"),
+        bslib::card_header("Export Viewer Image or Cube"),
       bslib::card_body(
         shiny::selectInput(ns("export_format"), "Format",
-                           choices = c("PNG" = "png", "ENVI" = "envi")),
+                           choices = c("PNG (current viewer)" = "png", "ENVI (whole cube)" = "envi")),
         shiny::downloadButton(ns("download_image"), "Download",
                               class = "btn-primary")
       )
@@ -27,7 +27,7 @@ mod_export_ui <- function(id) {
   )
 }
 
-mod_export_server <- function(id, cube_rv) {
+mod_export_server <- function(id, cube_rv, viewer_plot) {
   shiny::moduleServer(id, function(input, output, session) {
 
     output$download_image <- shiny::downloadHandler(
@@ -40,8 +40,10 @@ mod_export_server <- function(id, cube_rv) {
         shiny::req(cube)
 
         if (input$export_format == "png") {
-          mid_band <- ceiling(dim(cube$data)[3] / 2)
-          hyperspectR::hs_export_png(matrix(cube$data[, , mid_band], dim(cube$data)[1], dim(cube$data)[2]), file)
+          plot <- viewer_plot()
+          shiny::req(plot)
+          ggplot2::ggsave(file, plot = plot, device = "png", width = 7.2,
+                          height = 5.4, dpi = 150, bg = "white")
         } else {
           .write_envi_archive(cube, file)
         }

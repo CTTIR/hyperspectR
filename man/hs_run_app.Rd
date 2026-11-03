@@ -30,6 +30,16 @@ Opens a Shiny application for interactive exploration of hyperspectral
 cubes. Provides band selection, spectral profiling, research index mapping,
 cancellable background processing and analysis, and export tools across six tabs.
 }
+\details{
+PNG downloads contain the current Viewer selection, including its mask,
+palette, band or RGB channels, and plot labels. ENVI downloads contain the
+complete current cube and a separate provenance record. Spectra CSV downloads
+contain the displayed random or clicked pixel coordinates and values; mean
+mode (or click mode before a selection) exports spatial summary statistics.
+Random samples remain fixed until the cube, sampling mode, or sample count
+changes. Cubes without measured wavelengths can be viewed by band index;
+wavelength-dependent operations, including RGB, require measured wavelengths.
+}
 \examples{
 \donttest{
 cube <- hs_example_cube()
