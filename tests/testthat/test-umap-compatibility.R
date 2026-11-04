@@ -1,20 +1,16 @@
 test_that("UMAP retries the older-R PCA failure with unchanged settings", {
   skip_if_not_installed("uwot")
-  skip_if_not_installed("irlba")
   actual_umap <- uwot::umap
   calls <- list()
   local_mocked_bindings(umap = function(...) {
-    calls[[length(calls) + 1L]] <<- list(...)
-    actual_umap(..., init = "pca")
-  }, .package = "uwot")
-  original <- get("oknum", asNamespace("irlba"))
-  local_mocked_bindings(oknum = function(x) {
-    if (is.null(x)) {
+    args <- list(...)
+    calls[[length(calls) + 1L]] <<- args
+    if (is.null(args$pca_method)) {
       stop(simpleError("LENGTH or similar applied to NULL object",
                        call = quote(oknum(scale))))
     }
-    original(x)
-  }, .package = "irlba")
+    actual_umap(..., init = "pca")
+  }, .package = "uwot")
   cube <- hs_simulate_cube(rows = 8, cols = 8,
                            wavelengths = seq(500, 600, by = 10), seed = 6)
   withr::local_seed(42)
