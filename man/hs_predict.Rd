@@ -17,3 +17,16 @@ Character matrix of predicted classes; invalid pixels are NA.
 \description{
 Predict Classes in a New Cube Using a Fitted Classifier
 }
+\examples{
+\donttest{
+if (requireNamespace("e1071", quietly = TRUE)) {
+  cube <- hs_example_cube()
+  labels <- matrix(NA_character_, 30, 30)
+  labels[1:10, 1:10] <- "class_a"
+  labels[20:30, 20:30] <- "class_b"
+  fit <- hs_classify_svm(cube, labels)
+  new_cube <- hs_simulate_cube(rows = 10, cols = 10, seed = 7)
+  table(hs_predict(fit, new_cube))
+}
+}
+}

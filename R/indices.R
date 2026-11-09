@@ -223,6 +223,10 @@ hs_clinical_indices <- function(cube) {
 #' @param cube An [hsi_cube] object.
 #' @param numerator,denominator Numeric scalar wavelength or two-element range in nm.
 #' @return A spatial numeric matrix. Zero denominators and invalid pixels are NA.
+#' @examples
+#' cube <- hs_example_cube()
+#' ratio <- hs_band_ratio(cube, numerator = c(650, 700), denominator = c(800, 850))
+#' range(ratio, na.rm = TRUE)
 #' @export
 hs_band_ratio <- function(cube, numerator, denominator) {
   .validate_cube(cube)

@@ -21,6 +21,20 @@
 #' @param bootstrap Number of group bootstrap samples for the accuracy interval.
 #' @return List of out-of-fold predictions, group metrics, confusion matrix,
 #'   group-mean accuracy and interval, fold assignments and fitted recipes.
+#' @examples
+#' \donttest{
+#' if (requireNamespace("e1071", quietly = TRUE)) {
+#'   spectra <- rbind(c(1, 2, 1), c(2, 1, 2), c(1.1, 2, 1), c(2.1, 1, 2),
+#'                    c(1, 2.1, 1), c(2, 1.1, 2), c(1, 2, 1.1), c(2, 1, 2.1))
+#'   result <- hs_grouped_evaluate(
+#'     spectra, wavelengths = c(500, 600, 700),
+#'     labels = rep(c("a", "b"), 4), groups = rep(letters[1:4], each = 2),
+#'     n_folds = 2, model_args = list(kernel = "linear"), bootstrap = 50
+#'   )
+#'   result$accuracy
+#'   result$group_metrics
+#' }
+#' }
 #' @export
 hs_grouped_evaluate <- function(spectra, wavelengths, labels, groups, folds = NULL,
                                 n_folds = 5L, method = c("svm", "rf"),
@@ -102,6 +116,15 @@ hs_grouped_evaluate <- function(spectra, wavelengths, labels, groups, folds = NU
 #' @param seed Random seed. Default 1.
 #' @return List containing group means, independent group count, overall estimate,
 #'   percentile interval and number of excluded nonfinite observations.
+#' @examples
+#' roi <- data.frame(
+#'   subject_id = rep(c("s1", "s2", "s3"), times = c(5, 3, 4)),
+#'   value = c(0.61, 0.63, 0.60, 0.62, 0.64, 0.55, 0.57, 0.56,
+#'             0.70, 0.71, 0.69, 0.72)
+#' )
+#' res <- hs_group_summary(roi, bootstrap = 200)
+#' res$estimate
+#' res$interval
 #' @export
 hs_group_summary <- function(data, value = "value", group = "subject_id",
                              bootstrap = 1000L, seed = 1L) {

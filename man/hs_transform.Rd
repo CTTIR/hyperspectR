@@ -17,3 +17,9 @@ Score array with spatial dimensions of the new cube; invalid pixels are NA.
 \description{
 Applies saved PCA/MNF centering, scaling and loadings without refitting.
 }
+\examples{
+pca <- hs_pca(hs_example_cube(), n_components = 3)
+new_cube <- hs_simulate_cube(rows = 10, cols = 10, seed = 7)
+scores <- hs_transform(pca, new_cube)
+dim(scores)
+}

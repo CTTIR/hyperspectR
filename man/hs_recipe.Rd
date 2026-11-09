@@ -20,3 +20,10 @@ An \code{hsi_recipe} object.
 Recipes contain ordered operations and their explicit parameters. A fitted
 MSC reference is stored in the returned recipe, allowing reuse on held-out data.
 }
+\examples{
+recipe <- hs_recipe(list(
+  list(method = "snv"),
+  list(method = "msc")
+))
+length(recipe$steps)
+}

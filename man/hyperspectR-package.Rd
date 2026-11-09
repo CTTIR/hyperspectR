@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
 
-Read, process, analyze, and visualize hyperspectral imaging (HSI) data from Cubert snapshot cameras and standard ENVI/TIFF formats. Provides calibration workflows (dark correction, white reference normalization), spectral preprocessing (Savitzky-Golay smoothing, SNV, MSC, derivatives), dimensionless spectral indices, research hemoglobin fraction fitting, dimensionality reduction (PCA, MNF), pixel classification (SAM, SVM, random forest), and constrained spectral unmixing. Includes an interactive 'shiny' explorer, reproducible batch recipes and grouped evaluation tools. Results are research outputs; clinical or device-specific accuracy is not established by the included synthetic examples.
+Reads, processes, analyzes and visualizes hyperspectral imaging (HSI) data from Cubert snapshot cameras, Diaspective Vision 'TIVITA' recordings and standard 'ENVI' and 'TIFF' files. Provides calibration workflows (dark correction, white reference normalization), spectral preprocessing (Savitzky-Golay smoothing, standard normal variate (SNV), multiplicative scatter correction (MSC), derivatives), dimensionless spectral indices, research hemoglobin fraction fitting, dimensionality reduction (principal component analysis (PCA), minimum noise fraction (MNF)), pixel classification (spectral angle mapper (SAM), support vector machines (SVM), random forest) and constrained spectral unmixing. Includes an interactive 'shiny' explorer, reproducible batch recipes and grouped evaluation tools. Results are research outputs; clinical or device-specific accuracy is not established by the included synthetic examples.
 }
 \seealso{
 Useful links:
@@ -20,11 +20,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: R. Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
+\strong{Maintainer}: R. Heller \email{raban.heller@uni-ulm.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
 
 Authors:
 \itemize{
-  \item R. Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
+  \item R. Heller \email{raban.heller@uni-ulm.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
   \item V. Forstmeier
 }
 

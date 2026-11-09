@@ -45,3 +45,15 @@ For Cubert sessions, file bytes and explicit reader arguments are tracked,
 but external vendor SDK settings and assets are not enumerated. Use
 \code{resume = FALSE} when that external configuration may have changed.
 }
+\examples{
+\donttest{
+dir <- file.path(tempdir(), "hs-batch-example")
+hdr <- hs_example_files(tempdir())
+manifest <- data.frame(id = "example", path = hdr)
+first <- hs_batch(manifest, out_dir = dir)
+first$status
+# A second run reuses the intact result
+hs_batch(manifest, out_dir = dir)$status
+unlink(dir, recursive = TRUE)
+}
+}

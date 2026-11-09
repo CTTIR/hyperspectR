@@ -132,9 +132,12 @@ hs_write_envi <- function(cube, path, interleave = "bsq", data_type = 4L,
 #'
 #' @examples
 #' \donttest{
-#' # Requires terra package
-#' # cube <- hs_example_cube()
-#' # hs_write_tiff(cube, file.path(tempdir(), "test.tif"))
+#' if (requireNamespace("terra", quietly = TRUE)) {
+#'   cube <- hs_example_cube()
+#'   path <- file.path(tempdir(), "example_cube.tif")
+#'   hs_write_tiff(cube, path, verbose = FALSE)
+#'   file.exists(path)
+#' }
 #' }
 #'
 #' @export

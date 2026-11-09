@@ -18,3 +18,8 @@ A spatial numeric matrix. Zero denominators and invalid pixels are NA.
 A scene-independent, dimensionless ratio of mean spectral values. It is
 not calibrated oxygen saturation, perfusion, concentration or water content.
 }
+\examples{
+cube <- hs_example_cube()
+ratio <- hs_band_ratio(cube, numerator = c(650, 700), denominator = c(800, 850))
+range(ratio, na.rm = TRUE)
+}

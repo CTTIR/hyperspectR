@@ -26,8 +26,14 @@
 #'
 #' @examples
 #' \donttest{
-#' # Requires cuvis.r package and Cubert CUVIS SDK
-#' # cube <- hs_read_cubert("path/to/session.cu3s")
+#' # Requires the cuvis.r package, the proprietary Cubert CUVIS SDK and the
+#' # vendor sample data; does nothing where any of them is missing.
+#' if (requireNamespace("cuvis.r", quietly = TRUE) &&
+#'     cuvis.r::cuvis_available() &&
+#'     !is.null(cuvis.r::cuvis_sample_data("test_mesu.cu3s"))) {
+#'   cube <- hs_read_cubert(cuvis.r::cuvis_sample_data("test_mesu.cu3s"))
+#'   dim(cube)
+#' }
 #' }
 #'
 #' @export

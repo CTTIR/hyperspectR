@@ -68,9 +68,13 @@ export(scale_colour_wavelength)
 export(theme_hsi)
 importFrom(ggplot2,autoplot)
 importFrom(grDevices,as.raster)
-importFrom(rlang,"%||%")
-importFrom(rlang,.data)
-importFrom(rlang,.env)
+importFrom(rlang,
+  "%||%",
+  .data,
+  .env
+)
 importFrom(scales,squish)
-importFrom(stats,median)
-importFrom(stats,sd)
+importFrom(stats,
+  median,
+  sd
+)

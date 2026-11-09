@@ -236,6 +236,11 @@ hs_umap <- function(cube, n_components = 2L, n_neighbors = 15L,
 #' @param model Result from [hs_pca()] or [hs_mnf()].
 #' @param cube New [hsi_cube] with the same wavelength grid.
 #' @return Score array with spatial dimensions of the new cube; invalid pixels are NA.
+#' @examples
+#' pca <- hs_pca(hs_example_cube(), n_components = 3)
+#' new_cube <- hs_simulate_cube(rows = 10, cols = 10, seed = 7)
+#' scores <- hs_transform(pca, new_cube)
+#' dim(scores)
 #' @export
 hs_transform <- function(model, cube) {
   .validate_cube(cube)

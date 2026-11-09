@@ -55,3 +55,18 @@ withheld predictions as missed labels. Accuracy intervals resample whole
 groups, not pixels. These intervals summarize
 out-of-fold predictions and do not include uncertainty from refitting models.
 }
+\examples{
+\donttest{
+if (requireNamespace("e1071", quietly = TRUE)) {
+  spectra <- rbind(c(1, 2, 1), c(2, 1, 2), c(1.1, 2, 1), c(2.1, 1, 2),
+                   c(1, 2.1, 1), c(2, 1.1, 2), c(1, 2, 1.1), c(2, 1, 2.1))
+  result <- hs_grouped_evaluate(
+    spectra, wavelengths = c(500, 600, 700),
+    labels = rep(c("a", "b"), 4), groups = rep(letters[1:4], each = 2),
+    n_folds = 2, model_args = list(kernel = "linear"), bootstrap = 50
+  )
+  result$accuracy
+  result$group_metrics
+}
+}
+}

@@ -20,3 +20,11 @@ List containing the processed \code{cube} and reusable fitted \code{recipe}.
 \description{
 Execute a Processing Recipe
 }
+\examples{
+recipe <- hs_recipe(list(list(method = "snv"), list(method = "msc")))
+fitted <- hs_process(hs_example_cube(), recipe)
+# Reuse the MSC reference learned above on held-out data
+new_cube <- hs_simulate_cube(rows = 10, cols = 10, seed = 7)
+held_out <- hs_process(new_cube, fitted$recipe, learn = FALSE)
+dim(held_out$cube)
+}

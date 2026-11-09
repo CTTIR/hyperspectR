@@ -7,6 +7,12 @@
 #'   `continuum_removal`, `calibrate`, `dark_correct`, `white_normalize`, `fix_bad_pixels`.
 #' @param seed Integer random seed recorded with the recipe.
 #' @return An `hsi_recipe` object.
+#' @examples
+#' recipe <- hs_recipe(list(
+#'   list(method = "snv"),
+#'   list(method = "msc")
+#' ))
+#' length(recipe$steps)
 #' @export
 hs_recipe <- function(steps = list(), seed = 1L) {
   if (!is.list(steps)) cli::cli_abort("steps must be a list.")
@@ -31,6 +37,13 @@ hs_recipe <- function(steps = list(), seed = 1L) {
 #' @param learn Logical. Allow fitting an unspecified MSC reference on this cube.
 #'   Set FALSE for validation or prediction data.
 #' @return List containing the processed `cube` and reusable fitted `recipe`.
+#' @examples
+#' recipe <- hs_recipe(list(list(method = "snv"), list(method = "msc")))
+#' fitted <- hs_process(hs_example_cube(), recipe)
+#' # Reuse the MSC reference learned above on held-out data
+#' new_cube <- hs_simulate_cube(rows = 10, cols = 10, seed = 7)
+#' held_out <- hs_process(new_cube, fitted$recipe, learn = FALSE)
+#' dim(held_out$cube)
 #' @export
 hs_process <- function(cube, recipe = hs_recipe(), learn = TRUE) {
   .validate_cube(cube)
@@ -70,6 +83,17 @@ hs_process <- function(cube, recipe = hs_recipe(), learn = TRUE) {
 #' @param analysis_args Named list of arguments for the analysis function.
 #' @param resume Logical. Reuse intact results only if their fingerprint matches.
 #' @return Data frame of recording identifiers, statuses, result files and errors.
+#' @examples
+#' \donttest{
+#' dir <- file.path(tempdir(), "hs-batch-example")
+#' hdr <- hs_example_files(tempdir())
+#' manifest <- data.frame(id = "example", path = hdr)
+#' first <- hs_batch(manifest, out_dir = dir)
+#' first$status
+#' # A second run reuses the intact result
+#' hs_batch(manifest, out_dir = dir)$status
+#' unlink(dir, recursive = TRUE)
+#' }
 #' @export
 hs_batch <- function(manifest, recipe = hs_recipe(), out_dir,
                      analysis = c("summary", "beer_lambert", "pca"),

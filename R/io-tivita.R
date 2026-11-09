@@ -25,9 +25,9 @@
 #'   [hs_read_cubert()] for Cubert session files.
 #'
 #' @examples
-#' \donttest{
-#' # Requires the tivis.r package
-#' # cube <- hs_read_tivita("2000_01_01_12_00_00_SpecCube.dat")
+#' if (requireNamespace("tivis.r", quietly = TRUE)) {
+#'   cube <- hs_read_tivita(tivis.r::tivis_example_file(), verbose = FALSE)
+#'   dim(cube)
 #' }
 #'
 #' @export

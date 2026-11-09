@@ -311,6 +311,18 @@ hs_endmembers <- function(cube, pixels, labels = NULL) {
 #' @param model Classification result from [hs_classify_svm()] or [hs_classify_rf()].
 #' @param cube New [hsi_cube] on the same wavelength grid and preprocessing domain.
 #' @return Character matrix of predicted classes; invalid pixels are NA.
+#' @examples
+#' \donttest{
+#' if (requireNamespace("e1071", quietly = TRUE)) {
+#'   cube <- hs_example_cube()
+#'   labels <- matrix(NA_character_, 30, 30)
+#'   labels[1:10, 1:10] <- "class_a"
+#'   labels[20:30, 20:30] <- "class_b"
+#'   fit <- hs_classify_svm(cube, labels)
+#'   new_cube <- hs_simulate_cube(rows = 10, cols = 10, seed = 7)
+#'   table(hs_predict(fit, new_cube))
+#' }
+#' }
 #' @export
 hs_predict <- function(model, cube) {
   .validate_cube(cube)
