@@ -1,25 +1,32 @@
 Package: hyperspectR
 Title: Hyperspectral Imaging Analysis for Biomedical Applications
-Version: 0.2.0.9001
+Version: 0.3.0
 Authors@R: c(
-    person("R.", "Heller", email = "raban.heller@charite.de",
+    person("R.", "Heller", email = "raban.heller@uni-ulm.de",
         role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8006-9742")),
     person("V.", "Forstmeier", role = "aut"))
-Description: Read, process, analyze, and visualize hyperspectral imaging (HSI)
-    data from Cubert snapshot cameras and standard ENVI/TIFF formats. Provides
-    calibration workflows (dark correction, white reference normalization),
-    spectral preprocessing (Savitzky-Golay smoothing, SNV, MSC, derivatives),
-    dimensionless spectral indices, research hemoglobin fraction fitting,
-    dimensionality reduction (PCA, MNF), pixel classification (SAM, SVM,
-    random forest), and constrained spectral unmixing. Includes an interactive
-    'shiny' explorer, reproducible batch recipes and grouped evaluation tools.
-    Results are research outputs; clinical or device-specific accuracy is not
-    established by the included synthetic examples.
+Description: Reads, processes, analyzes and visualizes hyperspectral imaging
+    (HSI) data from Cubert snapshot cameras, Diaspective Vision 'TIVITA'
+    recordings and standard 'ENVI' and 'TIFF' files. Provides calibration
+    workflows (dark correction, white reference normalization), spectral
+    preprocessing (Savitzky-Golay smoothing, standard normal variate (SNV),
+    multiplicative scatter correction (MSC), derivatives), dimensionless
+    spectral indices, research hemoglobin fraction fitting, dimensionality
+    reduction (principal component analysis (PCA), minimum noise fraction
+    (MNF)), pixel classification (spectral angle mapper (SAM), support vector
+    machines (SVM), random forest) and constrained spectral unmixing. Includes
+    an interactive 'shiny' explorer, reproducible batch recipes and grouped
+    evaluation tools. Results are research outputs; clinical or
+    device-specific accuracy is not established by the included synthetic
+    examples.
 License: MIT + file LICENSE
+Copyright: See file COPYRIGHTS for the bundled hemoglobin reference
+    spectra.
 URL: https://github.com/cttir/hyperspectR,
     https://cttir.github.io/hyperspectR/
 BugReports: https://github.com/cttir/hyperspectR/issues
 Encoding: UTF-8
+Language: en-US
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
 Depends:
@@ -64,4 +71,4 @@ Suggests:
 Additional_repositories: https://cttir.r-universe.dev
 VignetteBuilder: knitr
 Config/Needs/website: CTTIR/themakR
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.1

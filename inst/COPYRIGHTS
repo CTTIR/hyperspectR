@@ -1,0 +1,21 @@
+hyperspectR copyright and licensing notes
+=========================================
+
+The package code is copyright (c) 2026 the hyperspectR authors and is
+released under the MIT license (see the LICENSE file).
+
+Third-party data
+----------------
+
+inst/extdata/prahl-hemoglobin-v1.csv (with its manifest
+inst/extdata/prahl-hemoglobin-v1.json) contains the hemoglobin molar
+extinction coefficient table compiled by Scott Prahl from data by
+W. B. Gratzer and N. Kollias, as redistributed in MNE-Python v1.10.2
+(mne/data/extinction_coef.mat).
+
+    Copyright 2011-2024 MNE-Python authors
+    Licensed under the BSD 3-Clause License; the full upstream notice is
+    reproduced in inst/extdata/MNE-LICENSE.txt.
+
+See inst/extdata/README-spectra.md for provenance, transformation and
+checksums.
