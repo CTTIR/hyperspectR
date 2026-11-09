@@ -1,33 +1,51 @@
+## Submission
+
+This is a new submission.
+
+## Test environments
+
+* local: macOS (aarch64), R 4.6.1 — `R CMD check --as-cran --no-manual`
+  (no LaTeX installation available locally, hence `--no-manual`; the PDF
+  manual still needs to be checked, e.g. on win-builder, before submission)
+* GitHub Actions (r-lib/actions v2, `--as-cran`):
+  * macOS-latest (release)
+  * windows-latest (release)
+  * ubuntu-latest (devel, release, oldrel-1)
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
-* Note: "Suggests or Enhances not in mainstream repositories: cuvis.r, tivis.r".
+* checking CRAN incoming feasibility ... NOTE
+  Maintainer: 'R. Heller <raban.heller@uni-ulm.de>'
 
-  Both are optional format readers for hyperspectral camera data, used
-  conditionally and guarded with `rlang::check_installed()`. They are published
-  at <https://cttir.r-universe.dev>, which is declared in
-  `Additional_repositories:`, so they resolve during checking.
+  New submission
 
-  `cuvis.r` additionally wraps the proprietary Cubert CUVIS SDK, which cannot
-  be redistributed. Every function that needs it is guarded, and the
-  corresponding tests skip when it is unavailable, so the package checks
-  cleanly without it.
+  Suggests or Enhances not in mainstream repositories:
+    cuvis.r, tivis.r
+  Availability using Additional_repositories specification:
+    cuvis.r   yes   https://cttir.r-universe.dev
+    tivis.r   yes   https://cttir.r-universe.dev
 
-## Test environments
-
-* local: Ubuntu 26.04, R 4.6.1
-* GitHub Actions: ubuntu-latest (release, devel, oldrel-1),
-  macos-latest (release), windows-latest (release)
+  This is the first submission of this package. `cuvis.r` and `tivis.r` are
+  optional readers for two camera file formats. They are published at
+  <https://cttir.r-universe.dev>, which is declared in
+  `Additional_repositories`, and are used only conditionally
+  (`rlang::check_installed()` in the reader functions, `requireNamespace()`
+  in examples and `skip_if_not_installed()` in tests). `cuvis.r` additionally
+  wraps the proprietary Cubert CUVIS SDK; every code path that needs it is
+  guarded, so the package checks cleanly without it.
 
 ## Notes for the reviewer
 
-The package builds and checks with no suggested packages installed
-(`_R_CHECK_DEPENDS_ONLY_=true`); all optional functionality degrades with an
-informative message rather than failing.
-
-## This is a new submission.
+* The package builds and checks with no suggested packages installed
+  (`_R_CHECK_FORCE_SUGGESTS_=false`); optional functionality degrades with an
+  informative message rather than failing.
+* `inst/extdata/prahl-hemoglobin-v1.csv` is a third-party hemoglobin
+  extinction table redistributed under the BSD 3-Clause license of
+  MNE-Python; its copyright is recorded in the `Copyright` field and in
+  `inst/COPYRIGHTS`.
 
 ## Downstream dependencies
 
-There are currently no downstream dependencies for this package.
+There are currently no downstream dependencies on CRAN.

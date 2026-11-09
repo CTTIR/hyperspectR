@@ -1,8 +1,8 @@
 cff-version: 1.2.0
-message: Development candidate 0.2.0.9001 is not yet published. Cite the version and source revision actually used.
+message: Version 0.3.0 is not yet published. Cite the version and source revision actually used.
 type: software
 title: 'hyperspectR: Hyperspectral imaging analysis for biomedical applications'
-version: 0.2.0.9001
+version: 0.3.0
 authors:
 - family-names: Heller
   given-names: Raban

@@ -10,7 +10,7 @@
 
 **hyperspectR** provides R workflows for hyperspectral research: file import,
 calibration, spectral processing, model fitting, inspection and reproducible
-exports. The **0.2.0.9001 development candidate** produces research outputs;
+exports. Version **0.3.0** produces research outputs;
 camera-specific and clinical accuracy require independent validation.
 
 ## Installation
@@ -83,12 +83,12 @@ To cite hyperspectR in publications, please use:
   title = {hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications},
   author = {R. Heller and V. Forstmeier},
   year = {2026},
-  note = {R package version 0.2.0.9001, development candidate},
+  note = {R package version 0.3.0},
   url = {https://github.com/cttir/hyperspectR},
 }
 ```
 
-Use the version actually analyzed and retain its source revision. This candidate
+Use the version actually analyzed and retain its source revision. This version
 has no confirmed published DOI; the prior identifier and observed publication
 state are retained in [the maintenance record](https://github.com/CTTIR/hyperspectR/blob/main/planning/maintenance-2026-11-02.md).
 

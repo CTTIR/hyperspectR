@@ -1,4 +1,20 @@
-# hyperspectR 0.2.0.9001 (development candidate)
+# hyperspectR 0.3.0
+
+## CRAN preparation
+
+* Added runnable examples to `hs_band_ratio()`, `hs_batch()`,
+  `hs_group_summary()`, `hs_grouped_evaluate()`, `hs_predict()`,
+  `hs_process()`, `hs_recipe()` and `hs_transform()`, and replaced
+  commented-out examples of the TIFF, TIVITA and Cubert readers and writers
+  with code that runs whenever the optional backend is installed.
+* Expanded acronyms in the Description, declared `Language: en-US`, and
+  documented the copyright of the bundled hemoglobin reference spectra in
+  `inst/COPYRIGHTS`.
+* Updated the maintainer e-mail address to raban.heller@uni-ulm.de.
+* Includes all changes of the 0.2.0.9000 and 0.2.0.9001 development
+  candidates listed below.
+
+# hyperspectR 0.2.0.9001 (development candidate, not released)
 
 * Retry UMAP's identified older-R PCA dependency failure with base SVD while
   preserving embedding settings and propagating unrelated errors. Compare
