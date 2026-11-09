@@ -37,6 +37,6 @@ print(cube)
 #> FWHM: 25 nm (mean)
 #> Mask: 900/900 valid pixels (100%)
 #> Data range: [0.0198, 0.7306]
-#> Metadata: camera, processing_mode, acquisition_time, region_map,
-#> sto2_ground_truth, seed
+#> Metadata: camera, spectral_model, interpretation, processing_mode,
+#> acquisition_time, region_map, sto2_ground_truth, seed
 ```

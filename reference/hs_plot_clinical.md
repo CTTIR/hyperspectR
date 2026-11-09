@@ -1,8 +1,7 @@
-# TIVITA-Style Clinical Panel Display
+# Research HSI Panel Display
 
-Generates a side-by-side panel display of RGB image plus clinical tissue
-indices (StO2, NPI, THI, TWI), matching the established surgical HSI
-visualization paradigm.
+Displays RGB, fitted hemoglobin fraction and dimensionless band ratios.
+These research outputs are not equivalent to vendor clinical indices.
 
 ## Usage
 

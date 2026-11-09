@@ -39,9 +39,9 @@ is a plain binary format and tivis.r is pure R.
 Acquisition metadata from the Suite's `*_meta.log` is attached to the
 cube when present, along with the paths of the parameter images the
 Suite exported beside the recording (RGB rendering, oxygenation, NIR
-perfusion, THI, TWI). Those are the Suite's own results and are useful
-as a reference when checking independently computed indices such as
-[`hs_sto2()`](https://cttir.github.io/hyperspectR/reference/hs_sto2.md).
+perfusion, THI, TWI). Those are vendor outputs for comparison, not
+independent physiological ground truth or equivalents of this package's
+research indices.
 
 ## See also
 
@@ -53,8 +53,9 @@ for Cubert session files.
 ## Examples
 
 ``` r
-# \donttest{
-# Requires the tivis.r package
-# cube <- hs_read_tivita("2000_01_01_12_00_00_SpecCube.dat")
-# }
+if (requireNamespace("tivis.r", quietly = TRUE)) {
+  cube <- hs_read_tivita(tivis.r::tivis_example_file(), verbose = FALSE)
+  dim(cube)
+}
+#> [1] 12 16  8
 ```

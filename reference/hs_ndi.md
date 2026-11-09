@@ -27,7 +27,8 @@ hs_ndi(cube, band1, band2)
 
 ## Value
 
-A numeric matrix with values in `[-1, 1]`.
+A numeric matrix, in `[-1, 1]` for nonnegative input spectra. Zero
+denominators are NA; transformed signed spectra can exceed these bounds.
 
 ## Examples
 

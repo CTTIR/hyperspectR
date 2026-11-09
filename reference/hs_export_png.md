@@ -33,7 +33,9 @@ hs_export_png(
 - range:
 
   Numeric vector of length 2. Data range for color mapping. Default
-  `NULL` (auto from data range).
+  `NULL` (auto from finite data). Finite ordered endpoints are required;
+  a constant range uses the first palette color. Non-finite pixels are
+  black, including an image with no finite pixels.
 
 - width:
 

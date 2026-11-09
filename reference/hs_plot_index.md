@@ -1,7 +1,7 @@
 # Plot Index Map with Clinical Color Scale
 
-Displays a single tissue index as a pseudocolor spatial map with
-clinically meaningful color scales.
+Displays a single tissue index as a pseudocolor spatial map with color
+scales selected for research visualization.
 
 ## Usage
 
@@ -10,7 +10,7 @@ hs_plot_index(
   index_matrix,
   title = "",
   palette = "sto2",
-  range = c(0, 100),
+  range = NULL,
   mask = NULL
 )
 ```
@@ -32,7 +32,8 @@ hs_plot_index(
 
 - range:
 
-  Numeric vector of length 2. Display range. Default `c(0, 100)`.
+  Numeric vector of length 2. Display range. Default `NULL` (data
+  range).
 
 - mask:
 
@@ -48,6 +49,6 @@ object.
 ``` r
 cube <- hs_example_cube()
 sto2 <- hs_sto2(cube)
-hs_plot_index(sto2, title = "StO2 (%)", palette = "sto2")
+hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 
 ```

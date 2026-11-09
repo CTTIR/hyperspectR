@@ -40,8 +40,8 @@ hs_simulate_cube(
 
 - sto2_range:
 
-  Numeric vector of length 2. Range of StO2 values (0 to 1). Default
-  `c(0.3, 0.95)`.
+  Numeric vector of length 2. Synthetic mixture fractions (0 to 1), not
+  validated tissue oxygenation measurements. Default `c(0.3, 0.95)`.
 
 - noise_sd:
 
@@ -54,7 +54,9 @@ hs_simulate_cube(
 ## Value
 
 An [hsi_cube](https://cttir.github.io/hyperspectR/reference/hsi_cube.md)
-object with metadata including ground-truth `region_map`.
+object with known synthetic `region_map`. Legacy `sto2_ground_truth`
+metadata records simulator parameters only; the generated spectra are
+not an independent reference for quantitative tissue validation.
 
 ## Examples
 

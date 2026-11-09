@@ -1,13 +1,19 @@
-# Compute Tissue Oxygen Saturation (StO2)
+# Estimate the Oxygenated Hemoglobin Fraction for Research
 
-Estimates superficial tissue oxygenation from visible-range hemoglobin
-absorption. Uses the ratio of reflectance in the 500-650 nm
-(oxy/deoxy-Hb Q-bands) and 700-815 nm (NIR oxy-Hb shoulder) regions.
+Returns the fitted HbO2 fraction from
+[`hs_beer_lambert()`](https://cttir.github.io/hyperspectR/reference/hs_beer_lambert.md).
+This is a research model estimate and requires empirical validation for
+tissue use.
 
 ## Usage
 
 ``` r
-hs_sto2(cube, band1 = c(500, 650), band2 = c(700, 815), method = "ratio")
+hs_sto2(
+  cube,
+  band1 = c(500, 650),
+  band2 = c(700, 815),
+  method = "beer_lambert"
+)
 ```
 
 ## Arguments
@@ -18,20 +24,20 @@ hs_sto2(cube, band1 = c(500, 650), band2 = c(700, 815), method = "ratio")
   [hsi_cube](https://cttir.github.io/hyperspectR/reference/hsi_cube.md)
   object with reflectance data.
 
-- band1:
+- band1, band2:
 
-  Numeric vector of length 2. Wavelength range for first band (default
-  `c(500, 650)`, visible Hb absorption).
-
-- band2:
-
-  Numeric vector of length 2. Wavelength range for second band (default
-  `c(700, 815)`, NIR region).
+  Retired ratio-method arguments. Supplying either raises a migration
+  error; use
+  [`hs_band_ratio()`](https://cttir.github.io/hyperspectR/reference/hs_band_ratio.md)
+  or the fitting range in
+  [`hs_beer_lambert()`](https://cttir.github.io/hyperspectR/reference/hs_beer_lambert.md).
 
 - method:
 
-  Character. `"ratio"` for band-ratio index (default), `"beer_lambert"`
-  for full chromophore fitting.
+  `"beer_lambert"` (default). The former `"ratio"` method is rejected;
+  use
+  [`hs_band_ratio()`](https://cttir.github.io/hyperspectR/reference/hs_band_ratio.md)
+  for a relative band ratio.
 
 ## Value
 
@@ -44,5 +50,5 @@ tissue oxygen saturation percentage. Returns `NA` for masked pixels.
 cube <- hs_example_cube()
 sto2 <- hs_sto2(cube)
 range(sto2, na.rm = TRUE)
-#> [1]   0 100
+#> [1]  7.232219 83.120956
 ```

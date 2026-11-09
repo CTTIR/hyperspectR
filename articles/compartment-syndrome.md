@@ -1,15 +1,12 @@
-# Compartment Syndrome HSI Assessment
+# Synthetic Regional Spectral Comparison
+
+![hyperspectR logo](figures/logo.svg)![hyperspectR
+logo](figures/logo-dark.svg)
 
 [![R-CMD-check](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/hyperspectR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/hyperspectR/)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/hyperspectR)](https://CRAN.R-project.org/package=hyperspectR)
 [![Codecov test
 coverage](https://codecov.io/gh/CTTIR/hyperspectR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/hyperspectR?branch=main)
-[![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
-[![CRAN downloads
-total](https://cranlogs.r-pkg.org/badges/grand-total/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle:
@@ -18,24 +15,21 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 ``` r
 
 library(hyperspectR)
-#> hyperspectR v0.1.0 - Hyperspectral Imaging Analysis for Biomedical Applications
+#> hyperspectR v0.3.0 - Hyperspectral Imaging Analysis for Biomedical Applications
 ```
 
-## Clinical Background
+## Scope
 
-Acute compartment syndrome (ACS) is a surgical emergency where increased
-pressure within a closed muscle compartment compromises tissue
-perfusion. Traditional diagnosis relies on clinical assessment and
-invasive intra- compartmental pressure (ICP) measurement.
+This example compares regions in a synthetic image. The package has not
+been validated to diagnose compartment syndrome, detect ischemia, or
+replace clinical assessment. No clinical threshold is defined by these
+simulated outputs.
 
-Hyperspectral imaging offers a non-invasive alternative by quantifying
-tissue oxygenation through the skin surface, enabling spatial mapping of
-perfusion compromise.
+## Simulating a Demonstration Scene
 
-## Simulating an Extremity Scene
-
-We simulate a tissue scene with a region of reduced oxygenation
-representing compartment syndrome:
+The region parameters vary synthetic spectral shapes. Their assigned
+values are simulation inputs, not established tissue oxygenation ground
+truth.
 
 ``` r
 
@@ -48,24 +42,25 @@ cube <- hs_simulate_cube(rows = 50, cols = 50, n_regions = 4,
 ``` r
 
 sto2 <- hs_sto2(cube)
-hs_plot_index(sto2, title = "StO2 - Extremity (%)", palette = "sto2")
+hs_plot_index(sto2, title = "Research Hb fraction (%)", palette = "sto2")
 ```
 
 ![](compartment-syndrome_files/figure-html/unnamed-chunk-3-1.png)
 
-Regions with StO2 below 40% may indicate critical ischemia.
+The fitted fractions may disagree with simulation parameters because the
+simulator and reference inversion use different models.
 
 ## Perfusion Assessment
 
 ``` r
 
 npi <- hs_npi(cube)
-hs_plot_index(npi, title = "NPI - Deep Perfusion (%)", palette = "perfusion")
+hs_plot_index(npi, title = "NIR ratio (dimensionless)", palette = "perfusion")
 ```
 
 ![](compartment-syndrome_files/figure-html/unnamed-chunk-4-1.png)
 
-## Clinical Panel Overview
+## Research Panel Overview
 
 ``` r
 
@@ -98,6 +93,8 @@ ggplot() +
 
 ![](compartment-syndrome_files/figure-html/unnamed-chunk-6-1.png)
 
-The affected compartment shows reduced reflectance in the visible range
-(increased Hb absorption) and altered spectral shape, consistent with
-venous congestion and tissue deoxygenation.
+This plot describes within-image spectral variation. Pixel SD is not a
+confidence interval for a population effect. For repeated measurements,
+define subjects as independent groups and use
+[`hs_group_summary()`](https://cttir.github.io/hyperspectR/reference/hs_group_summary.md)
+on prespecified ROI summaries.

@@ -1,7 +1,8 @@
 # Compute Tissue Water Index (TWI)
 
-Estimates tissue water content from the 960 nm water absorption band.
-The Cubert Ultris X MR (430-910 nm) does NOT fully cover this range.
+Legacy name for a dimensionless NIR reflectance ratio. The default
+830-910 nm bands do not include the 970 nm water peak and do not measure
+water content.
 
 ## Usage
 
@@ -28,8 +29,8 @@ hs_twi(cube, numerator = c(880, 910), denominator = c(830, 870))
 
 ## Value
 
-A numeric matrix with values 0-100, or an NA matrix with a warning if
-required wavelengths are unavailable.
+A numeric matrix of unscaled dimensionless ratios, or an NA matrix with
+a warning if required wavelengths are unavailable.
 
 ## Examples
 

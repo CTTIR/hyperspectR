@@ -2,6 +2,8 @@
 <url><loc>https://cttir.github.io/hyperspectR/404.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/LICENSE-text.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/LICENSE.html</loc></url>
+<url><loc>https://cttir.github.io/hyperspectR/MIGRATION.html</loc></url>
+<url><loc>https://cttir.github.io/hyperspectR/ROADMAP.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/articles/biomedical-indices.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/articles/compartment-syndrome.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/articles/cubert-workflow.html</loc></url>
@@ -16,6 +18,8 @@
 <url><loc>https://cttir.github.io/hyperspectR/reference/autoplot.hsi_cube.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/dim.hsi_cube.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_absorbance.html</loc></url>
+<url><loc>https://cttir.github.io/hyperspectR/reference/hs_band_ratio.html</loc></url>
+<url><loc>https://cttir.github.io/hyperspectR/reference/hs_batch.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_beer_lambert.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_calibrate.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_chromophore_data.html</loc></url>
@@ -30,6 +34,8 @@
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_example_files.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_export_png.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_fix_bad_pixels.html</loc></url>
+<url><loc>https://cttir.github.io/hyperspectR/reference/hs_group_summary.html</loc></url>
+<url><loc>https://cttir.github.io/hyperspectR/reference/hs_grouped_evaluate.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_mnf.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_msc.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_ndi.html</loc></url>
@@ -40,11 +46,14 @@
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_plot_index.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_plot_rgb.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_plot_spectra.html</loc></url>
+<url><loc>https://cttir.github.io/hyperspectR/reference/hs_predict.html</loc></url>
+<url><loc>https://cttir.github.io/hyperspectR/reference/hs_process.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_read_cube.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_read_cubert.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_read_envi.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_read_tiff.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_read_tivita.html</loc></url>
+<url><loc>https://cttir.github.io/hyperspectR/reference/hs_recipe.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_resample.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_roi_polygon.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_roi_rect.html</loc></url>
@@ -56,6 +65,7 @@
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_snv.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_sto2.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_thi.html</loc></url>
+<url><loc>https://cttir.github.io/hyperspectR/reference/hs_transform.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_twi.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_umap.html</loc></url>
 <url><loc>https://cttir.github.io/hyperspectR/reference/hs_unmix_nnls.html</loc></url>

@@ -1,5 +1,98 @@
 # Changelog
 
+## hyperspectR 0.3.0
+
+### CRAN preparation
+
+- Added runnable examples to
+  [`hs_band_ratio()`](https://cttir.github.io/hyperspectR/reference/hs_band_ratio.md),
+  [`hs_batch()`](https://cttir.github.io/hyperspectR/reference/hs_batch.md),
+  [`hs_group_summary()`](https://cttir.github.io/hyperspectR/reference/hs_group_summary.md),
+  [`hs_grouped_evaluate()`](https://cttir.github.io/hyperspectR/reference/hs_grouped_evaluate.md),
+  [`hs_predict()`](https://cttir.github.io/hyperspectR/reference/hs_predict.md),
+  [`hs_process()`](https://cttir.github.io/hyperspectR/reference/hs_process.md),
+  [`hs_recipe()`](https://cttir.github.io/hyperspectR/reference/hs_recipe.md)
+  and
+  [`hs_transform()`](https://cttir.github.io/hyperspectR/reference/hs_transform.md),
+  and replaced commented-out examples of the TIFF, TIVITA and Cubert
+  readers and writers with code that runs whenever the optional backend
+  is installed.
+- Expanded acronyms in the Description, declared `Language: en-US`, and
+  documented the copyright of the bundled hemoglobin reference spectra
+  in `inst/COPYRIGHTS`.
+- Updated the maintainer e-mail address to <raban.heller@uni-ulm.de>.
+- Includes all changes of the 0.2.0.9000 and 0.2.0.9001 development
+  candidates listed below.
+
+## hyperspectR 0.2.0.9001 (development candidate, not released)
+
+- Retry UMAP’s identified older-R PCA dependency failure with base SVD
+  while preserving embedding settings and propagating unrelated errors.
+  Compare canonical filesystem paths in the cross-platform TIVITA resume
+  regression.
+- Preserve cube quality metadata through band selection and spatial
+  subsets; reject ambiguous fields and malformed coordinate vectors.
+  Resampling retains source-grid quality flags separately from
+  current-grid data.
+- Validate ENVI metadata and missing values, preserve int32 input,
+  reject lossy float32 overflow, and stage TIFF exports before replacing
+  existing files. TIFF output explicitly uses float64. Cubert
+  measurement indices must be whole.
+- Preserve calibration invalidity, avoid integer subtraction overflow,
+  stabilize spectral angles, and validate derivative orders before
+  conversion.
+- Check ordered preprocessing when reusing fitted models; validate batch
+  output schemas and checksums before resuming. See MIGRATION.md for
+  saved-model and batch-output changes.
+- Align explorer image/spectra downloads with the displayed selection,
+  support unknown wavelengths as band indices, and restore launcher
+  state on exit.
+- Preserve scientific coverage warnings, anchor wavelength colors to
+  physical wavelengths, and correct image scaling for small and large
+  finite ranges.
+- Require viridisLite \>= 0.4.0 for the documented palettes, repair
+  standalone first-use instructions, and align citation metadata with
+  the development state.
+
+## hyperspectR 0.2.0.9000
+
+- Standardize the named v5 package logo across README, documentation
+  pages and available application headers, with matching light and dark
+  artwork.
+
+- Corrected cube dimensions, masks, wavelength/FWHM alignment, spatial
+  plotting, TIFF/ENVI pixel order, truncated ENVI input and unsupported
+  integer exports.
+
+- SG smoothing now returns full-window center bands consistently across
+  explicit backends; derivatives use wavelength units. Calibration
+  validates reference compatibility and bad-pixel repair uses immutable
+  valid neighbors.
+
+- Replaced generated hemoglobin fitting references with a pinned
+  tabulated source. Beer-Lambert fitting requires an explicit domain and
+  separates coefficients from concentrations requiring optical
+  pathlength. Default StO2 is a research model fraction. The former
+  ratio method errors; relative indices are unscaled.
+
+- Added equality-constrained nonnegative unmixing with convergence
+  diagnostics, optional residual storage and chunk equivalence. PCA/MNF
+  respect masks and rank limits and expose reusable transforms.
+
+- Repaired explorer initialization, stale results, paired uploads, TIFF
+  metadata entry and complete archive downloads; added cancellable
+  background computations.
+
+- Added processing recipes, resumable manifest analysis, reusable
+  classifier prediction, group-separated evaluation and group-level
+  uncertainty summaries.
+
+- Expanded exact-value regressions, browser and minimal-dependency
+  validation, reference sensitivity reports, and performance
+  measurements. Clinical claims remain outside the evidence supplied by
+  synthetic tests. See MIGRATION.md for breaking changes and
+  planning/implementation-status.md for release evidence.
+
 ## hyperspectR 0.1.0
 
 ### Initial release

@@ -3,6 +3,10 @@
 Writes an
 [hsi_cube](https://cttir.github.io/hyperspectR/reference/hsi_cube.md)
 object as a multi-band GeoTIFF file. Requires the `terra` package.
+Values are stored as float64 to preserve the R double range and
+precision; this can use more disk space than float32 TIFF. A completed
+temporary TIFF replaces the target only after encoding succeeds;
+ordinary write failures leave an existing target intact.
 
 ## Usage
 
@@ -34,8 +38,12 @@ Invisible path to the written file.
 
 ``` r
 # \donttest{
-# Requires terra package
-# cube <- hs_example_cube()
-# hs_write_tiff(cube, file.path(tempdir(), "test.tif"))
+if (requireNamespace("terra", quietly = TRUE)) {
+  cube <- hs_example_cube()
+  path <- file.path(tempdir(), "example_cube.tif")
+  hs_write_tiff(cube, path, verbose = FALSE)
+  file.exists(path)
+}
+#> [1] TRUE
 # }
 ```

@@ -37,7 +37,13 @@ object.
 
 ``` r
 # \donttest{
-# Requires terra package
-# cube <- hs_read_tiff("path/to/image.tif", wavelengths = seq(430, 910, by = 8))
+if (requireNamespace("terra", quietly = TRUE)) {
+  cube <- hs_example_cube()
+  path <- file.path(tempdir(), "example_cube.tif")
+  hs_write_tiff(cube, path, verbose = FALSE)
+  back <- hs_read_tiff(path, wavelengths = cube$wavelengths, verbose = FALSE)
+  dim(back)
+}
+#> [1] 30 30 61
 # }
 ```

@@ -6,7 +6,14 @@ squares.
 ## Usage
 
 ``` r
-hs_unmix_nnls(cube, endmembers, sum_to_one = FALSE)
+hs_unmix_nnls(
+  cube,
+  endmembers,
+  sum_to_one = FALSE,
+  backend = c("builtin", "nnls"),
+  keep_residuals = TRUE,
+  chunk_size = 10000L
+)
 ```
 
 ## Arguments
@@ -25,6 +32,18 @@ hs_unmix_nnls(cube, endmembers, sum_to_one = FALSE)
 - sum_to_one:
 
   Logical. Apply sum-to-one constraint. Default `FALSE`.
+
+- backend:
+
+  Explicit solver: `"builtin"` (default) or `"nnls"`.
+
+- keep_residuals:
+
+  Logical. Retain the full residual cube.
+
+- chunk_size:
+
+  Positive integer. Number of pixels per processing block.
 
 ## Value
 

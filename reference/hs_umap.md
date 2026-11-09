@@ -11,7 +11,8 @@ hs_umap(
   n_components = 2L,
   n_neighbors = 15L,
   min_dist = 0.1,
-  pca_pre = 20L
+  pca_pre = 20L,
+  seed = 1L
 )
 ```
 
@@ -39,10 +40,22 @@ hs_umap(
 
   Integer or NULL. PCA pre-reduction dimensionality. Default `20`.
 
+- seed:
+
+  Integer random seed. Default 1; the caller's random state is restored.
+
 ## Value
 
 A list with class `"hsi_umap"` containing embedding matrix and spatial
 coordinates.
+
+## Details
+
+If the PCA dependency raises its known NULL-input error on older R, UMAP
+retries with base SVD for PCA when supported by `uwot` and reports a
+message of class `hyperspectR_umap_pca_fallback`. Other errors,
+including failures in older `uwot` versions without this option,
+propagate unchanged.
 
 ## Examples
 

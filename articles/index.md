@@ -12,9 +12,9 @@
 
 ### Biomedical HSI
 
-- [Clinical Tissue Indices
+- [Research Spectral Indices
   Explained](https://cttir.github.io/hyperspectR/articles/biomedical-indices.md):
-- [Intraoperative Oxygenation
-  Mapping](https://cttir.github.io/hyperspectR/articles/intraop-oxygenation.md):
-- [Compartment Syndrome HSI
-  Assessment](https://cttir.github.io/hyperspectR/articles/compartment-syndrome.md):
+- [Research Oxygenation Model
+  Workflow](https://cttir.github.io/hyperspectR/articles/intraop-oxygenation.md):
+- [Synthetic Regional Spectral
+  Comparison](https://cttir.github.io/hyperspectR/articles/compartment-syndrome.md):

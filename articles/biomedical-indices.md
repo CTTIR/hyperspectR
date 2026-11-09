@@ -1,15 +1,12 @@
-# Clinical Tissue Indices Explained
+# Research Spectral Indices Explained
+
+![hyperspectR logo](figures/logo.svg)![hyperspectR
+logo](figures/logo-dark.svg)
 
 [![R-CMD-check](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/hyperspectR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/hyperspectR/)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/hyperspectR)](https://CRAN.R-project.org/package=hyperspectR)
 [![Codecov test
 coverage](https://codecov.io/gh/CTTIR/hyperspectR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/hyperspectR?branch=main)
-[![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
-[![CRAN downloads
-total](https://cranlogs.r-pkg.org/badges/grand-total/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle:
@@ -18,7 +15,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 ``` r
 
 library(hyperspectR)
-#> hyperspectR v0.1.0 - Hyperspectral Imaging Analysis for Biomedical Applications
+#> hyperspectR v0.3.0 - Hyperspectral Imaging Analysis for Biomedical Applications
 ```
 
 ## Hemoglobin Absorption
@@ -43,42 +40,43 @@ ggplot(hb_data, aes(x = wavelength)) +
 
 ## Tissue Oxygen Saturation (StO2)
 
-StO2 estimates superficial tissue oxygenation (~1 mm depth) by comparing
-reflectance in the visible Hb absorption region (500-650 nm) to the NIR
-region (700-815 nm).
+[`hs_sto2()`](https://cttir.github.io/hyperspectR/reference/hs_sto2.md)
+reports the fitted HbO2 fraction using tabulated decadic extinction
+coefficients. It assumes the stated Beer-Lambert model; it is not an
+empirically validated measure of tissue oxygen saturation for a camera
+or clinical task.
 
 ``` r
 
 cube <- hs_example_cube()
 sto2 <- hs_sto2(cube)
-hs_plot_index(sto2, title = "StO2 (%)", palette = "sto2")
+hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
 ![](biomedical-indices_files/figure-html/unnamed-chunk-3-1.png)
 
 ## Near-Infrared Perfusion Index (NPI)
 
-NPI probes deeper tissue layers (4-6 mm) using NIR wavelengths (655-910
-nm).
+The legacy NPI name returns an unscaled NIR band ratio. It has no
+calibrated perfusion or depth interpretation.
 
 ``` r
 
 npi <- hs_npi(cube)
-hs_plot_index(npi, title = "NPI (%)", palette = "perfusion")
+hs_plot_index(npi, title = "NIR ratio", palette = "perfusion")
 ```
 
 ![](biomedical-indices_files/figure-html/unnamed-chunk-4-1.png)
 
 ## Tissue Hemoglobin Index (THI)
 
-THI estimates relative hemoglobin concentration from the Q-band
-absorption depth (530-590 nm) relative to a reference region (785-825
-nm).
+The legacy THI name returns a dimensionless reference/Hb-band ratio. It
+is not a concentration.
 
 ``` r
 
 thi <- hs_thi(cube)
-hs_plot_index(thi, title = "THI (%)", palette = "hemoglobin")
+hs_plot_index(thi, title = "Hb-band ratio", palette = "hemoglobin")
 ```
 
 ![](biomedical-indices_files/figure-html/unnamed-chunk-5-1.png)
@@ -95,9 +93,10 @@ hs_plot_index(ndi, title = "NDI (540/660)", range = c(-1, 1))
 
 ![](biomedical-indices_files/figure-html/unnamed-chunk-6-1.png)
 
-## Clinical Panel
+## Research Panel
 
-The TIVITA-style 5-panel display combines RGB with all indices:
+The research panel combines RGB with model fractions and relative
+indices. It does not reproduce vendor indices:
 
 ``` r
 

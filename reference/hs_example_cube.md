@@ -2,8 +2,9 @@
 
 Generates a small pre-configured synthetic cube for quick examples and
 documentation. The cube simulates a 30x30 pixel tissue scene with four
-regions of varying oxygenation (healthy, ischemic, hyperemic,
-background).
+regions of different synthetic spectra. Region names do not identify
+tissue diagnoses, and the example does not establish quantitative
+accuracy.
 
 ## Usage
 
@@ -28,8 +29,8 @@ print(cube)
 #> FWHM: 25 nm (mean)
 #> Mask: 900/900 valid pixels (100%)
 #> Data range: [0.0198, 0.7306]
-#> Metadata: camera, processing_mode, acquisition_time, region_map,
-#> sto2_ground_truth, seed
+#> Metadata: camera, spectral_model, interpretation, processing_mode,
+#> acquisition_time, region_map, sto2_ground_truth, seed
 dim(cube)
 #> [1] 30 30 61
 ```

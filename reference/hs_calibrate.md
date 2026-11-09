@@ -2,12 +2,13 @@
 
 Applies dark current subtraction and white reference normalization:
 `R(x,y,lambda) = (raw - dark) / (white - dark)`. Values are clamped to
-`[0, 1]` unless `clamp = FALSE`.
+`[0, 1]` unless `clamp = FALSE`. Nonfinite input or intermediate values
+remain missing and are recorded as invalid; clamping never repairs them.
 
 ## Usage
 
 ``` r
-hs_calibrate(cube, dark, white, clamp = TRUE)
+hs_calibrate(cube, dark, white, clamp = TRUE, saturation = NULL)
 ```
 
 ## Arguments
@@ -35,6 +36,12 @@ hs_calibrate(cube, dark, white, clamp = TRUE)
 - clamp:
 
   Logical. Clamp output to `[0, 1]`. Default `TRUE`.
+
+- saturation:
+
+  Optional finite saturation threshold in raw data units. Defaults to
+  `metadata$saturation_value` when present; otherwise saturation remains
+  an unresolved QC check.
 
 ## Value
 

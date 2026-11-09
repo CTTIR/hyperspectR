@@ -1,7 +1,10 @@
 # Detect and Correct Bad Pixels
 
 Identifies dead/hot pixels by statistical deviation from spatial
-neighborhood and replaces with neighborhood interpolation.
+neighborhood median/MAD and replaces with neighborhood interpolation.
+Detection uses the immutable image; replacement excludes every detected
+defect. Defects occupying most of a neighborhood may not be
+distinguishable.
 
 ## Usage
 
@@ -19,7 +22,8 @@ hs_fix_bad_pixels(cube, threshold = 3, method = "median")
 
 - threshold:
 
-  Numeric. Standard deviation threshold for detection. Default `3`.
+  Numeric. Robust standard deviation (scaled MAD) threshold. Default
+  `3`.
 
 - method:
 

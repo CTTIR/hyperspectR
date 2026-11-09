@@ -1,15 +1,12 @@
-# Intraoperative Oxygenation Mapping
+# Research Oxygenation Model Workflow
+
+![hyperspectR logo](figures/logo.svg)![hyperspectR
+logo](figures/logo-dark.svg)
 
 [![R-CMD-check](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/hyperspectR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/hyperspectR/)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/hyperspectR)](https://CRAN.R-project.org/package=hyperspectR)
 [![Codecov test
 coverage](https://codecov.io/gh/CTTIR/hyperspectR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/hyperspectR?branch=main)
-[![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
-[![CRAN downloads
-total](https://cranlogs.r-pkg.org/badges/grand-total/hyperspectR)](https://cran.r-project.org/package=hyperspectR)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle:
@@ -18,15 +15,15 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 ``` r
 
 library(hyperspectR)
-#> hyperspectR v0.1.0 - Hyperspectral Imaging Analysis for Biomedical Applications
+#> hyperspectR v0.3.0 - Hyperspectral Imaging Analysis for Biomedical Applications
 ```
 
 ## Overview
 
-This vignette demonstrates how to use hyperspectR for intraoperative
-tissue oxygenation assessment. We simulate a tissue scene and walk
-through the complete analysis pipeline from raw data to
-publication-quality figures.
+This vignette demonstrates a research processing workflow on a synthetic
+scene. The simulator is not a tissue measurement or an independent
+validation dataset. No surgical decision or diagnostic threshold follows
+from these examples.
 
 ## Step 1: Load Data
 
@@ -42,8 +39,8 @@ print(cube)
 #> FWHM: 25 nm (mean)
 #> Mask: 2500/2500 valid pixels (100%)
 #> Data range: [0.0163, 0.734]
-#> Metadata: camera, processing_mode, acquisition_time, region_map,
-#> sto2_ground_truth, seed
+#> Metadata: camera, spectral_model, interpretation, processing_mode,
+#> acquisition_time, region_map, sto2_ground_truth, seed
 ```
 
 ## Step 2: Preprocessing
@@ -56,12 +53,12 @@ hs_plot_spectra(smoothed)
 
 ![](intraop-oxygenation_files/figure-html/unnamed-chunk-3-1.png)
 
-## Step 3: Band-Ratio StO2
+## Step 3: Dimensionless Band Ratio
 
 ``` r
 
-sto2_ratio <- hs_sto2(smoothed, method = "ratio")
-hs_plot_index(sto2_ratio, title = "StO2 - Band Ratio (%)", palette = "sto2")
+sto2_ratio <- hs_band_ratio(smoothed, c(700, 800), c(500, 650))
+hs_plot_index(sto2_ratio, title = "Relative NIR/visible ratio", palette = "sto2")
 ```
 
 ![](intraop-oxygenation_files/figure-html/unnamed-chunk-4-1.png)
@@ -71,7 +68,7 @@ hs_plot_index(sto2_ratio, title = "StO2 - Band Ratio (%)", palette = "sto2")
 ``` r
 
 fit <- hs_beer_lambert(smoothed)
-hs_plot_index(fit$sto2, title = "StO2 - Beer-Lambert (%)", palette = "sto2")
+hs_plot_index(fit$sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
 ![](intraop-oxygenation_files/figure-html/unnamed-chunk-5-1.png)
@@ -107,11 +104,14 @@ ggplot() +
 
 ![](intraop-oxygenation_files/figure-html/unnamed-chunk-6-1.png)
 
-## Step 6: Clinical Panel
+## Step 6: Research Panel
 
 ``` r
 
 hs_plot_clinical(smoothed)
+#> Warning: ! Wavelength range (454-886 nm) does not fully cover NPI requirements (655-910
+#>   nm).
+#> ℹ Results may be approximate.
 ```
 
 ![](intraop-oxygenation_files/figure-html/unnamed-chunk-7-1.png)
@@ -122,5 +122,5 @@ hs_plot_clinical(smoothed)
 
 pca <- hs_pca(smoothed, n_components = 3)
 cat("Variance explained:", round(pca$variance_explained * 100, 1), "%\n")
-#> Variance explained: 86.7 1.2 1.1 %
+#> Variance explained: 83.7 1.2 1 %
 ```

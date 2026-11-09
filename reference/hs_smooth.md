@@ -1,14 +1,19 @@
 # Savitzky-Golay Spectral Smoothing
 
 Applies a Savitzky-Golay filter along the spectral dimension. Optionally
-computes spectral derivatives. Uses `prospectr` or `signal` if
-available, otherwise falls back to a built-in convolution
-implementation.
+computes derivatives per nanometer on a uniform wavelength grid. Only
+full-window center bands are returned. Invalid spectra remain missing.
 
 ## Usage
 
 ``` r
-hs_smooth(cube, window = 5L, poly = 2L, deriv = 0L)
+hs_smooth(
+  cube,
+  window = 5L,
+  poly = 2L,
+  deriv = 0L,
+  backend = c("builtin", "prospectr", "signal")
+)
 ```
 
 ## Arguments
@@ -32,6 +37,11 @@ hs_smooth(cube, window = 5L, poly = 2L, deriv = 0L)
   Integer. Derivative order (0 = smoothing only, 1 = first derivative, 2
   = second derivative). Default `0`.
 
+- backend:
+
+  Character. Explicit backend: `"builtin"` (default), `"prospectr"`, or
+  `"signal"`. All use the same band support and units.
+
 ## Value
 
 An [hsi_cube](https://cttir.github.io/hyperspectR/reference/hsi_cube.md)
@@ -43,5 +53,5 @@ object with smoothed/differentiated spectra.
 cube <- hs_example_cube()
 smoothed <- hs_smooth(cube, window = 5, poly = 2)
 dim(smoothed)
-#> [1] 30 30 61
+#> [1] 30 30 57
 ```

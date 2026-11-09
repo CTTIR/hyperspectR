@@ -1,8 +1,10 @@
 # Beer-Lambert Chromophore Fitting
 
-Estimates pixel-wise concentrations of tissue chromophores by fitting
-absorbance spectra to published extinction coefficient spectra using
-NNLS.
+Fits decadic absorbance to reference extinction coefficients with NNLS.
+Without a known optical pathlength, coefficients are
+concentration-pathlength products. The hemoglobin fraction is a research
+model estimate; diffuse tissue scattering and camera response can bias
+it.
 
 ## Usage
 
@@ -10,7 +12,11 @@ NNLS.
 hs_beer_lambert(
   cube,
   chromophores = c("HbO2", "Hb"),
-  wavelength_range = c(500, 600)
+  wavelength_range = c(500, 600),
+  input = c("auto", "reflectance", "absorbance"),
+  pathlength_cm = NULL,
+  response = c("point", "gaussian"),
+  keep_residuals = FALSE
 )
 ```
 
@@ -20,8 +26,7 @@ hs_beer_lambert(
 
   An
   [hsi_cube](https://cttir.github.io/hyperspectR/reference/hsi_cube.md)
-  object. If reflectance, automatically converted to absorbance
-  internally.
+  object with an explicit reflectance or absorbance domain.
 
 - chromophores:
 
@@ -32,13 +37,35 @@ hs_beer_lambert(
   Numeric vector of length 2. Fitting range. Default `c(500, 600)` (Hb
   Q-band region for best contrast).
 
+- input:
+
+  `"auto"` reads the declared processing mode, or explicitly specify
+  `"reflectance"` or `"absorbance"`. Values never determine the domain.
+
+- pathlength_cm:
+
+  Positive scalar optical pathlength, or NULL (unknown).
+
+- response:
+
+  `"point"` (default) samples band centers; `"gaussian"` integrates
+  reference coefficients using cube FWHM as Gaussian widths.
+
+- keep_residuals:
+
+  Logical. Retain spectral residuals. Default FALSE.
+
 ## Value
 
 A list with class `"hsi_chromophore_fit"`:
 
+- coefficients:
+
+  Named matrices of concentration-pathlength products (mol/L \* cm).
+
 - concentrations:
 
-  Named list of matrices (one per chromophore).
+  Named matrices in mol/L when pathlength is supplied; otherwise NULL.
 
 - sto2:
 
@@ -46,7 +73,7 @@ A list with class `"hsi_chromophore_fit"`:
 
 - total_hb:
 
-  Matrix of total hemoglobin = HbO2 + Hb.
+  Sum of HbO2 and Hb concentration-pathlength products.
 
 - rmse:
 
@@ -58,5 +85,5 @@ A list with class `"hsi_chromophore_fit"`:
 cube <- hs_example_cube()
 fit <- hs_beer_lambert(cube)
 range(fit$sto2, na.rm = TRUE)
-#> [1] 42.1452 73.0292
+#> [1]  7.232219 83.120956
 ```

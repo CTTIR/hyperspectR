@@ -1,15 +1,16 @@
 # Get Chromophore Extinction Coefficient Spectra
 
-Returns published molar extinction coefficient spectra for common tissue
-chromophores. Data from Prahl (Oregon Medical Laser Center) and Jacques
-(2013).
+Returns a pinned tabulation of decadic molar extinction coefficients for
+hemoglobin, compiled by Prahl and distributed with MNE-Python v1.10.2.
+Synthetic shapes are available separately for simulation only.
 
 ## Usage
 
 ``` r
 hs_chromophore_data(
   chromophore = c("HbO2", "Hb"),
-  wavelength_range = c(400, 1000)
+  wavelength_range = c(400, 1000),
+  source = c("reference", "synthetic")
 )
 ```
 
@@ -26,6 +27,11 @@ hs_chromophore_data(
   Numeric vector of length 2. Wavelength range in nm. Default
   `c(400, 1000)`.
 
+- source:
+
+  `"reference"` (default) supports HbO2 and Hb; `"synthetic"` returns
+  the legacy analytical shapes, unsuitable for quantitative fitting.
+
 ## Value
 
 A [tibble::tibble](https://tibble.tidyverse.org/reference/tibble.html)
@@ -38,12 +44,12 @@ with columns `wavelength` (nm) and one column per requested chromophore
 hb_data <- hs_chromophore_data()
 head(hb_data)
 #> # A tibble: 6 × 3
-#>   wavelength    HbO2      Hb
-#>        <dbl>   <dbl>   <dbl>
-#> 1        400 147007.  28787.
-#> 2        402 178450.  38491.
-#> 3        404 210722.  50509.
-#> 4        406 242043.  65011.
-#> 5        408 270427.  82049.
-#> 6        410 293884. 101514.
+#>   wavelength   HbO2     Hb
+#>        <dbl>  <dbl>  <dbl>
+#> 1        400 266232 223296
+#> 2        402 284224 236188
+#> 3        404 308716 253368
+#> 4        406 354208 270548
+#> 5        408 422320 287356
+#> 6        410 466840 303956
 ```

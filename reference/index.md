@@ -69,16 +69,18 @@ Spectral smoothing, normalization, and transformation
 
 ## Biomedical Indices
 
-Clinical tissue indices for surgical HSI
+Research hemoglobin fractions and dimensionless spectral ratios
 
 - [`hs_sto2()`](https://cttir.github.io/hyperspectR/reference/hs_sto2.md)
-  : Compute Tissue Oxygen Saturation (StO2)
+  : Estimate the Oxygenated Hemoglobin Fraction for Research
 - [`hs_npi()`](https://cttir.github.io/hyperspectR/reference/hs_npi.md)
   : Compute Near-Infrared Perfusion Index (NPI)
 - [`hs_thi()`](https://cttir.github.io/hyperspectR/reference/hs_thi.md)
   : Compute Tissue Hemoglobin Index (THI)
 - [`hs_twi()`](https://cttir.github.io/hyperspectR/reference/hs_twi.md)
   : Compute Tissue Water Index (TWI)
+- [`hs_band_ratio()`](https://cttir.github.io/hyperspectR/reference/hs_band_ratio.md)
+  : Compute an Unscaled Spectral Band Ratio
 - [`hs_ndi()`](https://cttir.github.io/hyperspectR/reference/hs_ndi.md)
   : Compute Normalized Difference Index (General Purpose)
 - [`hs_clinical_indices()`](https://cttir.github.io/hyperspectR/reference/hs_clinical_indices.md)
@@ -106,6 +108,12 @@ Dimensionality reduction, classification, and unmixing
   : Beer-Lambert Chromophore Fitting
 - [`hs_endmembers()`](https://cttir.github.io/hyperspectR/reference/hs_endmembers.md)
   : Extract Endmember Spectra from a Cube
+- [`hs_transform()`](https://cttir.github.io/hyperspectR/reference/hs_transform.md)
+  : Apply a Fitted Spectral Transform to Another Cube
+- [`hs_predict()`](https://cttir.github.io/hyperspectR/reference/hs_predict.md)
+  : Predict Classes in a New Cube Using a Fitted Classifier
+- [`hs_grouped_evaluate()`](https://cttir.github.io/hyperspectR/reference/hs_grouped_evaluate.md)
+  : Evaluate Classification with Entire Groups Held Out
 
 ## ROI Analysis
 
@@ -117,10 +125,12 @@ Region-of-interest tools
   : Define Polygon ROI
 - [`hs_roi_stats()`](https://cttir.github.io/hyperspectR/reference/hs_roi_stats.md)
   : Compute ROI Statistics
+- [`hs_group_summary()`](https://cttir.github.io/hyperspectR/reference/hs_group_summary.md)
+  : Summarize Repeated ROI Measurements with Group-Level Uncertainty
 
 ## Visualization
 
-Plotting and clinical display
+Plotting and research display
 
 - [`autoplot(`*`<hsi_cube>`*`)`](https://cttir.github.io/hyperspectR/reference/autoplot.hsi_cube.md)
   : Plot an hsi_cube Object
@@ -131,7 +141,7 @@ Plotting and clinical display
 - [`hs_plot_rgb()`](https://cttir.github.io/hyperspectR/reference/hs_plot_rgb.md)
   : Synthesize RGB Image from Spectral Cube
 - [`hs_plot_clinical()`](https://cttir.github.io/hyperspectR/reference/hs_plot_clinical.md)
-  : TIVITA-Style Clinical Panel Display
+  : Research HSI Panel Display
 - [`hs_plot_index()`](https://cttir.github.io/hyperspectR/reference/hs_plot_index.md)
   : Plot Index Map with Clinical Color Scale
 - [`scale_color_wavelength()`](https://cttir.github.io/hyperspectR/reference/scale_color_wavelength.md)
@@ -152,6 +162,15 @@ Chromophore spectra and simulation
   : Get Example HSI Cube
 - [`hs_example_files()`](https://cttir.github.io/hyperspectR/reference/hs_example_files.md)
   : Write Example ENVI Files to a Temporary Directory
+
+## Reproducible Workflows
+
+- [`hs_recipe()`](https://cttir.github.io/hyperspectR/reference/hs_recipe.md)
+  : Define a Reproducible Processing Recipe
+- [`hs_process()`](https://cttir.github.io/hyperspectR/reference/hs_process.md)
+  : Execute a Processing Recipe
+- [`hs_batch()`](https://cttir.github.io/hyperspectR/reference/hs_batch.md)
+  : Run and Resume a Manifest of Hyperspectral Recordings
 
 ## Shiny Application
 
