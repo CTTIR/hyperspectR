@@ -17,7 +17,7 @@ camera-specific and clinical accuracy require independent validation.
 
 Requires R >= 4.1.0 and the required packages in `DESCRIPTION`, including
 viridisLite >= 0.4.0. From a local source checkout:
-
+ 
 ```sh
 Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org")'
 Rscript -e 'remotes::install_local(".", dependencies = NA, upgrade = "never", build_vignettes = FALSE)'
