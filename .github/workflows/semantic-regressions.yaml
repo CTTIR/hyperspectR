@@ -15,8 +15,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {r: '4.1', dependencies: minimal}
-          - {r: 'release', dependencies: optional}
+          # S7 1.0.0 needs R >= 4.2, so ggplot2 >= 4.0 cannot be installed on R 4.1.
+          - {r: '4.1', dependencies: minimal, ggplot2: 'ggplot2@3.5.2'}
+          - {r: 'release', dependencies: optional, ggplot2: 'any::ggplot2'}
     env:
       NOT_CRAN: 'true'
       _R_CHECK_FORCE_SUGGESTS_: 'false'
@@ -33,6 +34,7 @@ jobs:
           extra-packages: |
             any::testthat
             any::withr
+            ${{ matrix.ggplot2 }}
       - name: Install optional numerical and browser backends
         if: matrix.dependencies == 'optional'
         run: install.packages(c("terra", "prospectr", "signal", "nnls", "e1071", "ranger", "uwot", "shiny", "bslib", "shinytest2"))

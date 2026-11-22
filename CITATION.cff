@@ -3,6 +3,7 @@ message: Version 0.3.0 is not yet published. Cite the version and source revisio
 type: software
 title: 'hyperspectR: Hyperspectral imaging analysis for biomedical applications'
 version: 0.3.0
+doi: 10.5281/zenodo.21889940
 authors:
 - family-names: Heller
   given-names: Raban
@@ -11,3 +12,7 @@ authors:
   given-names: Vinzent
 repository-code: https://github.com/CTTIR/hyperspectR
 license: MIT
+identifiers:
+- type: doi
+  value: 10.5281/zenodo.21889940
+  description: Zenodo DOI (reserved; resolves once the record is published)
