@@ -20,6 +20,7 @@ _coverage/
 
 # Local records and development material
 /.local-private/
+/planning/
 /admin/
 AGENTS.md
 CLAUDE.md

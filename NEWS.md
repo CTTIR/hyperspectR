@@ -118,7 +118,7 @@
 * Expanded exact-value regressions, browser and minimal-dependency validation,
   reference sensitivity reports, and performance measurements. Clinical claims
   remain outside the evidence supplied by synthetic tests. See MIGRATION.md for
-  breaking changes and planning/implementation-status.md for release evidence.
+  breaking changes.
 
 # hyperspectR 0.1.0
 

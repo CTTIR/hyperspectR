@@ -94,9 +94,7 @@ measurements. The simulator is a software demonstration, not validation data.
 `coefficients` in mol/L * cm; `concentrations` is available only with a supplied
 `pathlength_cm`. Sensor response and tissue scattering require separate evaluation.
 
-See the repository's [migration details](https://github.com/CTTIR/hyperspectR/blob/main/MIGRATION.md),
-[implementation record](https://github.com/CTTIR/hyperspectR/blob/main/planning/implementation-status.md),
-and [analysis protocol](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-validation.md).
+See the repository's [migration details](https://github.com/CTTIR/hyperspectR/blob/main/MIGRATION.md).
 
 ## Reproducible processing
 
@@ -130,8 +128,7 @@ To cite hyperspectR in publications, please use:
 ```
 
 Use the version actually analyzed and retain its source revision. This version
-has no confirmed published DOI; the prior identifier and observed publication
-state are retained in [the maintenance record](https://github.com/CTTIR/hyperspectR/blob/main/planning/maintenance-2026-11-02.md).
+has no confirmed published DOI.
 
 ## License
 

@@ -46,11 +46,11 @@ numerical backends are absent. The source was copied from a read-only mount into
 a temporary writable directory for testthat. This is distinct from running a
 current R interpreter with optional packages hidden.
 
-See [the verification record](results/verification.txt), [source checksums](results/source-checksums.csv)
-and [analysis results](../planning/analysis-results.md) for the recorded run.
+See [the verification record](results/verification.txt) and
+[source checksums](results/source-checksums.csv) for the recorded run.
 
 Algebraic recovery and model sensitivity are different evidence types. The
 included reference table validates coefficient use; synthetic model recovery
 validates implementation. Neither demonstrates empirical tissue accuracy.
-See `planning/analysis-validation.md` for the study protocol and
-`planning/external-validation.md` for outstanding acquisition/review requirements.
+The study protocol and the outstanding acquisition and review requirements are
+kept in the maintainer's records.

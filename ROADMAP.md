@@ -4,12 +4,7 @@
 
 **Objective:** deliver reproducible hyperspectral research workflows whose spatial coordinates, spectral units, numerical results, and stated interpretation can be verified independently.
 
-The development implementation now addresses all 25 confirmed audit findings and adds batch recipes, grouped evaluation, synthetic sensitivity analysis and responsive explorer jobs. The work-package descriptions below preserve the planned acceptance criteria. Verified changes and outstanding release, hardware and study gates are tracked in [the implementation record](https://github.com/CTTIR/hyperspectR/blob/main/planning/implementation-status.md) and [analysis results](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-results.md). Estimates remain planning ranges; they are not measured effort or delivery commitments.
-
-Supporting documents:
-
-- [Audit baseline and all 25 findings](https://github.com/CTTIR/hyperspectR/blob/main/planning/audit-baseline.md)
-- [Detailed analytical validation plan](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-validation.md)
+The development implementation now addresses all 25 confirmed audit findings and adds batch recipes, grouped evaluation, synthetic sensitivity analysis and responsive explorer jobs. The work-package descriptions below preserve the planned acceptance criteria. Verified changes and outstanding release, hardware and study gates are tracked in the maintainer's implementation and analysis records. Estimates remain planning ranges; they are not measured effort or delivery commitments.
 
 ## 1. Delivery strategy and assumptions
 
@@ -181,7 +176,7 @@ Rewrite examples around corrected APIs and semantics. Include explicit domains, 
 | W15 | Measured runtime/peak-memory baseline; chunked computation where beneficial; optional residual materialization; responsive long-running app jobs | Chunked and full outputs agree; masks/coordinates and global estimates remain consistent across chunk sizes; performance claims name hardware and dimensions |
 | W16 | Independent instrument/phantom/study evaluation with matched references, acquisition QC and prespecified endpoints | The frozen analysis meets thresholds selected before holdout evaluation for the stated use case, or the report explicitly limits/rejects that claim |
 
-Implementation details, datasets, model assumptions, metrics and stopping rules are in the [analytical validation plan](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-validation.md).
+Implementation details, datasets, model assumptions, metrics and stopping rules are in the maintainer's analytical validation plan.
 
 ## 4. First implementation wave
 
