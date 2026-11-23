@@ -16,7 +16,9 @@
 columns \code{x}, \code{y}, and one column per band. Default \code{FALSE}.}
 }
 \value{
-A \code{data.frame}.
+A \code{data.frame}. Wide columns are named \verb{band_<wavelength>} with the
+wavelength rounded to whole nm, or the full wavelength when rounding
+would give two bands the same name.
 }
 \description{
 Convert hsi_cube to Data Frame

@@ -157,7 +157,7 @@ hs_write_tiff <- function(cube, path, verbose = TRUE) {
   # Create raster from array
   r <- terra::rast(nrows = d[1], ncols = d[2], nlyrs = d[3])
   terra::values(r) <- matrix(aperm(array(.pixel_matrix(cube), d), c(2, 1, 3)), nrow = d[1] * d[2], ncol = d[3])
-  names(r) <- paste0("band_", round(cube$wavelengths))
+  names(r) <- .band_labels(cube$wavelengths)
 
   staged <- tempfile(tmpdir = dirname(path), fileext = ".tif")
   on.exit(unlink(staged), add = TRUE)

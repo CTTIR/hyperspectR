@@ -74,12 +74,10 @@ hs_roi_polygon <- function(cube, vertices) {
   poly_y <- vertices[, 2]
   n_verts <- nrow(vertices)
 
-  for (row in seq_len(d[1])) {
-    for (col in seq_len(d[2])) {
-      inside <- .point_in_polygon(col, row, poly_x, poly_y, n_verts)
-      mask[row, col] <- inside
-    }
-  }
+  mask[] <- .point_in_polygon(
+    px = rep(seq_len(d[2]), each = d[1]), py = rep(seq_len(d[1]), times = d[2]),
+    poly_x, poly_y, n_verts
+  )
 
   result <- list(
     mask = mask,
@@ -149,12 +147,17 @@ hs_roi_stats <- function(cube, roi) {
     valid_fraction = NA_real_, n_repaired_pixels = 0L
   )
 
+  # Reshape the cube once; masked and nonfinite values are already NA.
+  selected <- which(mask)
+  roi_values <- .pixel_matrix(cube)[selected, , drop = FALSE]
+  repaired <- cube$metadata$repair_mask
+  if (!is.null(repaired)) repaired <- as.logical(repaired)[selected]
   for (b in seq_len(d[3])) {
-    band_vals <- .band_matrix(cube, b)[mask]
-    band_vals <- band_vals[is.finite(band_vals)]
+    finite <- !is.na(roi_values[, b])
+    band_vals <- roi_values[finite, b]
     result$n_pixels[b] <- length(band_vals)
     result$valid_fraction[b] <- length(band_vals) / requested_n
-    if (!is.null(cube$metadata$repair_mask)) result$n_repaired_pixels[b] <- sum(mask & cube$metadata$repair_mask & is.finite(.band_matrix(cube, b)))
+    if (!is.null(repaired)) result$n_repaired_pixels[b] <- sum(repaired & finite, na.rm = TRUE)
     if (!length(band_vals)) next
     result$mean[b] <- mean(band_vals, na.rm = TRUE)
     result$sd[b] <- stats::sd(band_vals, na.rm = TRUE)
@@ -167,18 +170,22 @@ hs_roi_stats <- function(cube, roi) {
 }
 
 #' Point-in-Polygon Test (Ray Casting)
+#'
+#' Vectorized over the points `px`, `py`; the loop runs over polygon edges.
 #' @noRd
 .point_in_polygon <- function(px, py, poly_x, poly_y, n) {
-  inside <- FALSE
+  inside <- rep(FALSE, length(px))
   j <- n
   for (i in seq_len(n)) {
-    if ((poly_y[i] > py) != (poly_y[j] > py)) {
+    crosses <- which((poly_y[i] > py) != (poly_y[j] > py))
+    if (length(crosses)) {
       # Use the same lower-to-upper edge arithmetic for either winding. A
       # crossing edge cannot be horizontal, so no denominator epsilon is needed.
       edge <- if (poly_y[i] < poly_y[j]) c(i, j) else c(j, i)
-      weight <- .normalize_range(py, poly_y[edge])
+      weight <- .normalize_range(py[crosses], poly_y[edge])
       crossing <- (1 - weight) * poly_x[edge[1]] + weight * poly_x[edge[2]]
-      if (px < crossing) inside <- !inside
+      flip <- crosses[px[crosses] < crossing]
+      inside[flip] <- !inside[flip]
     }
     j <- i
   }

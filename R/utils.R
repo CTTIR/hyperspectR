@@ -95,15 +95,30 @@
   invisible(mask)
 }
 
-.pixel_matrix <- function(cube, bands = seq_along(cube$wavelengths)) {
-  x <- matrix(cube$data, nrow = prod(dim(cube$data)[1:2]))[, bands, drop = FALSE]
+# Pixels in rows, bands in columns; masked and nonfinite values are NA.
+# `bands = NULL` selects every band. A band subset is taken from the array
+# before reshaping, so reading one band never copies the whole cube.
+.pixel_matrix <- function(cube, bands = NULL) {
+  values <- if (is.null(bands)) cube$data else cube$data[, , bands, drop = FALSE]
+  x <- matrix(values, nrow = prod(dim(cube$data)[1:2]))
   x[!is.finite(x)] <- NA_real_
   if (!is.null(cube$mask)) x[!as.vector(cube$mask), ] <- NA_real_
   x
 }
 
-.valid_pixels <- function(cube, bands = seq_along(cube$wavelengths)) {
+.valid_pixels <- function(cube, bands = NULL) {
   rowSums(!is.finite(.pixel_matrix(cube, bands))) == 0L
+}
+
+# Labels for per-band names such as `band_550`. Rounded wavelengths are kept
+# whenever they are unique; grids finer than 1 nm fall back to the full
+# wavelength so that two bands never share a name.
+.band_labels <- function(wavelengths, prefix = "band_") {
+  labels <- as.character(round(wavelengths))
+  if (anyDuplicated(labels)) {
+    labels <- make.unique(vapply(wavelengths, format, character(1), digits = 15))
+  }
+  paste0(prefix, labels)
 }
 
 .spatial_map <- function(x, cube) matrix(x, nrow = dim(cube$data)[1L], ncol = dim(cube$data)[2L])

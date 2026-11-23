@@ -83,11 +83,12 @@ hs_simulate_cube <- function(rows = 50L, cols = 50L,
   region_map[region_map == 0L] <- n_regions
 
   # Build reflectance cube
-  data <- array(0, dim = c(rows, cols, n_bands))
+  # Pixels in rows, bands in columns: one assignment per region.
+  data <- matrix(0, nrow = rows * cols, ncol = n_bands)
 
   for (reg in seq_len(n_regions)) {
-    pixels <- which(region_map == reg, arr.ind = TRUE)
-    if (nrow(pixels) == 0L) next
+    pixels <- which(region_map == reg)
+    if (length(pixels) == 0L) next
 
     sto2 <- sto2_values[reg]
 
@@ -104,10 +105,9 @@ hs_simulate_cube <- function(rows = 50L, cols = 50L,
     reflectance <- 0.05 + 0.65 * (reflectance - min(reflectance)) /
       (max(reflectance) - min(reflectance) + 1e-10)
 
-    for (p in seq_len(nrow(pixels))) {
-      data[pixels[p, 1], pixels[p, 2], ] <- reflectance
-    }
+    data[pixels, ] <- rep(reflectance, each = length(pixels))
   }
+  data <- array(data, dim = c(rows, cols, n_bands))
 
   # Add noise
   if (noise_sd > 0) {

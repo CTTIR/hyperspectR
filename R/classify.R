@@ -68,11 +68,18 @@ hs_sam <- function(cube, endmembers, threshold = 0.1) {
                                  sqrt(rowSums(combined^2)))
   }
 
-  class_vec <- rep(NA_character_, nrow(pixel_mat))
-  for (i in which(valid)) {
-    closest <- which.min(angle_mat[i, ])
-    class_vec[i] <- if (angle_mat[i, closest] <= threshold) class_names[closest] else "unclassified"
+  # Smallest angle per pixel, first endmember winning ties (as which.min()).
+  smallest <- rep(Inf, nrow(pixel_mat))
+  closest <- rep(NA_integer_, nrow(pixel_mat))
+  for (e in seq_len(n_em)) {
+    better <- valid & angle_mat[, e] < smallest
+    smallest[better] <- angle_mat[better, e]
+    closest[better] <- e
   }
+  class_vec <- rep(NA_character_, nrow(pixel_mat))
+  assigned <- !is.na(closest)
+  class_vec[assigned] <- ifelse(smallest[assigned] <= threshold,
+                                class_names[closest[assigned]], "unclassified")
 
   class_map <- matrix(class_vec, nrow = d[1], ncol = d[2])
   angle_map <- array(angle_mat, dim = c(d[1], d[2], n_em))
@@ -291,7 +298,7 @@ hs_endmembers <- function(cube, pixels, labels = NULL) {
   }
 
   rownames(em) <- labels
-  colnames(em) <- paste0("band_", round(cube$wavelengths))
+  colnames(em) <- .band_labels(cube$wavelengths)
   em
 }
 

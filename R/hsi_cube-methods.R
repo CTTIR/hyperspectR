@@ -50,13 +50,18 @@ print.hsi_cube <- function(x, ...) {
 #' @param object An [hsi_cube] object.
 #' @param ... Additional arguments (ignored).
 #'
-#' @return A named list with elements `dimensions`, `wavelength_range`,
-#'   `n_bands`, `data_range`, `band_means`, `band_sds`, `n_valid_pixels`,
-#'   and `metadata`.
+#' @return A list of class `summary.hsi_cube` with elements `dimensions`,
+#'   `wavelength_range`, `n_bands`, `data_range`, `band_means`, `band_sds`,
+#'   `band_counts` (finite values per band), `n_valid_pixels` (pixels whose
+#'   whole spectrum is finite and unmasked), `n_total_pixels` and `metadata`.
+#'   Band statistics are named by rounded wavelength, or by the full
+#'   wavelength when rounding would give two bands the same name. Printing
+#'   the object shows a compact overview instead of the full list.
 #'
 #' @examples
 #' cube <- hs_example_cube()
 #' s <- summary(cube)
+#' s
 #' s$dimensions
 #'
 #' @export
@@ -75,8 +80,8 @@ summary.hsi_cube <- function(object, ...) {
     wavelength_range = range(object$wavelengths),
     n_bands = d[3],
     data_range = if (any(is.finite(pixels))) range(pixels, na.rm = TRUE) else c(NA_real_, NA_real_),
-    band_means = stats::setNames(band_means, round(object$wavelengths)),
-    band_sds = stats::setNames(band_sds, round(object$wavelengths)),
+    band_means = stats::setNames(band_means, .band_labels(object$wavelengths, "")),
+    band_sds = stats::setNames(band_sds, .band_labels(object$wavelengths, "")),
     band_counts = colSums(is.finite(pixels)),
     n_valid_pixels = sum(.valid_pixels(object)),
     n_total_pixels = n_pixels,
@@ -164,7 +169,9 @@ dim.hsi_cube <- function(x) {
 #'   `x`, `y`, `wavelength`, `value`. If `FALSE`, returns wide format with
 #'   columns `x`, `y`, and one column per band. Default `FALSE`.
 #'
-#' @return A `data.frame`.
+#' @return A `data.frame`. Wide columns are named `band_<wavelength>` with the
+#'   wavelength rounded to whole nm, or the full wavelength when rounding
+#'   would give two bands the same name.
 #'
 #' @examples
 #' cube <- hs_example_cube()
@@ -188,7 +195,7 @@ as.data.frame.hsi_cube <- function(x, ..., long = FALSE) {
   } else {
     # Wide format
     pixel_mat <- .pixel_matrix(x)
-    colnames(pixel_mat) <- paste0("band_", round(x$wavelengths))
+    colnames(pixel_mat) <- .band_labels(x$wavelengths)
     cbind(coords[, c("x", "y")], as.data.frame(pixel_mat))
   }
 }
