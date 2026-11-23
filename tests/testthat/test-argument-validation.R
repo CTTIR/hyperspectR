@@ -26,3 +26,30 @@ test_that("the TWI warning names the bands that were requested", {
   expect_warning(hs_twi(cube, numerator = c(955, 980), denominator = c(880, 900)),
                  "955-980 nm or 880-900 nm")
 })
+
+test_that("spectral plots label the value axis and use colour-blind-safe pixel colours", {
+  cube <- hs_simulate_cube(rows = 7, cols = 6, wavelengths = seq(500, 580, by = 20), seed = 1)
+  expect_identical(hs_plot_spectra(cube)$labels$y, "Reflectance")
+  expect_identical(hs_plot_spectra(cube)$labels$x, "Wavelength (nm)")
+  expect_identical(.value_label(hs_absorbance(cube)), "Absorbance")
+  expect_identical(.value_label(hs_snv(cube)), "SNV-scaled value")
+  plain <- hsi_cube(array(0.5, c(2, 2, 3)), c(500, 550, 600))
+  expect_identical(.value_label(plain), "Spectral value")
+  plain$metadata$processing_mode <- "unknown"
+  expect_identical(.value_label(plain), "Spectral value")
+  plain$metadata$processing_mode <- "custom_units"
+  expect_identical(.value_label(plain), "Custom units")
+  plain$metadata$wavelengths_known <- FALSE
+  expect_identical(hs_plot_spectra(plain, pixels = "random", n = 2)$labels$x, "Band index")
+
+  pixels <- data.frame(x = c(5, 1, 3), y = c(2, 7, 4))
+  p <- hs_plot_spectra(cube, pixels = pixels)
+  expect_identical(levels(p$data$pixel_id), c("(5,2)", "(1,7)", "(3,4)"))
+  built <- ggplot2::ggplot_build(p)$data[[1L]]
+  expect_identical(unique(built$colour), .qualitative_colors(3L))
+  expect_identical(.qualitative_colors(8L),
+    unname(grDevices::palette.colors(8L, palette = "Okabe-Ito"))[c(1, 2, 3, 4, 6, 7, 8, 5)])
+  expect_length(unique(.qualitative_colors(12L)), 12L)
+  many <- expand.grid(x = 1:3, y = 1:3)
+  expect_s3_class(hs_plot_spectra(cube, pixels = many), "ggplot")
+})

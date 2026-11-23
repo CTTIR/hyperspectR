@@ -32,6 +32,7 @@ df <- data.frame(
 )
 ggplot(df, aes(wavelength, value, color = wavelength)) +
   geom_line() +
-  scale_color_wavelength()
+  scale_color_wavelength() +
+  labs(x = "Wavelength (nm)", y = "Reflectance", color = "Wavelength (nm)")
 
 }

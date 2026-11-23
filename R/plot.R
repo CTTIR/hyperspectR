@@ -48,11 +48,16 @@ autoplot.hsi_cube <- function(object, type = c("rgb", "band", "spectra"),
 #' @param show_sd Logical. Show the mean +/- SD ribbon. Default `TRUE`; used
 #'   only when `pixels = "mean"`.
 #'
-#' @return A [ggplot2::ggplot] object.
+#' @return A [ggplot2::ggplot] object. The value axis is labelled with the
+#'   cube's processing mode (for example "Reflectance"). Spectra of selected
+#'   pixels are drawn in the colour-blind-safe Okabe-Ito palette for up to
+#'   eight pixels and in viridis colours beyond that, with the legend in the
+#'   order the pixels were supplied.
 #'
 #' @examples
 #' cube <- hs_example_cube()
 #' hs_plot_spectra(cube)
+#' hs_plot_spectra(cube, pixels = data.frame(x = c(5, 25), y = c(5, 25)))
 #'
 #' @export
 hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
@@ -94,7 +99,7 @@ hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
 
     p <- p +
       ggplot2::geom_line(color = "#2E86AB", linewidth = 0.8) +
-      ggplot2::labs(x = if (identical(cube$metadata$wavelengths_known, FALSE)) "Band index" else "Wavelength (nm)", y = cube$metadata$processing_mode %||% "Spectral value",
+      ggplot2::labs(x = .wavelength_label(cube), y = .value_label(cube),
                     title = "Mean Spectrum") +
       theme_hsi()
 
@@ -123,7 +128,7 @@ hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
     p <- ggplot2::ggplot(df, ggplot2::aes(x = .data$wavelength, y = .data$value,
                                            group = .data$pixel_id)) +
       ggplot2::geom_line(alpha = 0.2, color = "#2E86AB") +
-      ggplot2::labs(x = if (identical(cube$metadata$wavelengths_known, FALSE)) "Band index" else "Wavelength (nm)", y = cube$metadata$processing_mode %||% "Spectral value",
+      ggplot2::labs(x = .wavelength_label(cube), y = .value_label(cube),
                     title = paste(n, "Random Spectra")) +
       theme_hsi()
 
@@ -141,12 +146,15 @@ hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
         )
       }
       df <- do.call(rbind, specs)
+      # Keep the legend in the order the pixels were supplied.
+      df$pixel_id <- factor(df$pixel_id, levels = unique(df$pixel_id))
 
       p <- ggplot2::ggplot(df, ggplot2::aes(x = .data$wavelength, y = .data$value,
                                              color = .data$pixel_id)) +
         ggplot2::geom_line(linewidth = 0.8) +
-        ggplot2::labs(x = if (identical(cube$metadata$wavelengths_known, FALSE)) "Band index" else "Wavelength (nm)", y = cube$metadata$processing_mode %||% "Spectral value",
-                      title = "Pixel Spectra", color = "Pixel") +
+        ggplot2::scale_color_manual(values = .qualitative_colors(nlevels(df$pixel_id))) +
+        ggplot2::labs(x = .wavelength_label(cube), y = .value_label(cube),
+                      title = "Pixel Spectra", color = "Pixel (x,y)") +
         theme_hsi()
     } else {
       cli::cli_abort("{.arg pixels} must be 'mean', 'random', or a data.frame with x/y columns.")

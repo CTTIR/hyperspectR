@@ -20,7 +20,8 @@
 #' )
 #' ggplot(df, aes(wavelength, value, color = wavelength)) +
 #'   geom_line() +
-#'   scale_color_wavelength()
+#'   scale_color_wavelength() +
+#'   labs(x = "Wavelength (nm)", y = "Reflectance", color = "Wavelength (nm)")
 #'
 #' @export
 scale_color_wavelength <- function(...) {
@@ -71,4 +72,39 @@ theme_hsi <- function(base_size = 11) {
       axis.title = ggplot2::element_text(size = base_size),
       strip.text = ggplot2::element_text(face = "bold")
     )
+}
+
+# Axis labels shared by the spectral plots.
+.wavelength_label <- function(cube) {
+  if (identical(cube$metadata$wavelengths_known, FALSE)) "Band index" else "Wavelength (nm)"
+}
+
+.value_label <- function(cube) {
+  mode <- cube$metadata$processing_mode
+  if (!is.character(mode) || length(mode) != 1L || is.na(mode) || !nzchar(mode) ||
+      identical(mode, "unknown")) {
+    return("Spectral value")
+  }
+  known <- c(
+    reflectance = "Reflectance", absorbance = "Absorbance", raw = "Raw signal",
+    spectral_radiance = "Spectral radiance", dark_subtract = "Dark-corrected signal",
+    dark_corrected = "Dark-corrected signal", snv = "SNV-scaled value",
+    msc = "MSC-corrected value", derivative = "Spectral derivative",
+    continuum_removed = "Continuum-removed value"
+  )
+  if (mode %in% names(known)) return(unname(known[mode]))
+  label <- gsub("_", " ", mode, fixed = TRUE)
+  paste0(toupper(substring(label, 1L, 1L)), substring(label, 2L))
+}
+
+# Colour-blind-safe colours for `n` categories: the Okabe-Ito palette shipped
+# with grDevices for up to eight (yellow last, as it is the weakest on white),
+# viridis beyond that.
+.qualitative_colors <- function(n) {
+  if (n <= 8L) {
+    okabe_ito <- unname(grDevices::palette.colors(8L, palette = "Okabe-Ito"))
+    okabe_ito[c(1L, 2L, 3L, 4L, 6L, 7L, 8L, 5L)][seq_len(n)]
+  } else {
+    viridisLite::viridis(n, end = 0.95)
+  }
 }
