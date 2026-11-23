@@ -13,9 +13,9 @@ Reads, processes, analyzes and visualizes hyperspectral imaging (HSI) data from 
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/cttir/hyperspectR}
+  \item \url{https://github.com/CTTIR/hyperspectR}
   \item \url{https://cttir.github.io/hyperspectR/}
-  \item Report bugs at \url{https://github.com/cttir/hyperspectR/issues}
+  \item Report bugs at \url{https://github.com/CTTIR/hyperspectR/issues}
 }
 
 }

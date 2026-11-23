@@ -17,7 +17,14 @@ camera-specific and clinical accuracy require independent validation.
 ## Installation
 
 Requires R >= 4.1.0 and the required packages in `DESCRIPTION`, including
-viridisLite >= 0.4.0. From a local source checkout:
+viridisLite >= 0.4.0. From GitHub:
+
+```r
+# install.packages("pak")
+pak::pak("CTTIR/hyperspectR")
+```
+
+From a local source checkout:
  
 ```sh
 Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org")'
@@ -31,7 +38,7 @@ R development toolchain. Building articles additionally requires knitr,
 rmarkdown and Pandoc. Optional readers and analysis backends are checked when
 their functions are called.
 
-## Quick Start
+## Quick start
 
 ```r
 library(hyperspectR)
@@ -66,7 +73,7 @@ fit available memory; `max_upload_mb` sets the upload limit in MiB.
 
 ## Features
 
-- **I/O**: Read ENVI, multi-channel TIFF, and Cubert .cu3s files
+- **I/O**: Read ENVI, multi-channel TIFF, Cubert .cu3s and TIVITA `*_SpecCube.dat` files; write ENVI, TIFF and PNG
 - **Calibration**: Dark correction, white reference normalization, bad pixel repair
 - **Preprocessing**: Savitzky-Golay smoothing, SNV, MSC, spectral derivatives
 - **Research indices**: fitted hemoglobin fraction, dimensionless band ratios and normalized differences
@@ -74,30 +81,6 @@ fit available memory; `max_upload_mb` sets the upload limit in MiB.
 - **Visualization**: ggplot2-based spectral plots, research panel displays, interactive Shiny app
 - **Research scope**: Spectral measurements and model sensitivity; the supplied
   examples do not establish tissue oxygen saturation or diagnostic performance
-
-## Citation
-
-To cite hyperspectR in publications, please use:
-
-```bibtex
-@Manual{,
-  title = {hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications},
-  author = {R. Heller and V. Forstmeier},
-  year = {2026},
-  note = {R package version 0.3.0},
-  url = {https://github.com/cttir/hyperspectR},
-}
-```
-
-Use the version actually analyzed and retain its source revision. This version
-has no confirmed published DOI; the prior identifier and observed publication
-state are retained in [the maintenance record](https://github.com/CTTIR/hyperspectR/blob/main/planning/maintenance-2026-11-02.md).
-
-## License
-
-MIT; see [the full license](LICENSE.md). The pinned hemoglobin reference data
-retain their [upstream notice and provenance](https://github.com/CTTIR/hyperspectR/blob/main/inst/extdata/README-spectra.md).
-
 
 ## Corrected research semantics
 
@@ -111,9 +94,9 @@ measurements. The simulator is a software demonstration, not validation data.
 `coefficients` in mol/L * cm; `concentrations` is available only with a supplied
 `pathlength_cm`. Sensor response and tissue scattering require separate evaluation.
 
-See the repository's [migration details](https://github.com/cttir/hyperspectR/blob/main/MIGRATION.md),
-[implementation record](https://github.com/cttir/hyperspectR/blob/main/planning/implementation-status.md),
-and [analysis protocol](https://github.com/cttir/hyperspectR/blob/main/planning/analysis-validation.md).
+See the repository's [migration details](https://github.com/CTTIR/hyperspectR/blob/main/MIGRATION.md),
+[implementation record](https://github.com/CTTIR/hyperspectR/blob/main/planning/implementation-status.md),
+and [analysis protocol](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-validation.md).
 
 ## Reproducible processing
 
@@ -131,6 +114,29 @@ and environment versions, isolates failed recordings, and resumes matching work.
 
 Device readers are covered by software fixtures and SDK mocks. Real camera,
 phantom and independently labeled study validation remain separate evidence gates.
+
+## Citation
+
+To cite hyperspectR in publications, please use:
+
+```bibtex
+@Manual{,
+  title = {hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications},
+  author = {R. Heller and V. Forstmeier},
+  year = {2026},
+  note = {R package version 0.3.0},
+  url = {https://github.com/CTTIR/hyperspectR},
+}
+```
+
+Use the version actually analyzed and retain its source revision. This version
+has no confirmed published DOI; the prior identifier and observed publication
+state are retained in [the maintenance record](https://github.com/CTTIR/hyperspectR/blob/main/planning/maintenance-2026-11-02.md).
+
+## License
+
+MIT; see [the full license](LICENSE.md). The pinned hemoglobin reference data
+retain their [upstream notice and provenance](https://github.com/CTTIR/hyperspectR/blob/main/inst/extdata/README-spectra.md).
 
 ## Use of LLM tools
 

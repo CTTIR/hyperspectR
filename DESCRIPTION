@@ -22,9 +22,9 @@ Description: Reads, processes, analyzes and visualizes hyperspectral imaging
 License: MIT + file LICENSE
 Copyright: See file COPYRIGHTS for the bundled hemoglobin reference
     spectra.
-URL: https://github.com/cttir/hyperspectR,
+URL: https://github.com/CTTIR/hyperspectR,
     https://cttir.github.io/hyperspectR/
-BugReports: https://github.com/cttir/hyperspectR/issues
+BugReports: https://github.com/CTTIR/hyperspectR/issues
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
