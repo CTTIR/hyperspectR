@@ -12,9 +12,13 @@
 \item{...}{Additional arguments (ignored).}
 }
 \value{
-A named list with elements \code{dimensions}, \code{wavelength_range},
-\code{n_bands}, \code{data_range}, \code{band_means}, \code{band_sds}, \code{n_valid_pixels},
-and \code{metadata}.
+A list of class \code{summary.hsi_cube} with elements \code{dimensions},
+\code{wavelength_range}, \code{n_bands}, \code{data_range}, \code{band_means}, \code{band_sds},
+\code{band_counts} (finite values per band), \code{n_valid_pixels} (pixels whose
+whole spectrum is finite and unmasked), \code{n_total_pixels} and \code{metadata}.
+Band statistics are named by rounded wavelength, or by the full
+wavelength when rounding would give two bands the same name. Printing
+the object shows a compact overview instead of the full list.
 }
 \description{
 Returns a named list of cube statistics including per-band means and
@@ -23,6 +27,7 @@ standard deviations.
 \examples{
 cube <- hs_example_cube()
 s <- summary(cube)
+s
 s$dimensions
 
 }
