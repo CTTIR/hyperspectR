@@ -8,7 +8,15 @@ camera-specific and clinical accuracy require independent validation.
 ## Installation
 
 Requires R \>= 4.1.0 and the required packages in `DESCRIPTION`,
-including viridisLite \>= 0.4.0. From a local source checkout:
+including viridisLite \>= 0.4.0. From GitHub:
+
+``` r
+
+# install.packages("pak")
+pak::pak("CTTIR/hyperspectR")
+```
+
+From a local source checkout:
 
 ``` sh
 Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org")'
@@ -23,7 +31,7 @@ articles additionally requires knitr, rmarkdown and Pandoc. Optional
 readers and analysis backends are checked when their functions are
 called.
 
-## Quick Start
+## Quick start
 
 ``` r
 
@@ -61,7 +69,8 @@ in MiB.
 
 ## Features
 
-- **I/O**: Read ENVI, multi-channel TIFF, and Cubert .cu3s files
+- **I/O**: Read ENVI, multi-channel TIFF, Cubert .cu3s and TIVITA
+  `*_SpecCube.dat` files; write ENVI, TIFF and PNG
 - **Calibration**: Dark correction, white reference normalization, bad
   pixel repair
 - **Preprocessing**: Savitzky-Golay smoothing, SNV, MSC, spectral
@@ -75,32 +84,6 @@ in MiB.
 - **Research scope**: Spectral measurements and model sensitivity; the
   supplied examples do not establish tissue oxygen saturation or
   diagnostic performance
-
-## Citation
-
-To cite hyperspectR in publications, please use:
-
-``` bibtex
-@Manual{,
-  title = {hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications},
-  author = {R. Heller and V. Forstmeier},
-  year = {2026},
-  note = {R package version 0.3.0},
-  url = {https://github.com/cttir/hyperspectR},
-}
-```
-
-Use the version actually analyzed and retain its source revision. This
-version has no confirmed published DOI; the prior identifier and
-observed publication state are retained in [the maintenance
-record](https://github.com/CTTIR/hyperspectR/blob/main/planning/maintenance-2026-11-02.md).
-
-## License
-
-MIT; see [the full
-license](https://cttir.github.io/hyperspectR/LICENSE.md). The pinned
-hemoglobin reference data retain their [upstream notice and
-provenance](https://github.com/CTTIR/hyperspectR/blob/main/inst/extdata/README-spectra.md).
 
 ## Corrected research semantics
 
@@ -121,11 +104,11 @@ supplied `pathlength_cm`. Sensor response and tissue scattering require
 separate evaluation.
 
 See the repository’s [migration
-details](https://github.com/cttir/hyperspectR/blob/main/MIGRATION.md),
+details](https://github.com/CTTIR/hyperspectR/blob/main/MIGRATION.md),
 [implementation
-record](https://github.com/cttir/hyperspectR/blob/main/planning/implementation-status.md),
+record](https://github.com/CTTIR/hyperspectR/blob/main/planning/implementation-status.md),
 and [analysis
-protocol](https://github.com/cttir/hyperspectR/blob/main/planning/analysis-validation.md).
+protocol](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-validation.md).
 
 ## Reproducible processing
 
@@ -149,6 +132,32 @@ reports uncertainty using independent groups rather than pixels.
 Device readers are covered by software fixtures and SDK mocks. Real
 camera, phantom and independently labeled study validation remain
 separate evidence gates.
+
+## Citation
+
+To cite hyperspectR in publications, please use:
+
+``` bibtex
+@Manual{,
+  title = {hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications},
+  author = {R. Heller and V. Forstmeier},
+  year = {2026},
+  note = {R package version 0.3.0},
+  url = {https://github.com/CTTIR/hyperspectR},
+}
+```
+
+Use the version actually analyzed and retain its source revision. This
+version has no confirmed published DOI; the prior identifier and
+observed publication state are retained in [the maintenance
+record](https://github.com/CTTIR/hyperspectR/blob/main/planning/maintenance-2026-11-02.md).
+
+## License
+
+MIT; see [the full
+license](https://cttir.github.io/hyperspectR/LICENSE.md). The pinned
+hemoglobin reference data retain their [upstream notice and
+provenance](https://github.com/CTTIR/hyperspectR/blob/main/inst/extdata/README-spectra.md).
 
 ## Use of LLM tools
 
@@ -292,6 +301,16 @@ Dimensionality reduction, classification, and unmixing
   : Predict Classes in a New Cube Using a Fitted Classifier
 - [`hs_grouped_evaluate()`](https://cttir.github.io/hyperspectR/reference/hs_grouped_evaluate.md)
   : Evaluate Classification with Entire Groups Held Out
+- [`print(`*`<summary.hsi_cube>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_pca>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_mnf>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_umap>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_unmix>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_chromophore_fit>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_classification>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_roi>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_recipe>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  : Print hyperspectR Result Objects
 
 ## ROI Analysis
 
@@ -342,6 +361,8 @@ Chromophore spectra and simulation
   : Write Example ENVI Files to a Temporary Directory
 
 ## Reproducible Workflows
+
+Processing recipes and resumable batch runs
 
 - [`hs_recipe()`](https://cttir.github.io/hyperspectR/reference/hs_recipe.md)
   : Define a Reproducible Processing Recipe

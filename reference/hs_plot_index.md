@@ -19,7 +19,8 @@ hs_plot_index(
 
 - index_matrix:
 
-  Numeric matrix (rows x cols) from an index function.
+  Numeric matrix (rows x cols) from an index function. A logical matrix
+  is drawn as 0/1.
 
 - title:
 
@@ -33,7 +34,7 @@ hs_plot_index(
 - range:
 
   Numeric vector of length 2. Display range. Default `NULL` (data
-  range).
+  range). An `NA` entry takes that limit from the data.
 
 - mask:
 

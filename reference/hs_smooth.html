@@ -32,7 +32,7 @@ full-window center bands are returned. Invalid spectra remain missing."><meta pr
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/hyperspectR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/CTTIR/hyperspectR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch"><li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
@@ -47,7 +47,7 @@ full-window center bands are returned. Invalid spectra remain missing."><meta pr
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Savitzky-Golay Spectral Smoothing</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cttir/hyperspectR/blob/main/R/preprocess.R" class="external-link"><code>R/preprocess.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/CTTIR/hyperspectR/blob/main/R/preprocess.R" class="external-link"><code>R/preprocess.R</code></a></small>
       <div class="d-none name"><code>hs_smooth.Rd</code></div>
     </div>
 
@@ -97,6 +97,12 @@ derivative, 2 = second derivative). Default <code>0</code>.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An <a href="hsi_cube.html">hsi_cube</a> object with smoothed/differentiated spectra.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Savitzky, A. and Golay, M. J. E. (1964). Smoothing and differentiation of
+data by simplified least squares procedures. <em>Analytical Chemistry</em>,
+36(8), 1627-1639. <code>doi:10.1021/ac60214a047</code></p>
     </div>
 
     <div class="section level2">

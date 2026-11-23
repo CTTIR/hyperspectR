@@ -28,13 +28,15 @@ hs_plot_image(cube, wavelength = NULL, band = NULL, palette = "viridis")
 
 - palette:
 
-  Character. Color palette name. Default `"viridis"`.
+  Character. Color palette name: `"viridis"` (default), `"magma"`,
+  `"inferno"` or `"plasma"`. Any other name falls back to `"viridis"`.
 
 ## Value
 
 A [ggplot2::ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html)
 object using
 [`ggplot2::geom_raster()`](https://ggplot2.tidyverse.org/reference/geom_tile.html).
+Masked and nonfinite pixels are drawn in gray.
 
 ## Examples
 

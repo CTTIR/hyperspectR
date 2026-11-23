@@ -24,6 +24,95 @@
 - Includes all changes of the 0.2.0.9000 and 0.2.0.9001 development
   candidates listed below.
 
+### New features
+
+- [`summary()`](https://rdrr.io/r/base/summary.html) of a cube and the
+  results of
+  [`hs_pca()`](https://cttir.github.io/hyperspectR/reference/hs_pca.md),
+  [`hs_mnf()`](https://cttir.github.io/hyperspectR/reference/hs_mnf.md),
+  [`hs_umap()`](https://cttir.github.io/hyperspectR/reference/hs_umap.md),
+  [`hs_unmix_nnls()`](https://cttir.github.io/hyperspectR/reference/hs_unmix_nnls.md),
+  [`hs_beer_lambert()`](https://cttir.github.io/hyperspectR/reference/hs_beer_lambert.md),
+  [`hs_sam()`](https://cttir.github.io/hyperspectR/reference/hs_sam.md),
+  [`hs_classify_svm()`](https://cttir.github.io/hyperspectR/reference/hs_classify_svm.md),
+  [`hs_classify_rf()`](https://cttir.github.io/hyperspectR/reference/hs_classify_rf.md),
+  [`hs_roi_rect()`](https://cttir.github.io/hyperspectR/reference/hs_roi_rect.md),
+  [`hs_roi_polygon()`](https://cttir.github.io/hyperspectR/reference/hs_roi_polygon.md)
+  and
+  [`hs_recipe()`](https://cttir.github.io/hyperspectR/reference/hs_recipe.md)
+  now print a compact overview instead of every score map, residual cube
+  and fitted model. The objects themselves are unchanged lists.
+
+### Bug fixes
+
+- [`hs_plot_clinical()`](https://cttir.github.io/hyperspectR/reference/hs_plot_clinical.md)
+  arranged four panels in one row by default, so panel titles overlapped
+  on a default 7 inch device. The automatic layout (`ncol = NULL`) is
+  now a near-square grid; pass `ncol = 4` for the former single row.
+  `ncol` is validated.
+- [`as.data.frame()`](https://rdrr.io/r/base/as.data.frame.html) (wide
+  format), [`summary()`](https://rdrr.io/r/base/summary.html),
+  [`hs_endmembers()`](https://cttir.github.io/hyperspectR/reference/hs_endmembers.md)
+  and
+  [`hs_write_tiff()`](https://cttir.github.io/hyperspectR/reference/hs_write_tiff.md)
+  gave two bands the same name on wavelength grids finer than 1 nm (for
+  example `band_500` twice). Such grids now use the full wavelength;
+  names on whole-nm grids are unchanged.
+- [`hs_plot_spectra()`](https://cttir.github.io/hyperspectR/reference/hs_plot_spectra.md)
+  rejects a `pixels` value other than `"mean"`, `"random"` or a data
+  frame with an informative error, and validates `show_sd`.
+  [`hs_plot_image()`](https://cttir.github.io/hyperspectR/reference/hs_plot_image.md)
+  validates `band` before using it, and
+  [`hs_plot_index()`](https://cttir.github.io/hyperspectR/reference/hs_plot_index.md)
+  rejects character and empty matrices and a `range` that is not two
+  numbers or is infinite with an informative error. Logical matrices,
+  reversed ranges and `NA` limits (taken from the data) keep working as
+  before.
+- The
+  [`hs_twi()`](https://cttir.github.io/hyperspectR/reference/hs_twi.md)
+  warning for missing bands now names the requested band ranges instead
+  of a fixed 980 nm requirement that did not match the defaults.
+
+### Performance
+
+- Reading a single band no longer copies the whole cube.
+  [`hs_roi_stats()`](https://cttir.github.io/hyperspectR/reference/hs_roi_stats.md)
+  reshapes the cube once instead of twice per band, and
+  [`hs_roi_polygon()`](https://cttir.github.io/hyperspectR/reference/hs_roi_polygon.md),
+  [`hs_sam()`](https://cttir.github.io/hyperspectR/reference/hs_sam.md)
+  and
+  [`hs_simulate_cube()`](https://cttir.github.io/hyperspectR/reference/hs_simulate_cube.md)
+  no longer loop over pixels. Results are identical to the previous
+  implementations.
+
+### Visualization
+
+- [`hs_plot_spectra()`](https://cttir.github.io/hyperspectR/reference/hs_plot_spectra.md)
+  labels the value axis with a readable processing mode (“Reflectance”
+  instead of “reflectance”) and draws selected pixels in the
+  color-blind-safe Okabe-Ito palette, with the legend in the order the
+  pixels were supplied.
+- Figures in the reference examples of the website keep their colors in
+  dark mode, and all vignette figures carry alternative text.
+- The explorer app renders its plots at 96 dpi, so titles, axis labels
+  and legends are no longer smaller than the surrounding controls.
+
+### Documentation
+
+- [`hs_smooth()`](https://cttir.github.io/hyperspectR/reference/hs_smooth.md),
+  [`hs_snv()`](https://cttir.github.io/hyperspectR/reference/hs_snv.md),
+  [`hs_msc()`](https://cttir.github.io/hyperspectR/reference/hs_msc.md),
+  [`hs_mnf()`](https://cttir.github.io/hyperspectR/reference/hs_mnf.md),
+  [`hs_umap()`](https://cttir.github.io/hyperspectR/reference/hs_umap.md),
+  [`hs_sam()`](https://cttir.github.io/hyperspectR/reference/hs_sam.md),
+  [`hs_unmix_nnls()`](https://cttir.github.io/hyperspectR/reference/hs_unmix_nnls.md)
+  and
+  [`hs_continuum_removal()`](https://cttir.github.io/hyperspectR/reference/hs_continuum_removal.md)
+  cite their primary sources.
+- The README lists the TIVITA reader and a GitHub installation command,
+  the getting-started vignette cites the current version, and package
+  URLs use the `CTTIR` organization spelling.
+
 ## hyperspectR 0.2.0.9001 (development candidate, not released)
 
 - Retry UMAP’s identified older-R PCA dependency failure with base SVD

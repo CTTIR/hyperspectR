@@ -85,7 +85,9 @@ smoothed <- hs_smooth(calibrated, window = 5, poly = 2)
 hs_plot_spectra(smoothed, pixels = "mean", show_sd = TRUE)
 ```
 
-![](cubert-workflow_files/figure-html/unnamed-chunk-5-1.png)
+![Mean spectrum of the calibrated and smoothed synthetic cube with a
+shaded band of one standard deviation across the
+image.](cubert-workflow_files/figure-html/unnamed-chunk-5-1.png)
 
 ## Step 4: Computing Indices
 
@@ -97,7 +99,10 @@ hs_plot_clinical(smoothed, indices = c("sto2", "npi", "thi"))
 #> ℹ Results may be approximate.
 ```
 
-![](cubert-workflow_files/figure-html/unnamed-chunk-6-1.png)
+![Research panel in a two-by-two grid: RGB composite, fitted hemoglobin
+fraction map, near-infrared band ratio map and hemoglobin-band ratio map
+of the synthetic scene, each with rows and columns as axes and its own
+colour bar.](cubert-workflow_files/figure-html/unnamed-chunk-6-1.png)
 
 ## Step 5: Saving Results
 

@@ -65,6 +65,12 @@ A list with class `"hsi_unmix"`:
 
   Character vector.
 
+## References
+
+Lawson, C. L. and Hanson, R. J. (1995). *Solving Least Squares Problems*
+(chapter 23, non-negative least squares). Society for Industrial and
+Applied Mathematics. `doi:10.1137/1.9781611971217`
+
 ## Examples
 
 ``` r

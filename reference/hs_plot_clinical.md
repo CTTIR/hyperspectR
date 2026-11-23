@@ -38,7 +38,10 @@ hs_plot_clinical(
 
 - ncol:
 
-  Integer. Number of panel columns. Default `NULL` (auto).
+  Integer. Number of panel columns. Default `NULL` arranges the panels
+  in a near-square grid (`ceiling(sqrt(n))` columns, so two columns for
+  the default four panels). Supply `ncol = 4` with a wide device for a
+  single row.
 
 ## Value
 

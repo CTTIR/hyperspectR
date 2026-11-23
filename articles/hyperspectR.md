@@ -93,7 +93,9 @@ dim(sub)
 ggplot2::autoplot(cube, type = "rgb")
 ```
 
-![](hyperspectR_files/figure-html/unnamed-chunk-7-1.png)
+![RGB composite of the synthetic 30 by 30 pixel example cube built from
+the bands nearest 640, 550 and 460 nm; rows run downwards and columns to
+the right.](hyperspectR_files/figure-html/unnamed-chunk-7-1.png)
 
 #### Single Band Image
 
@@ -102,7 +104,9 @@ ggplot2::autoplot(cube, type = "rgb")
 hs_plot_image(cube, wavelength = 550)
 ```
 
-![](hyperspectR_files/figure-html/unnamed-chunk-8-1.png)
+![Pseudocolour image of the band nearest 550 nm in the example cube,
+with a viridis colour bar for the reflectance
+value.](hyperspectR_files/figure-html/unnamed-chunk-8-1.png)
 
 #### Mean Spectrum
 
@@ -111,7 +115,10 @@ hs_plot_image(cube, wavelength = 550)
 hs_plot_spectra(cube, pixels = "mean", show_sd = TRUE)
 ```
 
-![](hyperspectR_files/figure-html/unnamed-chunk-9-1.png)
+![Mean reflectance spectrum of the example cube from 430 to 910 nm with
+a shaded band of one standard deviation; reflectance dips between 540
+and 580 nm and rises towards the near
+infrared.](hyperspectR_files/figure-html/unnamed-chunk-9-1.png)
 
 ### Computing Tissue Indices
 
@@ -125,7 +132,10 @@ sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
-![](hyperspectR_files/figure-html/unnamed-chunk-10-1.png)
+![Map of the fitted oxygenated hemoglobin fraction in percent; the four
+quadrants of the synthetic scene take four distinct levels on a
+blue-to-red
+scale.](hyperspectR_files/figure-html/unnamed-chunk-10-1.png)
 
 #### Clinical Panel Display
 
@@ -134,7 +144,10 @@ hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 hs_plot_clinical(cube, indices = c("sto2", "npi", "thi"))
 ```
 
-![](hyperspectR_files/figure-html/unnamed-chunk-11-1.png)
+![Research panel in a two-by-two grid: RGB composite, fitted hemoglobin
+fraction map, near-infrared band ratio map and hemoglobin-band ratio map
+of the synthetic scene, each with rows and columns as axes and its own
+colour bar.](hyperspectR_files/figure-html/unnamed-chunk-11-1.png)
 
 ### Interactive Exploration
 
@@ -173,7 +186,7 @@ To cite hyperspectR in publications, please use:
   title = {hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications},
   author = {R. Heller and V. Forstmeier},
   year = {2026},
-  note = {R package version 0.2.0.9001, development candidate},
-  url = {https://github.com/cttir/hyperspectR},
+  note = {R package version 0.3.0},
+  url = {https://github.com/CTTIR/hyperspectR},
 }
 ```

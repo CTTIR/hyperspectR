@@ -26,6 +26,13 @@ hs_mnf(cube, n_components = 5L)
 A list with class `"hsi_mnf"` (same structure as
 [`hs_pca()`](https://cttir.github.io/hyperspectR/reference/hs_pca.md)).
 
+## References
+
+Green, A. A., Berman, M., Switzer, P. and Craig, M. D. (1988). A
+transformation for ordering multispectral data in terms of image quality
+with implications for noise removal. *IEEE Transactions on Geoscience
+and Remote Sensing*, 26(1), 65-74. `doi:10.1109/36.3001`
+
 ## Examples
 
 ``` r

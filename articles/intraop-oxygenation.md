@@ -51,7 +51,9 @@ smoothed <- hs_smooth(cube, window = 7, poly = 3)
 hs_plot_spectra(smoothed)
 ```
 
-![](intraop-oxygenation_files/figure-html/unnamed-chunk-3-1.png)
+![Mean spectrum of the smoothed synthetic cube with a shaded band of one
+standard deviation across the
+image.](intraop-oxygenation_files/figure-html/unnamed-chunk-3-1.png)
 
 ## Step 3: Dimensionless Band Ratio
 
@@ -61,7 +63,9 @@ sto2_ratio <- hs_band_ratio(smoothed, c(700, 800), c(500, 650))
 hs_plot_index(sto2_ratio, title = "Relative NIR/visible ratio", palette = "sto2")
 ```
 
-![](intraop-oxygenation_files/figure-html/unnamed-chunk-4-1.png)
+![Map of the dimensionless ratio of the 700 to 800 nm band to the 500 to
+650 nm band; the four regions of the synthetic scene take four distinct
+levels.](intraop-oxygenation_files/figure-html/unnamed-chunk-4-1.png)
 
 ## Step 4: Beer-Lambert Chromophore Fitting
 
@@ -71,7 +75,9 @@ fit <- hs_beer_lambert(smoothed)
 hs_plot_index(fit$sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
-![](intraop-oxygenation_files/figure-html/unnamed-chunk-5-1.png)
+![Map of the fitted oxygenated hemoglobin fraction in percent from the
+Beer-Lambert fit for the four synthetic
+regions.](intraop-oxygenation_files/figure-html/unnamed-chunk-5-1.png)
 
 ## Step 5: ROI-Based Statistical Analysis
 
@@ -102,7 +108,9 @@ ggplot() +
   theme_hsi()
 ```
 
-![](intraop-oxygenation_files/figure-html/unnamed-chunk-6-1.png)
+![Line plot of the mean reflectance spectra of two regions of interest
+with shaded bands of one standard deviation, from about 450 to 890
+nm.](intraop-oxygenation_files/figure-html/unnamed-chunk-6-1.png)
 
 ## Step 6: Research Panel
 
@@ -114,7 +122,11 @@ hs_plot_clinical(smoothed)
 #> ℹ Results may be approximate.
 ```
 
-![](intraop-oxygenation_files/figure-html/unnamed-chunk-7-1.png)
+![Research panel in a two-by-two grid: RGB composite, fitted hemoglobin
+fraction map, near-infrared band ratio map and hemoglobin-band ratio map
+of the synthetic scene, each with rows and columns as axes and its own
+colour
+bar.](intraop-oxygenation_files/figure-html/unnamed-chunk-7-1.png)
 
 ## Step 7: PCA for Quality Assessment
 

@@ -28,7 +28,7 @@
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/hyperspectR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/CTTIR/hyperspectR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch"><li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
@@ -43,7 +43,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/cttir/hyperspectR/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/CTTIR/hyperspectR/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
@@ -54,6 +54,38 @@
 <li>Expanded acronyms in the Description, declared <code>Language: en-US</code>, and documented the copyright of the bundled hemoglobin reference spectra in <code>inst/COPYRIGHTS</code>.</li>
 <li>Updated the maintainer e-mail address to <a href="mailto:raban.heller@uni-ulm.de" class="email">raban.heller@uni-ulm.de</a>.</li>
 <li>Includes all changes of the 0.2.0.9000 and 0.2.0.9001 development candidates listed below.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-3-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-0"></a></h3>
+<ul><li>
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> of a cube and the results of <code><a href="../reference/hs_pca.html">hs_pca()</a></code>, <code><a href="../reference/hs_mnf.html">hs_mnf()</a></code>, <code><a href="../reference/hs_umap.html">hs_umap()</a></code>, <code><a href="../reference/hs_unmix_nnls.html">hs_unmix_nnls()</a></code>, <code><a href="../reference/hs_beer_lambert.html">hs_beer_lambert()</a></code>, <code><a href="../reference/hs_sam.html">hs_sam()</a></code>, <code><a href="../reference/hs_classify_svm.html">hs_classify_svm()</a></code>, <code><a href="../reference/hs_classify_rf.html">hs_classify_rf()</a></code>, <code><a href="../reference/hs_roi_rect.html">hs_roi_rect()</a></code>, <code><a href="../reference/hs_roi_polygon.html">hs_roi_polygon()</a></code> and <code><a href="../reference/hs_recipe.html">hs_recipe()</a></code> now print a compact overview instead of every score map, residual cube and fitted model. The objects themselves are unchanged lists.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-0"></a></h3>
+<ul><li>
+<code><a href="../reference/hs_plot_clinical.html">hs_plot_clinical()</a></code> arranged four panels in one row by default, so panel titles overlapped on a default 7 inch device. The automatic layout (<code>ncol = NULL</code>) is now a near-square grid; pass <code>ncol = 4</code> for the former single row. <code>ncol</code> is validated.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> (wide format), <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, <code><a href="../reference/hs_endmembers.html">hs_endmembers()</a></code> and <code><a href="../reference/hs_write_tiff.html">hs_write_tiff()</a></code> gave two bands the same name on wavelength grids finer than 1 nm (for example <code>band_500</code> twice). Such grids now use the full wavelength; names on whole-nm grids are unchanged.</li>
+<li>
+<code><a href="../reference/hs_plot_spectra.html">hs_plot_spectra()</a></code> rejects a <code>pixels</code> value other than <code>"mean"</code>, <code>"random"</code> or a data frame with an informative error, and validates <code>show_sd</code>. <code><a href="../reference/hs_plot_image.html">hs_plot_image()</a></code> validates <code>band</code> before using it, and <code><a href="../reference/hs_plot_index.html">hs_plot_index()</a></code> rejects character and empty matrices and a <code>range</code> that is not two numbers or is infinite with an informative error. Logical matrices, reversed ranges and <code>NA</code> limits (taken from the data) keep working as before.</li>
+<li>The <code><a href="../reference/hs_twi.html">hs_twi()</a></code> warning for missing bands now names the requested band ranges instead of a fixed 980 nm requirement that did not match the defaults.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="performance-0-3-0">Performance<a class="anchor" aria-label="anchor" href="#performance-0-3-0"></a></h3>
+<ul><li>Reading a single band no longer copies the whole cube. <code><a href="../reference/hs_roi_stats.html">hs_roi_stats()</a></code> reshapes the cube once instead of twice per band, and <code><a href="../reference/hs_roi_polygon.html">hs_roi_polygon()</a></code>, <code><a href="../reference/hs_sam.html">hs_sam()</a></code> and <code><a href="../reference/hs_simulate_cube.html">hs_simulate_cube()</a></code> no longer loop over pixels. Results are identical to the previous implementations.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="visualization-0-3-0">Visualization<a class="anchor" aria-label="anchor" href="#visualization-0-3-0"></a></h3>
+<ul><li>
+<code><a href="../reference/hs_plot_spectra.html">hs_plot_spectra()</a></code> labels the value axis with a readable processing mode (“Reflectance” instead of “reflectance”) and draws selected pixels in the color-blind-safe Okabe-Ito palette, with the legend in the order the pixels were supplied.</li>
+<li>Figures in the reference examples of the website keep their colors in dark mode, and all vignette figures carry alternative text.</li>
+<li>The explorer app renders its plots at 96 dpi, so titles, axis labels and legends are no longer smaller than the surrounding controls.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-0-3-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-3-0"></a></h3>
+<ul><li>
+<code><a href="../reference/hs_smooth.html">hs_smooth()</a></code>, <code><a href="../reference/hs_snv.html">hs_snv()</a></code>, <code><a href="../reference/hs_msc.html">hs_msc()</a></code>, <code><a href="../reference/hs_mnf.html">hs_mnf()</a></code>, <code><a href="../reference/hs_umap.html">hs_umap()</a></code>, <code><a href="../reference/hs_sam.html">hs_sam()</a></code>, <code><a href="../reference/hs_unmix_nnls.html">hs_unmix_nnls()</a></code> and <code><a href="../reference/hs_continuum_removal.html">hs_continuum_removal()</a></code> cite their primary sources.</li>
+<li>The README lists the TIVITA reader and a GitHub installation command, the getting-started vignette cites the current version, and package URLs use the <code>CTTIR</code> organization spelling.</li>
 </ul></div>
 </div>
     <div class="section level2">

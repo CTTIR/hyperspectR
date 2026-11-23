@@ -29,7 +29,9 @@ as.data.frame(x, ..., long = FALSE)
 
 ## Value
 
-A `data.frame`.
+A `data.frame`. Wide columns are named `band_<wavelength>` with the
+wavelength rounded to whole nm, or the full wavelength when rounding
+would give two bands the same name.
 
 ## Examples
 

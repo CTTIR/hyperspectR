@@ -27,6 +27,13 @@ hs_continuum_removal(cube, method = c("division", "subtraction"))
 An [hsi_cube](https://cttir.github.io/hyperspectR/reference/hsi_cube.md)
 object with continuum-removed spectra.
 
+## References
+
+Clark, R. N. and Roush, T. L. (1984). Reflectance spectroscopy:
+quantitative analysis techniques for remote sensing applications.
+*Journal of Geophysical Research: Solid Earth*, 89(B7), 6329-6340.
+`doi:10.1029/JB089iB07p06329`
+
 ## Examples
 
 ``` r

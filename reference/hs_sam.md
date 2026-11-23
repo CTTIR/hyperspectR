@@ -44,6 +44,14 @@ A list with class `"hsi_classification"`:
 
   The endmember matrix used.
 
+## References
+
+Kruse, F. A., Lefkoff, A. B., Boardman, J. W., Heidebrecht, K. B.,
+Shapiro, A. T., Barloon, P. J. and Goetz, A. F. H. (1993). The spectral
+image processing system (SIPS): interactive visualization and analysis
+of imaging spectrometer data. *Remote Sensing of Environment*, 44(2-3),
+145-163. `doi:10.1016/0034-4257(93)90013-N`
+
 ## Examples
 
 ``` r

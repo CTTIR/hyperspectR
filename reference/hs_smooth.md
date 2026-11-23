@@ -47,6 +47,12 @@ hs_smooth(
 An [hsi_cube](https://cttir.github.io/hyperspectR/reference/hsi_cube.md)
 object with smoothed/differentiated spectra.
 
+## References
+
+Savitzky, A. and Golay, M. J. E. (1964). Smoothing and differentiation
+of data by simplified least squares procedures. *Analytical Chemistry*,
+36(8), 1627-1639. `doi:10.1021/ac60214a047`
+
 ## Examples
 
 ``` r

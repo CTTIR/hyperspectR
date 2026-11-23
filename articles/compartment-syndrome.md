@@ -45,7 +45,9 @@ sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Research Hb fraction (%)", palette = "sto2")
 ```
 
-![](compartment-syndrome_files/figure-html/unnamed-chunk-3-1.png)
+![Map of the fitted hemoglobin fraction in percent for a synthetic 50 by
+50 pixel scene with four regions on a blue-to-red
+scale.](compartment-syndrome_files/figure-html/unnamed-chunk-3-1.png)
 
 The fitted fractions may disagree with simulation parameters because the
 simulator and reference inversion use different models.
@@ -58,7 +60,9 @@ npi <- hs_npi(cube)
 hs_plot_index(npi, title = "NIR ratio (dimensionless)", palette = "perfusion")
 ```
 
-![](compartment-syndrome_files/figure-html/unnamed-chunk-4-1.png)
+![Map of the dimensionless near-infrared band ratio of the synthetic
+scene on a viridis
+scale.](compartment-syndrome_files/figure-html/unnamed-chunk-4-1.png)
 
 ## Research Panel Overview
 
@@ -67,7 +71,11 @@ hs_plot_index(npi, title = "NIR ratio (dimensionless)", palette = "perfusion")
 hs_plot_clinical(cube, indices = c("sto2", "npi", "thi"))
 ```
 
-![](compartment-syndrome_files/figure-html/unnamed-chunk-5-1.png)
+![Research panel in a two-by-two grid: RGB composite, fitted hemoglobin
+fraction map, near-infrared band ratio map and hemoglobin-band ratio map
+of the synthetic scene, each with rows and columns as axes and its own
+colour
+bar.](compartment-syndrome_files/figure-html/unnamed-chunk-5-1.png)
 
 ## ROI Comparison: Affected vs. Unaffected
 
@@ -91,7 +99,10 @@ ggplot() +
   theme_hsi()
 ```
 
-![](compartment-syndrome_files/figure-html/unnamed-chunk-6-1.png)
+![Line plot comparing the mean reflectance spectra of two regions of
+interest, labelled normal and affected, from 430 to 910 nm; the spectra
+differ mainly below 600
+nm.](compartment-syndrome_files/figure-html/unnamed-chunk-6-1.png)
 
 This plot describes within-image spectral variation. Pixel SD is not a
 confidence interval for a population effect. For repeated measurements,

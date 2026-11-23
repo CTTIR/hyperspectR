@@ -19,20 +19,20 @@ examples.
 
 Useful links:
 
-- <https://github.com/cttir/hyperspectR>
+- <https://github.com/CTTIR/hyperspectR>
 
 - <https://cttir.github.io/hyperspectR/>
 
-- Report bugs at <https://github.com/cttir/hyperspectR/issues>
+- Report bugs at <https://github.com/CTTIR/hyperspectR/issues>
 
 ## Author
 
 **Maintainer**: R. Heller <raban.heller@uni-ulm.de>
-([ORCID](https://orcid.org/0000-0001-8006-9742))
+([ORCID](https://orcid.org/0000-0001-8006-9742)) \[copyright holder\]
 
 Authors:
 
 - R. Heller <raban.heller@uni-ulm.de>
-  ([ORCID](https://orcid.org/0000-0001-8006-9742))
+  ([ORCID](https://orcid.org/0000-0001-8006-9742)) \[copyright holder\]
 
 - V. Forstmeier

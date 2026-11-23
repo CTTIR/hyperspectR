@@ -57,6 +57,12 @@ message of class `hyperspectR_umap_pca_fallback`. Other errors,
 including failures in older `uwot` versions without this option,
 propagate unchanged.
 
+## References
+
+McInnes, L., Healy, J. and Melville, J. (2018). UMAP: Uniform manifold
+approximation and projection for dimension reduction. arXiv:1802.03426.
+`doi:10.48550/arXiv.1802.03426`
+
 ## Examples
 
 ``` r

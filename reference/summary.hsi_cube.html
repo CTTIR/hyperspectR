@@ -30,7 +30,7 @@ standard deviations."><meta property="og:image" content="https://cttir.github.io
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/hyperspectR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/CTTIR/hyperspectR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch"><li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
@@ -45,7 +45,7 @@ standard deviations."><meta property="og:image" content="https://cttir.github.io
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Summarize an hsi_cube Object</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cttir/hyperspectR/blob/main/R/hsi_cube-methods.R" class="external-link"><code>R/hsi_cube-methods.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/CTTIR/hyperspectR/blob/main/R/hsi_cube-methods.R" class="external-link"><code>R/hsi_cube-methods.R</code></a></small>
       <div class="d-none name"><code>summary.hsi_cube.Rd</code></div>
     </div>
 
@@ -74,15 +74,30 @@ standard deviations.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A named list with elements <code>dimensions</code>, <code>wavelength_range</code>,
-<code>n_bands</code>, <code>data_range</code>, <code>band_means</code>, <code>band_sds</code>, <code>n_valid_pixels</code>,
-and <code>metadata</code>.</p>
+    <p>A list of class <code>summary.hsi_cube</code> with elements <code>dimensions</code>,
+<code>wavelength_range</code>, <code>n_bands</code>, <code>data_range</code>, <code>band_means</code>, <code>band_sds</code>,
+<code>band_counts</code> (finite values per band), <code>n_valid_pixels</code> (pixels whose
+whole spectrum is finite and unmasked), <code>n_total_pixels</code> and <code>metadata</code>.
+Band statistics are named by rounded wavelength, or by the full
+wavelength when rounding would give two bands the same name. Printing
+the object shows a compact overview instead of the full list.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">cube</span> <span class="op">&lt;-</span> <span class="fu"><a href="hs_example_cube.html">hs_example_cube</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cube</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">s</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">summary.hsi_cube</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dimensions: 30 rows x 30 cols x 61 bands</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Wavelengths: 430-910 nm</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Valid pixels: 900/900 (100%)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Data range: [0.01982, 0.73060]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Band means: [0.04962, 0.70050]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Band SDs: [0.009737, 0.065890]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Metadata: camera, spectral_model, interpretation, processing_mode,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> acquisition_time, region_map, sto2_ground_truth, seed</span>
 <span class="r-in"><span><span class="va">s</span><span class="op">$</span><span class="va">dimensions</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 30 30 61</span>
 <span class="r-in"><span></span></span>

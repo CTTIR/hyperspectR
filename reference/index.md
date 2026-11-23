@@ -114,6 +114,16 @@ Dimensionality reduction, classification, and unmixing
   : Predict Classes in a New Cube Using a Fitted Classifier
 - [`hs_grouped_evaluate()`](https://cttir.github.io/hyperspectR/reference/hs_grouped_evaluate.md)
   : Evaluate Classification with Entire Groups Held Out
+- [`print(`*`<summary.hsi_cube>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_pca>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_mnf>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_umap>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_unmix>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_chromophore_fit>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_classification>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_roi>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  [`print(`*`<hsi_recipe>`*`)`](https://cttir.github.io/hyperspectR/reference/print.hsi_result.md)
+  : Print hyperspectR Result Objects
 
 ## ROI Analysis
 
@@ -164,6 +174,8 @@ Chromophore spectra and simulation
   : Write Example ENVI Files to a Temporary Directory
 
 ## Reproducible Workflows
+
+Processing recipes and resumable batch runs
 
 - [`hs_recipe()`](https://cttir.github.io/hyperspectR/reference/hs_recipe.md)
   : Define a Reproducible Processing Recipe

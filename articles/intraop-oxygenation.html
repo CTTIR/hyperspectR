@@ -54,7 +54,7 @@
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/hyperspectR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/CTTIR/hyperspectR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
@@ -78,7 +78,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Research Oxygenation Model Workflow</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/cttir/hyperspectR/blob/main/vignettes/intraop-oxygenation.Rmd" class="external-link"><code>vignettes/intraop-oxygenation.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/CTTIR/hyperspectR/blob/main/vignettes/intraop-oxygenation.Rmd" class="external-link"><code>vignettes/intraop-oxygenation.Rmd</code></a></small>
       <div class="d-none name"><code>intraop-oxygenation.Rmd</code></div>
     </div>
 
@@ -106,7 +106,7 @@
 <!-- badges: start -->
 <p><a href="https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/hyperspectR/"><img src="https://github.com/CTTIR/hyperspectR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://app.codecov.io/gh/CTTIR/hyperspectR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/hyperspectR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cttir/hyperspectR" class="external-link">hyperspectR</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CTTIR/hyperspectR" class="external-link">hyperspectR</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; hyperspectR v0.3.0 - Hyperspectral Imaging Analysis for Biomedical Applications</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
@@ -139,7 +139,7 @@ threshold follows from these examples.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smoothed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hs_smooth.html">hs_smooth</a></span><span class="op">(</span><span class="va">cube</span>, window <span class="op">=</span> <span class="fl">7</span>, poly <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/hs_plot_spectra.html">hs_plot_spectra</a></span><span class="op">(</span><span class="va">smoothed</span><span class="op">)</span></span></code></pre></div>
-<p><img src="intraop-oxygenation_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="intraop-oxygenation_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="Mean spectrum of the smoothed synthetic cube with a shaded band of one standard deviation across the image." width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="step-3-dimensionless-band-ratio">Step 3: Dimensionless Band Ratio<a class="anchor" aria-label="anchor" href="#step-3-dimensionless-band-ratio"></a>
@@ -147,7 +147,7 @@ threshold follows from these examples.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sto2_ratio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hs_band_ratio.html">hs_band_ratio</a></span><span class="op">(</span><span class="va">smoothed</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">700</span>, <span class="fl">800</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fl">650</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/hs_plot_index.html">hs_plot_index</a></span><span class="op">(</span><span class="va">sto2_ratio</span>, title <span class="op">=</span> <span class="st">"Relative NIR/visible ratio"</span>, palette <span class="op">=</span> <span class="st">"sto2"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="intraop-oxygenation_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="intraop-oxygenation_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="Map of the dimensionless ratio of the 700 to 800 nm band to the 500 to 650 nm band; the four regions of the synthetic scene take four distinct levels." width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="step-4-beer-lambert-chromophore-fitting">Step 4: Beer-Lambert Chromophore Fitting<a class="anchor" aria-label="anchor" href="#step-4-beer-lambert-chromophore-fitting"></a>
@@ -155,7 +155,7 @@ threshold follows from these examples.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hs_beer_lambert.html">hs_beer_lambert</a></span><span class="op">(</span><span class="va">smoothed</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/hs_plot_index.html">hs_plot_index</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">sto2</span>, title <span class="op">=</span> <span class="st">"Fitted Hb fraction (%)"</span>, palette <span class="op">=</span> <span class="st">"sto2"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="intraop-oxygenation_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="intraop-oxygenation_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="Map of the fitted oxygenated hemoglobin fraction in percent from the Beer-Lambert fit for the four synthetic regions." width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="step-5-roi-based-statistical-analysis">Step 5: ROI-Based Statistical Analysis<a class="anchor" aria-label="anchor" href="#step-5-roi-based-statistical-analysis"></a>
@@ -184,7 +184,7 @@ threshold follows from these examples.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Wavelength (nm)"</span>, y <span class="op">=</span> <span class="st">"Reflectance"</span>,</span>
 <span>       title <span class="op">=</span> <span class="st">"ROI Spectral Comparison"</span>, color <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_hsi.html">theme_hsi</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="intraop-oxygenation_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="intraop-oxygenation_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="Line plot of the mean reflectance spectra of two regions of interest with shaded bands of one standard deviation, from about 450 to 890 nm." width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="step-6-research-panel">Step 6: Research Panel<a class="anchor" aria-label="anchor" href="#step-6-research-panel"></a>
@@ -194,7 +194,7 @@ threshold follows from these examples.</p>
 <span><span class="co">#&gt; Warning: <span style="color: #BBBB00;">!</span> Wavelength range (454-886 nm) does not fully cover NPI requirements (655-910</span></span>
 <span><span class="co">#&gt;   nm).</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Results may be approximate.</span></span></code></pre></div>
-<p><img src="intraop-oxygenation_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="960"></p>
+<p><img src="intraop-oxygenation_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="Research panel in a two-by-two grid: RGB composite, fitted hemoglobin fraction map, near-infrared band ratio map and hemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar." width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="step-7-pca-for-quality-assessment">Step 7: PCA for Quality Assessment<a class="anchor" aria-label="anchor" href="#step-7-pca-for-quality-assessment"></a>

@@ -54,7 +54,7 @@
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/hyperspectR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/CTTIR/hyperspectR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
@@ -78,7 +78,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Research Spectral Indices Explained</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/cttir/hyperspectR/blob/main/vignettes/biomedical-indices.Rmd" class="external-link"><code>vignettes/biomedical-indices.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/CTTIR/hyperspectR/blob/main/vignettes/biomedical-indices.Rmd" class="external-link"><code>vignettes/biomedical-indices.Rmd</code></a></small>
       <div class="d-none name"><code>biomedical-indices.Rmd</code></div>
     </div>
 
@@ -106,7 +106,7 @@
 <!-- badges: start -->
 <p><a href="https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/hyperspectR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/hyperspectR/"><img src="https://github.com/CTTIR/hyperspectR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://app.codecov.io/gh/CTTIR/hyperspectR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/hyperspectR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cttir/hyperspectR" class="external-link">hyperspectR</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CTTIR/hyperspectR" class="external-link">hyperspectR</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; hyperspectR v0.3.0 - Hyperspectral Imaging Analysis for Biomedical Applications</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="hemoglobin-absorption">Hemoglobin Absorption<a class="anchor" aria-label="anchor" href="#hemoglobin-absorption"></a>
@@ -120,10 +120,10 @@ absorption spectra of oxyhemoglobin (HbO2) and deoxyhemoglobin (Hb).</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">HbO2</span>, color <span class="op">=</span> <span class="st">"HbO2"</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">Hb</span>, color <span class="op">=</span> <span class="st">"Hb"</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>HbO2 <span class="op">=</span> <span class="st">"#E41A1C"</span>, Hb <span class="op">=</span> <span class="st">"#377EB8"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Wavelength (nm)"</span>, y <span class="op">=</span> <span class="st">"Extinction Coefficient"</span>,</span>
-<span>       title <span class="op">=</span> <span class="st">"Hemoglobin Absorption Spectra"</span>, color <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Wavelength (nm)"</span>, y <span class="op">=</span> <span class="st">"Molar extinction coefficient (cm^-1 / (mol/L))"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Hemoglobin Absorption Spectra"</span>, color <span class="op">=</span> <span class="st">"Hemoglobin"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_hsi.html">theme_hsi</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="Line plot of the tabulated molar extinction coefficients of oxyhemoglobin and deoxyhemoglobin from 430 to 910 nm; both are highest at the blue end, show peaks between 540 and 580 nm and are low in the near infrared." width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="tissue-oxygen-saturation-sto2">Tissue Oxygen Saturation (StO2)<a class="anchor" aria-label="anchor" href="#tissue-oxygen-saturation-sto2"></a>
@@ -136,7 +136,7 @@ oxygen saturation for a camera or clinical task.</p>
 <code class="sourceCode R"><span><span class="va">cube</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hs_example_cube.html">hs_example_cube</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">sto2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hs_sto2.html">hs_sto2</a></span><span class="op">(</span><span class="va">cube</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/hs_plot_index.html">hs_plot_index</a></span><span class="op">(</span><span class="va">sto2</span>, title <span class="op">=</span> <span class="st">"Fitted Hb fraction (%)"</span>, palette <span class="op">=</span> <span class="st">"sto2"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="Map of the fitted oxygenated hemoglobin fraction in percent; the four quadrants of the synthetic scene take four distinct levels on a blue-to-red scale." width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="near-infrared-perfusion-index-npi">Near-Infrared Perfusion Index (NPI)<a class="anchor" aria-label="anchor" href="#near-infrared-perfusion-index-npi"></a>
@@ -146,7 +146,7 @@ calibrated perfusion or depth interpretation.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">npi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hs_npi.html">hs_npi</a></span><span class="op">(</span><span class="va">cube</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/hs_plot_index.html">hs_plot_index</a></span><span class="op">(</span><span class="va">npi</span>, title <span class="op">=</span> <span class="st">"NIR ratio"</span>, palette <span class="op">=</span> <span class="st">"perfusion"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="Map of the dimensionless near-infrared band ratio of the example cube on a viridis scale." width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="tissue-hemoglobin-index-thi">Tissue Hemoglobin Index (THI)<a class="anchor" aria-label="anchor" href="#tissue-hemoglobin-index-thi"></a>
@@ -156,7 +156,7 @@ It is not a concentration.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">thi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hs_thi.html">hs_thi</a></span><span class="op">(</span><span class="va">cube</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/hs_plot_index.html">hs_plot_index</a></span><span class="op">(</span><span class="va">thi</span>, title <span class="op">=</span> <span class="st">"Hb-band ratio"</span>, palette <span class="op">=</span> <span class="st">"hemoglobin"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="Map of the dimensionless hemoglobin-band ratio of the example cube on a magma scale; the four quadrants take four distinct levels." width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="custom-normalized-difference-index">Custom Normalized Difference Index<a class="anchor" aria-label="anchor" href="#custom-normalized-difference-index"></a>
@@ -165,7 +165,7 @@ It is not a concentration.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ndi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hs_ndi.html">hs_ndi</a></span><span class="op">(</span><span class="va">cube</span>, band1 <span class="op">=</span> <span class="fl">540</span>, band2 <span class="op">=</span> <span class="fl">660</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/hs_plot_index.html">hs_plot_index</a></span><span class="op">(</span><span class="va">ndi</span>, title <span class="op">=</span> <span class="st">"NDI (540/660)"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="Map of the normalized difference index of the bands at 540 and 660 nm, drawn on a fixed scale from minus one to one." width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="research-panel">Research Panel<a class="anchor" aria-label="anchor" href="#research-panel"></a>
@@ -174,7 +174,7 @@ It is not a concentration.</p>
 indices. It does not reproduce vendor indices:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hs_plot_clinical.html">hs_plot_clinical</a></span><span class="op">(</span><span class="va">cube</span><span class="op">)</span></span></code></pre></div>
-<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="960"></p>
+<p><img src="biomedical-indices_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="Research panel in a two-by-two grid: RGB composite, fitted hemoglobin fraction map, near-infrared band ratio map and hemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar." width="672"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -28,6 +28,12 @@ hs_msc(cube, reference = NULL)
 An [hsi_cube](https://cttir.github.io/hyperspectR/reference/hsi_cube.md)
 object with MSC-corrected spectra.
 
+## References
+
+Geladi, P., MacDougall, D. and Martens, H. (1985). Linearization and
+scatter-correction for near-infrared reflectance spectra of meat.
+*Applied Spectroscopy*, 39(3), 491-500. `doi:10.1366/0003702854248656`
+
 ## Examples
 
 ``` r
