@@ -13,7 +13,8 @@ hs_plot_index(
 )
 }
 \arguments{
-\item{index_matrix}{Numeric matrix (rows x cols) from an index function.}
+\item{index_matrix}{Numeric matrix (rows x cols) from an index function. A
+logical matrix is drawn as 0/1.}
 
 \item{title}{Character. Map title (e.g., "StO2 (\%)"). Default \code{""}.}
 
@@ -21,7 +22,8 @@ hs_plot_index(
 \code{"perfusion"} (viridis), \code{"hemoglobin"} (magma), \code{"water"} (mako).
 Default \code{"sto2"}.}
 
-\item{range}{Numeric vector of length 2. Display range. Default \code{NULL} (data range).}
+\item{range}{Numeric vector of length 2. Display range. Default \code{NULL} (data
+range). An \code{NA} entry takes that limit from the data.}
 
 \item{mask}{Logical matrix. Pixels to mask (FALSE = masked). Default \code{NULL}.}
 }

@@ -36,7 +36,10 @@
 * `hs_plot_spectra()` rejects a `pixels` value other than `"mean"`,
   `"random"` or a data frame with an informative error, and validates
   `show_sd`. `hs_plot_image()` validates `band` before using it, and
-  `hs_plot_index()` rejects non-numeric matrices and malformed ranges.
+  `hs_plot_index()` rejects character and empty matrices and a `range` that
+  is not two numbers or is infinite with an informative error. Logical
+  matrices, reversed ranges and `NA` limits (taken from the data) keep
+  working as before.
 * The `hs_twi()` warning for missing bands now names the requested band
   ranges instead of a fixed 980 nm requirement that did not match the
   defaults.

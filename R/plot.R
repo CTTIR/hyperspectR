@@ -71,9 +71,11 @@ hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
       (length(pixels) != 1L || !pixels %in% c("mean", "random"))) {
     cli::cli_abort("{.arg pixels} must be 'mean', 'random', or a data.frame with x/y columns.")
   }
-  if (length(show_sd) != 1L || !is.logical(show_sd) || is.na(show_sd)) {
+  if (length(show_sd) != 1L || !(is.logical(show_sd) || is.numeric(show_sd)) ||
+      is.na(show_sd)) {
     cli::cli_abort("{.arg show_sd} must be TRUE or FALSE.")
   }
+  show_sd <- as.logical(show_sd)
 
   if (is.character(pixels) && pixels == "mean") {
     pixel_mat <- .pixel_matrix(cube)

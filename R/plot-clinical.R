@@ -93,12 +93,14 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
 #' Displays a single tissue index as a pseudocolor spatial map with
 #' color scales selected for research visualization.
 #'
-#' @param index_matrix Numeric matrix (rows x cols) from an index function.
+#' @param index_matrix Numeric matrix (rows x cols) from an index function. A
+#'   logical matrix is drawn as 0/1.
 #' @param title Character. Map title (e.g., "StO2 (%)"). Default `""`.
 #' @param palette Character. `"sto2"` (blue-red diverging),
 #'   `"perfusion"` (viridis), `"hemoglobin"` (magma), `"water"` (mako).
 #'   Default `"sto2"`.
-#' @param range Numeric vector of length 2. Display range. Default `NULL` (data range).
+#' @param range Numeric vector of length 2. Display range. Default `NULL` (data
+#'   range). An `NA` entry takes that limit from the data.
 #' @param mask Logical matrix. Pixels to mask (FALSE = masked). Default `NULL`.
 #'
 #' @return A [ggplot2::ggplot] object.
@@ -111,12 +113,22 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
 #' @export
 hs_plot_index <- function(index_matrix, title = "", palette = "sto2",
                           range = NULL, mask = NULL) {
+  # Logical matrices (a mask, or an all-NA matrix built with `matrix(NA, ...)`)
+  # have always been accepted and are drawn as 0/1.
+  if (is.matrix(index_matrix) && is.logical(index_matrix)) storage.mode(index_matrix) <- "double"
   if (!is.matrix(index_matrix) || !is.numeric(index_matrix) || any(dim(index_matrix) == 0L)) {
     cli::cli_abort("{.arg index_matrix} must be a numeric matrix.")
   }
-  if (!is.null(range) && (!is.numeric(range) || length(range) != 2L ||
-      any(!is.finite(range)) || range[1] > range[2])) {
-    cli::cli_abort("{.arg range} must contain two finite ordered values.")
+  if (!is.null(range)) {
+    if (is.logical(range) && all(is.na(range))) range <- as.numeric(range)
+    if (!is.numeric(range) || length(range) != 2L || any(is.infinite(range))) {
+      cli::cli_abort(
+        "{.arg range} must be two numbers; use {.code NA} for a limit taken from the data."
+      )
+    }
+    # ggplot2 orders reversed limits itself; do it here so that the squished
+    # values and the color bar always agree.
+    if (!anyNA(range) && range[1] > range[2]) range <- rev(range)
   }
 
   if (!is.null(mask)) {

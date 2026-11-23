@@ -5,6 +5,9 @@ test_that("plot arguments are validated before use", {
   expect_error(hs_plot_spectra(cube, pixels = NA_character_), "must be 'mean', 'random'")
   expect_error(hs_plot_spectra(cube, show_sd = NA), "show_sd")
   expect_error(hs_plot_spectra(cube, show_sd = "yes"), "show_sd")
+  # A numeric flag worked before the validation was added.
+  expect_length(hs_plot_spectra(cube, show_sd = 1)$layers, 2L)
+  expect_length(hs_plot_spectra(cube, show_sd = 0)$layers, 1L)
   expect_error(hs_plot_image(cube, band = "a"), "valid band index")
   expect_error(hs_plot_image(cube, band = c(1, 2)), "valid band index")
   expect_error(hs_plot_image(cube, band = NA_real_), "valid band index")
@@ -12,10 +15,23 @@ test_that("plot arguments are validated before use", {
   expect_error(hs_plot_image(cube, wavelength = "a"), "finite scalar")
   expect_error(hs_plot_index(matrix(letters[1:4], 2, 2)), "numeric matrix")
   expect_error(hs_plot_index(matrix(numeric(), 0, 2)), "numeric matrix")
-  expect_error(hs_plot_index(matrix(1:4, 2, 2), range = c(1, 0)), "range")
-  expect_error(hs_plot_index(matrix(1:4, 2, 2), range = c(0, NA)), "range")
+  expect_error(hs_plot_index(matrix(1:4, 2, 2), range = c(0, Inf)), "range")
+  expect_error(hs_plot_index(matrix(1:4, 2, 2), range = "wide"), "range")
   expect_error(hs_plot_index(matrix(1:4, 2, 2), range = 1), "range")
+  # One-sided and reversed ranges keep working as they did before validation.
+  fills <- function(...) {
+    ggplot2::ggplot_build(hs_plot_index(matrix(1:4, 2, 2), ...))$data[[1L]]$fill
+  }
+  expect_identical(fills(range = c(4, 1)), fills(range = c(1, 4)))
+  expect_identical(fills(range = c(1, NA)), fills(range = c(1, 4)))
+  expect_identical(fills(range = c(NA, NA)), fills())
+  expect_length(unique(fills(range = c(0, NA))), 4L)
   expect_s3_class(hs_plot_index(matrix(1:4, 2, 2), range = c(2, 2)), "ggplot")
+  # Logical matrices were accepted before the validation was added.
+  flags <- hs_plot_index(matrix(c(TRUE, FALSE, NA, TRUE), 2, 2))
+  expect_identical(flags$data$value, c(1, 0, NA, 1))
+  expect_no_error(ggplot2::ggplot_build(hs_plot_index(matrix(NA, 2, 2))))
+  expect_error(hs_plot_index(list(1, 2)), "numeric matrix")
   expect_s3_class(hs_plot_index(matrix(1:4, 2, 2), range = c(0, 10)), "ggplot")
 })
 
