@@ -82,7 +82,7 @@ hs_plot_index(sto2_ratio, title = "Relative NIR/visible ratio", palette = "sto2"
 
 ## Step 4: Beer-Lambert Chromophore Fitting
 
-```{r fig.alt="Map of the fitted oxygenated hemoglobin fraction in percent from the Beer-Lambert fit for the four synthetic regions."}
+```{r fig.alt="Map of the fitted oxygenated haemoglobin fraction in percent from the Beer-Lambert fit for the four synthetic regions."}
 fit <- hs_beer_lambert(smoothed)
 hs_plot_index(fit$sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
@@ -117,7 +117,7 @@ ggplot() +
 
 ## Step 6: Research Panel
 
-```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted hemoglobin fraction map, near-infrared band ratio map and hemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
+```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted haemoglobin fraction map, near-infrared band ratio map and haemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
 hs_plot_clinical(smoothed)
 ```
 

@@ -5,13 +5,13 @@ Authors@R: c(
     person("R.", "Heller", email = "raban.heller@uni-ulm.de",
         role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0001-8006-9742")),
     person("V.", "Forstmeier", role = "aut"))
-Description: Reads, processes, analyzes and visualizes hyperspectral imaging
+Description: Reads, processes, analyses and visualizes hyperspectral imaging
     (HSI) data from Cubert snapshot cameras, Diaspective Vision 'TIVITA'
     recordings and standard 'ENVI' and 'TIFF' files. Provides calibration
     workflows (dark correction, white reference normalization), spectral
     preprocessing (Savitzky-Golay smoothing, standard normal variate (SNV),
     multiplicative scatter correction (MSC), derivatives), dimensionless
-    spectral indices, research hemoglobin fraction fitting, dimensionality
+    spectral indices, research haemoglobin fraction fitting, dimensionality
     reduction (principal component analysis (PCA), minimum noise fraction
     (MNF)), pixel classification (spectral angle mapper (SAM), support vector
     machines (SVM), random forest) and constrained spectral unmixing. Includes
@@ -20,13 +20,13 @@ Description: Reads, processes, analyzes and visualizes hyperspectral imaging
     device-specific accuracy is not established by the included synthetic
     examples.
 License: MIT + file LICENSE
-Copyright: See file COPYRIGHTS for the bundled hemoglobin reference
+Copyright: See file COPYRIGHTS for the bundled haemoglobin reference
     spectra.
 URL: https://github.com/CTTIR/hyperspectR,
     https://cttir.github.io/hyperspectR/
 BugReports: https://github.com/CTTIR/hyperspectR/issues
 Encoding: UTF-8
-Language: en-US
+Language: en-GB
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
 Depends:

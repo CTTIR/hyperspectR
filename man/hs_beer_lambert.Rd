@@ -27,7 +27,7 @@ specify \code{"reflectance"} or \code{"absorbance"}. Values never determine the 
 
 \item{pathlength_cm}{Positive scalar optical pathlength, or NULL (unknown).}
 
-\item{response}{\code{"point"} (default) samples band centers; \code{"gaussian"}
+\item{response}{\code{"point"} (default) samples band centres; \code{"gaussian"}
 integrates reference coefficients using cube FWHM as Gaussian widths.}
 
 \item{keep_residuals}{Logical. Retain spectral residuals. Default FALSE.}
@@ -45,7 +45,7 @@ A list with class \code{"hsi_chromophore_fit"}:
 \description{
 Fits decadic absorbance to reference extinction coefficients with NNLS.
 Without a known optical pathlength, coefficients are concentration-pathlength
-products. The hemoglobin fraction is a research model estimate; diffuse tissue
+products. The haemoglobin fraction is a research model estimate; diffuse tissue
 scattering and camera response can bias it.
 }
 \examples{

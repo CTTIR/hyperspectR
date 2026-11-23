@@ -18,7 +18,7 @@ hs_classify_svm(
 \item{cube}{An \link{hsi_cube} object.}
 
 \item{training_labels}{Character or factor matrix (same spatial dims as cube)
-with class labels. \code{NA} for unlabeled pixels.}
+with class labels. \code{NA} for unlabelled pixels.}
 
 \item{training_mask}{Logical matrix. Alternative to NA in labels. Default \code{NULL}.}
 
@@ -34,7 +34,7 @@ with class labels. \code{NA} for unlabeled pixels.}
 A list with class \code{"hsi_classification"} containing \code{class_map}.
 }
 \description{
-Trains a Support Vector Machine on labeled pixels and classifies all pixels.
+Trains a Support Vector Machine on labelled pixels and classifies all pixels.
 Requires the \code{e1071} package.
 }
 \examples{

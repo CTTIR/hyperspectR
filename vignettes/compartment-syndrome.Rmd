@@ -55,7 +55,7 @@ library(hyperspectR)
 ## Scope
 
 This example compares regions in a synthetic image. The package has not been
-validated to diagnose compartment syndrome, detect ischemia, or replace clinical
+validated to diagnose compartment syndrome, detect ischaemia, or replace clinical
 assessment. No clinical threshold is defined by these simulated outputs.
 
 ## Simulating a Demonstration Scene
@@ -70,7 +70,7 @@ cube <- hs_simulate_cube(rows = 50, cols = 50, n_regions = 4,
 
 ## Tissue Oxygenation Mapping
 
-```{r fig.alt="Map of the fitted hemoglobin fraction in percent for a synthetic 50 by 50 pixel scene with four regions on a blue-to-red scale."}
+```{r fig.alt="Map of the fitted haemoglobin fraction in percent for a synthetic 50 by 50 pixel scene with four regions on a blue-to-red scale."}
 sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Research Hb fraction (%)", palette = "sto2")
 ```
@@ -86,7 +86,7 @@ hs_plot_index(npi, title = "NIR ratio (dimensionless)", palette = "perfusion")
 
 ## Research Panel Overview
 
-```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted hemoglobin fraction map, near-infrared band ratio map and hemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
+```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted haemoglobin fraction map, near-infrared band ratio map and haemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
 hs_plot_clinical(cube, indices = c("sto2", "npi", "thi"))
 ```
 

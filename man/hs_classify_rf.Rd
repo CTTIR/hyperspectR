@@ -17,7 +17,7 @@ hs_classify_rf(
 \item{cube}{An \link{hsi_cube} object.}
 
 \item{training_labels}{Character or factor matrix with class labels.
-\code{NA} for unlabeled pixels.}
+\code{NA} for unlabelled pixels.}
 
 \item{training_mask}{Logical matrix. Default \code{NULL}.}
 
@@ -31,7 +31,7 @@ hs_classify_rf(
 A list with class \code{"hsi_classification"} containing \code{class_map}.
 }
 \description{
-Trains a random forest on labeled pixels and classifies all pixels.
+Trains a random forest on labelled pixels and classifies all pixels.
 Requires the \code{ranger} package.
 }
 \examples{

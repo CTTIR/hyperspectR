@@ -1,4 +1,4 @@
-#' Estimate the Oxygenated Hemoglobin Fraction for Research
+#' Estimate the Oxygenated Haemoglobin Fraction for Research
 #'
 #' Returns the fitted HbO2 fraction from [hs_beer_lambert()]. This is a
 #' research model estimate and requires empirical validation for tissue use.
@@ -63,10 +63,10 @@ hs_npi <- function(cube, band1 = c(655, 735), band2 = c(825, 910)) {
   .apply_mask(result, cube$mask)
 }
 
-#' Compute Tissue Hemoglobin Index (THI)
+#' Compute Tissue Haemoglobin Index (THI)
 #'
 #' Legacy name for a dimensionless reference/Hb-band reflectance ratio.
-#' It is not a hemoglobin concentration measurement.
+#' It is not a haemoglobin concentration measurement.
 #'
 #' @param cube An [hsi_cube] object.
 #' @param band1 Numeric vector of length 2. Default `c(530, 590)` (Hb Q-bands).
@@ -147,8 +147,8 @@ hs_twi <- function(cube, numerator = c(880, 910), denominator = c(830, 870)) {
 #' for any two-band ratio index.
 #'
 #' @param cube An [hsi_cube] object.
-#' @param band1 Numeric. Center wavelength or range `c(min, max)` for first band.
-#' @param band2 Numeric. Center wavelength or range `c(min, max)` for second band.
+#' @param band1 Numeric. Centre wavelength or range `c(min, max)` for first band.
+#' @param band2 Numeric. Centre wavelength or range `c(min, max)` for second band.
 #'
 #' @return A numeric matrix, in `[-1, 1]` for nonnegative input spectra.
 #'   Zero denominators are NA; transformed signed spectra can exceed these bounds.

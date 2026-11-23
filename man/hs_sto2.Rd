@@ -2,7 +2,7 @@
 % Please edit documentation in R/indices.R
 \name{hs_sto2}
 \alias{hs_sto2}
-\title{Estimate the Oxygenated Hemoglobin Fraction for Research}
+\title{Estimate the Oxygenated Haemoglobin Fraction for Research}
 \usage{
 hs_sto2(
   cube,

@@ -18,12 +18,12 @@ hs_export_png(
 
 \item{path}{Character. Output file path (should end in .png).}
 
-\item{palette}{Character. Color palette: \code{"viridis"}, \code{"magma"}, \code{"inferno"},
+\item{palette}{Character. Colour palette: \code{"viridis"}, \code{"magma"}, \code{"inferno"},
 \code{"plasma"}, \code{"grey"}. Default \code{"viridis"}.}
 
-\item{range}{Numeric vector of length 2. Data range for color mapping.
+\item{range}{Numeric vector of length 2. Data range for colour mapping.
 Default \code{NULL} (auto from finite data). Finite ordered endpoints are
-required; a constant range uses the first palette color. Non-finite
+required; a constant range uses the first palette colour. Non-finite
 pixels are black, including an image with no finite pixels.}
 
 \item{width}{Integer. Image width in pixels. Default \code{NULL} (matches data cols).}

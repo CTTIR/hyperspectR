@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot-clinical.R
 \name{hs_plot_index}
 \alias{hs_plot_index}
-\title{Plot Index Map with Clinical Color Scale}
+\title{Plot Index Map with Clinical Colour Scale}
 \usage{
 hs_plot_index(
   index_matrix,
@@ -31,8 +31,8 @@ range). An \code{NA} entry takes that limit from the data.}
 A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 }
 \description{
-Displays a single tissue index as a pseudocolor spatial map with
-color scales selected for research visualization.
+Displays a single tissue index as a pseudocolour spatial map with
+colour scales selected for research visualization.
 }
 \examples{
 cube <- hs_example_cube()

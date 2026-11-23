@@ -9,21 +9,21 @@ hs_plot_image(cube, wavelength = NULL, band = NULL, palette = "viridis")
 \arguments{
 \item{cube}{An \link{hsi_cube} object.}
 
-\item{wavelength}{Numeric. Center wavelength to display (nearest band selected).
+\item{wavelength}{Numeric. Centre wavelength to display (nearest band selected).
 Default \code{NULL}.}
 
 \item{band}{Integer. Band index. Alternative to \code{wavelength}. Default \code{NULL}.}
 
-\item{palette}{Character. Color palette name: \code{"viridis"} (default),
+\item{palette}{Character. Colour palette name: \code{"viridis"} (default),
 \code{"magma"}, \code{"inferno"} or \code{"plasma"}. Any other name falls back to
 \code{"viridis"}.}
 }
 \value{
 A \link[ggplot2:ggplot]{ggplot2::ggplot} object using \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}. Masked
-and nonfinite pixels are drawn in gray.
+and nonfinite pixels are drawn in grey.
 }
 \description{
-Displays a single spectral band as a spatial image using a pseudocolor palette.
+Displays a single spectral band as a spatial image using a pseudocolour palette.
 }
 \examples{
 cube <- hs_example_cube()

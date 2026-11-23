@@ -198,9 +198,9 @@
   TRUE
 }
 
-#' Wavelength to Approximate Visible Color
+#' Wavelength to Approximate Visible Colour
 #' @param wavelength Numeric. Wavelength in nm.
-#' @return Character. Hex color string.
+#' @return Character. Hex colour string.
 #' @noRd
 .wavelength_to_color <- function(wavelength) {
   vapply(wavelength, function(wl) {

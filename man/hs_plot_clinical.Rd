@@ -32,7 +32,7 @@ single row.}
 A \code{patchwork} composite \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 }
 \description{
-Displays RGB, fitted hemoglobin fraction and dimensionless band ratios.
+Displays RGB, fitted haemoglobin fraction and dimensionless band ratios.
 These research outputs are not equivalent to vendor clinical indices.
 }
 \examples{

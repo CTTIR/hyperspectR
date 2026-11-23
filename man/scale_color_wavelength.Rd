@@ -3,7 +3,7 @@
 \name{scale_color_wavelength}
 \alias{scale_color_wavelength}
 \alias{scale_colour_wavelength}
-\title{Wavelength-to-Color Scale for Spectral Plots}
+\title{Wavelength-to-Colour Scale for Spectral Plots}
 \usage{
 scale_color_wavelength(...)
 
@@ -16,8 +16,8 @@ scale_colour_wavelength(...)
 A \link[ggplot2:Scale]{ggplot2::Scale} object.
 }
 \description{
-Maps wavelength values to approximate visible light colors for spectral
-line coloring. The default scale is fixed at 380-780 nm, so a wavelength
+Maps wavelength values to approximate visible light colours for spectral
+line colouring. The default scale is fixed at 380-780 nm, so a wavelength
 retains its colour when the plotted range changes. Values outside the
 display limits use the scale's missing-value colour. Numeric increasing
 \code{limits} supplied in \code{...} may restrict or extend the displayed range while

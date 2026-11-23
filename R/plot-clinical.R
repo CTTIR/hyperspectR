@@ -1,6 +1,6 @@
 #' Research HSI Panel Display
 #'
-#' Displays RGB, fitted hemoglobin fraction and dimensionless band ratios.
+#' Displays RGB, fitted haemoglobin fraction and dimensionless band ratios.
 #' These research outputs are not equivalent to vendor clinical indices.
 #'
 #' @param cube An [hsi_cube] object with reflectance data.
@@ -88,10 +88,10 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
     )
 }
 
-#' Plot Index Map with Clinical Color Scale
+#' Plot Index Map with Clinical Colour Scale
 #'
-#' Displays a single tissue index as a pseudocolor spatial map with
-#' color scales selected for research visualization.
+#' Displays a single tissue index as a pseudocolour spatial map with
+#' colour scales selected for research visualization.
 #'
 #' @param index_matrix Numeric matrix (rows x cols) from an index function. A
 #'   logical matrix is drawn as 0/1.
@@ -159,7 +159,7 @@ hs_plot_index <- function(index_matrix, title = "", palette = "sto2",
 #' @importFrom scales squish
 NULL
 
-#' Get Clinical Color Palette
+#' Get Clinical Colour Palette
 #' @noRd
 .clinical_palette <- function(palette) {
   switch(palette,

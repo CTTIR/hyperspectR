@@ -2,7 +2,7 @@
 % Please edit documentation in R/indices.R
 \name{hs_thi}
 \alias{hs_thi}
-\title{Compute Tissue Hemoglobin Index (THI)}
+\title{Compute Tissue Haemoglobin Index (THI)}
 \usage{
 hs_thi(cube, band1 = c(530, 590), band2 = c(785, 825))
 }
@@ -18,7 +18,7 @@ A numeric matrix of unscaled dimensionless band ratios.
 }
 \description{
 Legacy name for a dimensionless reference/Hb-band reflectance ratio.
-It is not a hemoglobin concentration measurement.
+It is not a haemoglobin concentration measurement.
 }
 \examples{
 cube <- hs_example_cube()

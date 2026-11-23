@@ -5,7 +5,7 @@
 #' wavelength metadata, spatial mask, and additional metadata.
 #'
 #' @param data Numeric 3D array with dimensions (rows, cols, bands).
-#' @param wavelengths Numeric vector of band center wavelengths in nanometers.
+#' @param wavelengths Numeric vector of band centre wavelengths in nanometers.
 #'   Length must match `dim(data)[3]`; values must be finite, positive and
 #'   unique. Unsorted wavelengths reorder data, FWHM and matching per-band
 #'   quality arrays together. Factors, character values and arrays are rejected.

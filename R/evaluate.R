@@ -9,7 +9,7 @@
 #' groups, not pixels. These intervals summarize
 #' out-of-fold predictions and do not include uncertainty from refitting models.
 #' @param spectra Numeric matrix, observations in rows and wavelengths in columns.
-#' @param wavelengths Numeric band centers in nm.
+#' @param wavelengths Numeric band centres in nm.
 #' @param labels Character class labels for each observation.
 #' @param groups Independent group identifiers, usually subject identifiers.
 #' @param folds Optional named integer vector mapping every group to a fold.

@@ -11,7 +11,7 @@ hs_pca(cube, n_components = 5L, center = TRUE, scale = FALSE)
 
 \item{n_components}{Integer. Number of components to retain. Default \code{5}.}
 
-\item{center}{Logical. Center bands before PCA. Default \code{TRUE}.}
+\item{center}{Logical. Centre bands before PCA. Default \code{TRUE}.}
 
 \item{scale}{Logical. Scale bands to unit variance. Default \code{FALSE}.}
 }
@@ -21,7 +21,7 @@ A list with class \code{"hsi_pca"}:
 \item{scores}{3D array (rows x cols x n_components) of component score maps.}
 \item{loadings}{Matrix (bands x n_components) of spectral loadings.}
 \item{variance_explained}{Numeric vector of proportion of variance per component.}
-\item{center}{Centering vector used (or \code{FALSE}).}
+\item{center}{Centring vector used (or \code{FALSE}).}
 \item{scale}{Scaling vector used (or \code{FALSE}).}
 \item{wavelengths}{Wavelength vector from input cube.}
 }

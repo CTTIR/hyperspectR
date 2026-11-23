@@ -22,7 +22,7 @@ If capacity is smaller, retain the dependencies and move dates. Scientific evide
 |---|---|---|---|
 | Now | M0: contracts and evidence | Durable reproductions, output semantics, data invariants, regression CI started | W00 and W01 complete; every finding has an owner and acceptance test |
 | Now → Next | M1: correct computational core | Verified I/O, dimensions, plotting, calibration, preprocessing, fitting and masks | W02–W08 complete; exact-value and independent numerical checks pass |
-| Next | M2: stable research release | Working explorer, dependable exports, migration guide, release checks | W09–W11 complete; all 25 findings closed by tests or explicit removal of unsupported behavior |
+| Next | M2: stable research release | Working explorer, dependable exports, migration guide, release checks | W09–W11 complete; all 25 findings closed by tests or explicit removal of unsupported behaviour |
 | Next → Later | M3: reproducible analysis studies | Batch provenance, model comparisons, grouped classifier evaluation, performance baseline | W12–W15 complete; published evaluation bundle and reproducible results |
 | Later, evidence-dependent | M4: externally evaluated methods | Camera/phantom/study validation with a frozen protocol | W16 complete for each claimed use case; independent review documents supported scope |
 
@@ -56,7 +56,7 @@ Roles: **M** package maintainer; **O** optical-methods reviewer; **S** statistic
 |---|---|---|---|---|---|---|
 | W00 | Must / M0 | Contracts, durable fixtures, audit tracking | M, Q | 2–3 days | None | All |
 | W01 | Must / M0 | Correct output names, interpretation, migration policy | O, M | 2–4 days | W00 | F01, F05, F06 |
-| W02 | Must / M1 | Cube invariants, dimensions and mask behavior | M, Q | 3–5 days | W00 | F07, F16, F21 |
+| W02 | Must / M1 | Cube invariants, dimensions and mask behaviour | M, Q | 3–5 days | W00 | F07, F16, F21 |
 | W03 | Must / M1 | Binary validation and interoperable I/O | M, Q | 3–5 days | W02 | F04, F08, F17, F23 |
 | W04 | Must / M1 | Spatial/spectral visualization correctness | M, Q | 2–3 days | W02 | F03, F20, F21 |
 | W05 | Must / M1 | Deterministic preprocessing across backends | M, O | 3–5 days | W02 | F02, F13 |
@@ -84,7 +84,7 @@ Write contracts for `data[row, column, band]`, plotted `(x=column, y=row)`, wave
 
 Remove image-percentile stretching from computational index values. Introduce an explicitly relative band-index API if useful; reserve stretching for display. Require an explicit migration path for `hs_sto2(method="ratio")`, rather than retaining an oxygen-saturation label on arbitrary contrast values. Determine the valid physical interpretation of each remaining index, especially when required bands are absent.
 
-Inventory labels and claims in exported functions, help files, the explorer, README, and vignettes. Replace unsupported clinical cutoffs with descriptions appropriate to the demonstrated method. Define which outputs are relative indices, model-based research estimates, or externally validated measurements. Use a clear error for unavailable quantitative methods rather than silently falling back to an unrelated index.
+Inventory labels and claims in exported functions, help files, the explorer, README, and vignettes. Replace unsupported clinical cut-offs with descriptions appropriate to the demonstrated method. Define which outputs are relative indices, model-based research estimates, or externally validated measurements. Use a clear error for unavailable quantitative methods rather than silently falling back to an unrelated index.
 
 **Done when:** an unchanged spectrum has the same numerical index in different scenes; a uniform spectrum does not imply 50% oxygenation; exported maps identify method and units; migration examples explain changed results. A quantitative method's numerical availability and its empirical validation status are recorded separately.
 
@@ -106,13 +106,13 @@ Correct terra cell-order conversion in both readers and the TIFF writer. Test so
 
 ### W04 — Restore coordinate and wavelength fidelity in plots
 
-Use W02 conversion helpers in band, RGB, index, component and spectrum displays. Correct the random-spectrum wavelength assignment. Preserve spatial masks in display and define NA colors. Validate RGB behavior for supported input domains and ranges. Make plot units reflect the actual spectral domain.
+Use W02 conversion helpers in band, RGB, index, component and spectrum displays. Correct the random-spectrum wavelength assignment. Preserve spatial masks in display and define NA colours. Validate RGB behaviour for supported input domains and ranges. Make plot units reflect the actual spectral domain.
 
 **Done when:** an asymmetric scene agrees across array access, plotted values, cursor selection, ROI selection and export; every random spectrum follows the full wavelength grid. Test plot data numerically; use visual snapshots only for a few stable layout checks.
 
 ### W05 — Make preprocessing mathematically consistent
 
-Declare common SG edge handling and returned wavelength centers. Expose a deterministic backend selection for reproducibility or select one canonical implementation; adding an optional dependency must not silently alter meaning. Align FWHM with output bands and fix derivative orientation. Define derivative units using wavelength spacing; reject irregular grids for the uniform-spacing method or resample through an explicit recorded step.
+Declare common SG edge handling and returned wavelength centres. Expose a deterministic backend selection for reproducibility or select one canonical implementation; adding an optional dependency must not silently alter meaning. Align FWHM with output bands and fix derivative orientation. Define derivative units using wavelength spacing; reject irregular grids for the uniform-spacing method or resample through an explicit recorded step.
 
 Specify handling of incomplete spectra without replacing arbitrary missing values with zero. Record transformations in processing history. Distinguish per-spectrum transforms from learned transforms such as a cube-wide MSC reference; learned parameters must be reusable on other cubes without refitting.
 
@@ -122,7 +122,7 @@ Specify handling of incomplete spectra without replacing arbitrary missing value
 
 Require matching reference dimensions, wavelengths and compatible acquisition metadata when available. Make missing acquisition metadata visible as an unresolved compatibility check. Define any allowed reference broadcasting precisely. Detect near-zero/negative white-minus-dark denominators and saturation with reason masks, rather than converting all such pixels to plausible clamped values. Preserve an unclamped calibrated result for QC; clipping policy must be explicit.
 
-Exclude the center and invalid neighbors from bad-pixel replacement. Handle zero-variance neighborhoods, image borders, adjacent defects and insufficient valid neighbors. Return a repair mask and counts; ensure repair order does not accidentally change results.
+Exclude the centre and invalid neighbours from bad-pixel replacement. Handle zero-variance neighbourhoods, image borders, adjacent defects and insufficient valid neighbours. Return a repair mask and counts; ensure repair order does not accidentally change results.
 
 **Done when:** known dark/white examples recover reflectance; mismatched references are rejected; all detector edge cases have exact expected values; the repaired image and its QC mask can be inspected separately.
 
@@ -130,15 +130,15 @@ Exclude the center and invalid neighbors from bad-pixel replacement. Handle zero
 
 Create a versioned reference-data registry with provenance, redistribution status, original units, conversions, interpolation support and checksums. Start with HbO2/Hb. Include water, melanin and metHb in quantitative fitting only after their parameter definitions and unit conventions are resolved. Keep generated Gaussian examples separate from measurement reference data.
 
-Replace numeric-range detection with explicit domain metadata/arguments. Mark `-log10(reflectance)` as apparent absorbance where appropriate. Represent known path length, unknown path-length products and relative coefficients distinctly. Model sensor spectral response using available response curves or an explicitly documented approximation; interpolation of peak centers alone is not proof of adequate instrument modeling.
+Replace numeric-range detection with explicit domain metadata/arguments. Mark `-log10(reflectance)` as apparent absorbance where appropriate. Represent known path length, unknown path-length products and relative coefficients distinctly. Model sensor spectral response using available response curves or an explicitly documented approximation; interpolation of peak centres alone is not proof of adequate instrument modelling.
 
 **Done when:** reference values match a pinned independent source; reflectance and equivalent absorbance yield the same fit; repeated conversion is detected; unsupported domains and wavelength coverage fail clearly. Synthetic coefficient-recovery tests pass independently of `hs_simulate_cube()`.
 
 ### W08 — Strengthen solvers and dimensionality reduction
 
-Implement a true nonnegative equality constraint for sum-to-one unmixing. Validate backend and fallback behavior against independent solutions, including rank deficiency and scale changes. Return convergence/validity information, residual diagnostics, active constraints, wavelength support, and conditioning warnings. Identify unobservable coefficients rather than reporting false precision.
+Implement a true nonnegative equality constraint for sum-to-one unmixing. Validate backend and fallback behaviour against independent solutions, including rank deficiency and scale changes. Return convergence/validity information, residual diagnostics, active constraints, wavelength support, and conditioning warnings. Identify unobservable coefficients rather than reporting false precision.
 
-Limit PCA by actual sample rank and validate MNF noise-estimation requirements for narrow images, singular covariance and invalid neighbors. Provide transformation parameters for applying trained reductions to held-out data. Keep stochastic methods reproducible through explicit seeds. Treat UMAP as exploratory; its coordinates are not quantitative tissue measurements.
+Limit PCA by actual sample rank and validate MNF noise-estimation requirements for narrow images, singular covariance and invalid neighbours. Provide transformation parameters for applying trained reductions to held-out data. Keep stochastic methods reproducible through explicit seeds. Treat UMAP as exploratory; its coordinates are not quantitative tissue measurements.
 
 **Done when:** constrained abundance sums, solver optimality checks and reconstructions meet the numerical gates in the validation plan; small/degenerate datasets have specified outcomes; masks do not change pixel correspondence.
 
@@ -150,11 +150,11 @@ Support ENVI header/binary uploads in one controlled workspace, TIFF wavelength 
 
 **Done when:** browser tests cover both initial-cube modes, supported uploads, missing/invalid input, processing, reset, index switching, cube replacement, pixel selection and independent opening of downloaded results. A stale computation cannot overwrite newer state.
 
-### W10 — Make CI measure the relevant behavior
+### W10 — Make CI measure the relevant behaviour
 
 Start CI integration with W00 and extend it alongside fixes. Keep a fast deterministic contract suite on every change, a dependency/backend matrix, package checks on supported operating systems, and a real explorer smoke test. Exercise both the actual minimal dependency environment and the supported optional backends. Ensure the declared R minimum is covered or update it deliberately after compatibility review.
 
-Add an explicit F01–F25 regression inventory. Establish a tests-only coverage baseline and enable a nonzero floor after useful assertions exist; select the number from the measured baseline rather than inventing a coverage percentage target. Include Shiny modules in relevant instrumentation or report their coverage separately. Make semantic checks blocking even if cosmetic lint remains report-only during cleanup.
+Add an explicit F01–F25 regression inventory. Establish a tests-only coverage baseline and enable a non-zero floor after useful assertions exist; select the number from the measured baseline rather than inventing a coverage percentage target. Include Shiny modules in relevant instrumentation or report their coverage separately. Make semantic checks blocking even if cosmetic lint remains report-only during clean-up.
 
 Shared workflow changes belong in `CTTIR/.github`; use caller options here where available. Do not copy shared steps back into this repository. Archive logs, fixture versions and benchmark outputs with release checks.
 
@@ -185,7 +185,7 @@ The first wave is approximately **5–8 engineering days**, drawn from the work-
 1. **PR 1: evidence and contracts.** Start W00, freeze asymmetric spatial and independent spectral fixtures, define dimensions/masks/domains, and attach findings to tests. Include the deterministic app-construction regression so the explorer failure becomes visible.
 2. **PR 2: output semantics.** Implement W01's decisions with migration errors/labels and the affected examples. Remove scene-stretched saturation claims before restoring a quantitative pathway.
 3. **PR 3: cube and I/O corruption.** Start W02/W03 with spatial order, single-dimension handling, metadata alignment and strict ENVI lengths. Add independent read/write tests in the same changes.
-4. **PR 4: SG correctness.** Implement W05's center/edge contract and derivative orientation. Verify the exact polynomial fixtures across available backends.
+4. **PR 4: SG correctness.** Implement W05's centre/edge contract and derivative orientation. Verify the exact polynomial fixtures across available backends.
 
 Subsequent PRs follow the dependencies in the table. The small UI construction fix can be merged early with its regression test, but a working startup alone does not satisfy M2.
 
@@ -199,10 +199,10 @@ Subsequent PRs follow the dependencies in the table. The small UI construction f
 | Scientific reference recovery | Independent 70% example returns about 53% | Noiseless solver/reference tests meet algebraic tolerance | Separate empirical accuracy thresholds met for each validated scope |
 | Mask consistency | Invalid pixels affect outputs | Required invariance and failure-isolation tests pass | QC yield and exclusion reasons reported per study |
 | Explorer workflows | UI fails during construction | Real-browser scenario suite passes | Large-job completion/cancellation and result provenance verified |
-| CI coverage | Green package check despite defects; floor 0 | Numeric regressions are blocking; measured nonzero coverage floor | Study/benchmark fixtures versioned and evaluated on releases |
+| CI coverage | Green package check despite defects; floor 0 | Numeric regressions are blocking; measured non-zero coverage floor | Study/benchmark fixtures versioned and evaluated on releases |
 | Model evaluation | No independent validation bundle established by the audit | Claims restricted to demonstrated evidence | Frozen held-out evaluation with uncertainty and limitations |
 
-At each implementation review, update status, actual effort, evidence links, unresolved decisions and downstream dependencies. Mark a finding closed only after its old behavior fails the new regression and corrected behavior passes. Review roadmap changes at milestone boundaries or when evidence invalidates an assumption.
+At each implementation review, update status, actual effort, evidence links, unresolved decisions and downstream dependencies. Mark a finding closed only after its old behaviour fails the new regression and corrected behaviour passes. Review roadmap changes at milestone boundaries or when evidence invalidates an assumption.
 
 ## 6. Decisions and external dependencies
 

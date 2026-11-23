@@ -52,12 +52,12 @@ knitr::opts_chunk$set(
 library(hyperspectR)
 ```
 
-## Hemoglobin Absorption
+## Haemoglobin Absorption
 
 Tissue oxygenation assessment via HSI relies on the distinct absorption
-spectra of oxyhemoglobin (HbO2) and deoxyhemoglobin (Hb).
+spectra of oxyhaemoglobin (HbO2) and deoxyhaemoglobin (Hb).
 
-```{r fig.alt="Line plot of the tabulated molar extinction coefficients of oxyhemoglobin and deoxyhemoglobin from 430 to 910 nm; both are highest at the blue end, show peaks between 540 and 580 nm and are low in the near infrared."}
+```{r fig.alt="Line plot of the tabulated molar extinction coefficients of oxyhaemoglobin and deoxyhaemoglobin from 430 to 910 nm; both are highest at the blue end, show peaks between 540 and 580 nm and are low in the near infrared."}
 hb_data <- hs_chromophore_data(c("HbO2", "Hb"), wavelength_range = c(430, 910))
 library(ggplot2)
 ggplot(hb_data, aes(x = wavelength)) +
@@ -75,7 +75,7 @@ ggplot(hb_data, aes(x = wavelength)) +
 coefficients. It assumes the stated Beer-Lambert model; it is not an empirically
 validated measure of tissue oxygen saturation for a camera or clinical task.
 
-```{r fig.alt="Map of the fitted oxygenated hemoglobin fraction in percent; the four quadrants of the synthetic scene take four distinct levels on a blue-to-red scale."}
+```{r fig.alt="Map of the fitted oxygenated haemoglobin fraction in percent; the four quadrants of the synthetic scene take four distinct levels on a blue-to-red scale."}
 cube <- hs_example_cube()
 sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
@@ -90,11 +90,11 @@ npi <- hs_npi(cube)
 hs_plot_index(npi, title = "NIR ratio", palette = "perfusion")
 ```
 
-## Tissue Hemoglobin Index (THI)
+## Tissue Haemoglobin Index (THI)
 
 The legacy THI name returns a dimensionless reference/Hb-band ratio. It is not a concentration.
 
-```{r fig.alt="Map of the dimensionless hemoglobin-band ratio of the example cube on a magma scale; the four quadrants take four distinct levels."}
+```{r fig.alt="Map of the dimensionless haemoglobin-band ratio of the example cube on a magma scale; the four quadrants take four distinct levels."}
 thi <- hs_thi(cube)
 hs_plot_index(thi, title = "Hb-band ratio", palette = "hemoglobin")
 ```
@@ -112,6 +112,6 @@ hs_plot_index(ndi, title = "NDI (540/660)", range = c(-1, 1))
 
 The research panel combines RGB with model fractions and relative indices. It does not reproduce vendor indices:
 
-```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted hemoglobin fraction map, near-infrared band ratio map and hemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
+```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted haemoglobin fraction map, near-infrared band ratio map and haemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
 hs_plot_clinical(cube)
 ```

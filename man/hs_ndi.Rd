@@ -9,9 +9,9 @@ hs_ndi(cube, band1, band2)
 \arguments{
 \item{cube}{An \link{hsi_cube} object.}
 
-\item{band1}{Numeric. Center wavelength or range \code{c(min, max)} for first band.}
+\item{band1}{Numeric. Centre wavelength or range \code{c(min, max)} for first band.}
 
-\item{band2}{Numeric. Center wavelength or range \code{c(min, max)} for second band.}
+\item{band2}{Numeric. Centre wavelength or range \code{c(min, max)} for second band.}
 }
 \value{
 A numeric matrix, in \verb{[-1, 1]} for nonnegative input spectra.

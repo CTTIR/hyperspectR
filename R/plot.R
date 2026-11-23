@@ -48,10 +48,10 @@ autoplot.hsi_cube <- function(object, type = c("rgb", "band", "spectra"),
 #' @param show_sd Logical. Show the mean +/- SD ribbon. Default `TRUE`; used
 #'   only when `pixels = "mean"`.
 #'
-#' @return A [ggplot2::ggplot] object. The value axis is labeled with the
+#' @return A [ggplot2::ggplot] object. The value axis is labelled with the
 #'   cube's processing mode (for example "Reflectance"). Spectra of selected
-#'   pixels are drawn in the color-blind-safe Okabe-Ito palette for up to
-#'   eight pixels and in viridis colors beyond that, with the legend in the
+#'   pixels are drawn in the colour-blind-safe Okabe-Ito palette for up to
+#'   eight pixels and in viridis colours beyond that, with the legend in the
 #'   order the pixels were supplied.
 #'
 #' @examples
@@ -168,18 +168,18 @@ hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
 
 #' Plot Single-Band Spatial Image
 #'
-#' Displays a single spectral band as a spatial image using a pseudocolor palette.
+#' Displays a single spectral band as a spatial image using a pseudocolour palette.
 #'
 #' @param cube An [hsi_cube] object.
-#' @param wavelength Numeric. Center wavelength to display (nearest band selected).
+#' @param wavelength Numeric. Centre wavelength to display (nearest band selected).
 #'   Default `NULL`.
 #' @param band Integer. Band index. Alternative to `wavelength`. Default `NULL`.
-#' @param palette Character. Color palette name: `"viridis"` (default),
+#' @param palette Character. Colour palette name: `"viridis"` (default),
 #'   `"magma"`, `"inferno"` or `"plasma"`. Any other name falls back to
 #'   `"viridis"`.
 #'
 #' @return A [ggplot2::ggplot] object using [ggplot2::geom_raster()]. Masked
-#'   and nonfinite pixels are drawn in gray.
+#'   and nonfinite pixels are drawn in grey.
 #'
 #' @examples
 #' cube <- hs_example_cube()
@@ -234,11 +234,11 @@ hs_plot_image <- function(cube, wavelength = NULL, band = NULL,
 
 #' Synthesize RGB Image from Spectral Cube
 #'
-#' Creates a pseudo-color RGB composite by mapping three wavelength bands
+#' Creates a pseudo-colour RGB composite by mapping three wavelength bands
 #' to the red, green, and blue channels.
 #'
 #' @param cube An [hsi_cube] object.
-#' @param r,g,b Numeric. Center wavelengths for R, G, B channels.
+#' @param r,g,b Numeric. Centre wavelengths for R, G, B channels.
 #'   Defaults: r=640, g=550, b=460.
 #' @param stretch Character. Histogram stretch: `"linear"` (default), `"none"`.
 #'

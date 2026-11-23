@@ -9,7 +9,7 @@
 #'   `"bil"`, or `"bip"`.
 #' @param data_type Integer. ENVI data type code. Default `4` (float32).
 #'   Float32 rounds values to single precision; finite values outside its
-#'   nonzero range are rejected before replacing files. Use `5` (float64)
+#'   non-zero range are rejected before replacing files. Use `5` (float64)
 #'   to retain the full R double range. Missing and masked values require a
 #'   floating-point output type.
 #' @param verbose Logical. Print progress. Default `TRUE`.
@@ -174,11 +174,11 @@ hs_write_tiff <- function(cube, path, verbose = TRUE) {
 #'
 #' @param data Numeric matrix to export (rows x cols).
 #' @param path Character. Output file path (should end in .png).
-#' @param palette Character. Color palette: `"viridis"`, `"magma"`, `"inferno"`,
+#' @param palette Character. Colour palette: `"viridis"`, `"magma"`, `"inferno"`,
 #'   `"plasma"`, `"grey"`. Default `"viridis"`.
-#' @param range Numeric vector of length 2. Data range for color mapping.
+#' @param range Numeric vector of length 2. Data range for colour mapping.
 #'   Default `NULL` (auto from finite data). Finite ordered endpoints are
-#'   required; a constant range uses the first palette color. Non-finite
+#'   required; a constant range uses the first palette colour. Non-finite
 #'   pixels are black, including an image with no finite pixels.
 #' @param width Integer. Image width in pixels. Default `NULL` (matches data cols).
 #' @param height Integer. Image height in pixels. Default `NULL` (matches data rows).

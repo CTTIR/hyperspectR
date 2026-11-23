@@ -76,7 +76,7 @@ fit available memory; `max_upload_mb` sets the upload limit in MiB.
 - **I/O**: Read ENVI, multi-channel TIFF, Cubert .cu3s and TIVITA `*_SpecCube.dat` files; write ENVI, TIFF and PNG
 - **Calibration**: Dark correction, white reference normalization, bad pixel repair
 - **Preprocessing**: Savitzky-Golay smoothing, SNV, MSC, spectral derivatives
-- **Research indices**: fitted hemoglobin fraction, dimensionless band ratios and normalized differences
+- **Research indices**: fitted haemoglobin fraction, dimensionless band ratios and normalized differences
 - **Analysis**: PCA, MNF, SAM classification, SVM/RF pixel classification, Beer-Lambert unmixing
 - **Visualization**: ggplot2-based spectral plots, research panel displays, interactive Shiny app
 - **Research scope**: Spectral measurements and model sensitivity; the supplied
@@ -84,8 +84,8 @@ fit available memory; `max_upload_mb` sets the upload limit in MiB.
 
 ## Corrected research semantics
 
-The development version changes numerical behavior from 0.1.0. `hs_sto2()` now
-fits tabulated hemoglobin reference spectra; `method = "ratio"` raises a migration
+The development version changes numerical behaviour from 0.1.0. `hs_sto2()` now
+fits tabulated haemoglobin reference spectra; `method = "ratio"` raises a migration
 error. `hs_band_ratio()` and the legacy NPI/THI/TWI functions return dimensionless,
 unscaled ratios. They are not vendor clinical indices or calibrated physiological
 measurements. The simulator is a software demonstration, not validation data.
@@ -111,7 +111,7 @@ and environment versions, isolates failed recordings, and resumes matching work.
 `hs_group_summary()` reports uncertainty using independent groups rather than pixels.
 
 Device readers are covered by software fixtures and SDK mocks. Real camera,
-phantom and independently labeled study validation remain separate evidence gates.
+phantom and independently labelled study validation remain separate evidence gates.
 
 ## Citation
 
@@ -127,12 +127,12 @@ To cite hyperspectR in publications, please use:
 }
 ```
 
-Use the version actually analyzed and retain its source revision. This version
+Use the version actually analysed and retain its source revision. This version
 has no confirmed published DOI.
 
-## License
+## Licence
 
-MIT; see [the full license](LICENSE.md). The pinned hemoglobin reference data
+MIT; see [the full licence](LICENSE.md). The pinned haemoglobin reference data
 retain their [upstream notice and provenance](https://github.com/CTTIR/hyperspectR/blob/main/inst/extdata/README-spectra.md).
 
 ## Use of LLM tools

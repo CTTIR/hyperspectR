@@ -133,15 +133,15 @@ hs_white_normalize <- function(cube, white, dark = NULL) {
 #' Detect and Correct Bad Pixels
 #'
 #' Identifies dead/hot pixels by statistical deviation from spatial
-#' neighborhood median/MAD and replaces with neighborhood interpolation.
+#' neighbourhood median/MAD and replaces with neighbourhood interpolation.
 #' Detection uses the immutable image; replacement excludes every detected
-#' defect. Defects occupying most of a neighborhood may not be distinguishable.
+#' defect. Defects occupying most of a neighbourhood may not be distinguishable.
 #'
 #' @param cube An [hsi_cube] object.
 #' @param threshold Numeric. Robust standard deviation (scaled MAD) threshold.
 #'   Default `3`.
 #' @param method Character. Replacement method: `"mean"` or `"median"` of
-#'   spatial neighbors. Default `"median"`.
+#'   spatial neighbours. Default `"median"`.
 #'
 #' @return An [hsi_cube] object with corrected pixels.
 #'

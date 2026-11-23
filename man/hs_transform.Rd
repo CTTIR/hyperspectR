@@ -15,7 +15,7 @@ hs_transform(model, cube)
 Score array with spatial dimensions of the new cube; invalid pixels are NA.
 }
 \description{
-Applies saved PCA/MNF centering, scaling and loadings without refitting.
+Applies saved PCA/MNF centring, scaling and loadings without refitting.
 }
 \examples{
 pca <- hs_pca(hs_example_cube(), n_components = 3)

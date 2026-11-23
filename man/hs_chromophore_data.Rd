@@ -12,8 +12,8 @@ hs_chromophore_data(
 }
 \arguments{
 \item{chromophore}{Character vector. One or more of:
-\code{"HbO2"} (oxyhemoglobin), \code{"Hb"} (deoxyhemoglobin), \code{"water"},
-\code{"melanin"}, \code{"metHb"} (methemoglobin). Default \code{c("HbO2", "Hb")}.}
+\code{"HbO2"} (oxyhaemoglobin), \code{"Hb"} (deoxyhaemoglobin), \code{"water"},
+\code{"melanin"}, \code{"metHb"} (methaemoglobin). Default \code{c("HbO2", "Hb")}.}
 
 \item{wavelength_range}{Numeric vector of length 2. Wavelength range in nm.
 Default \code{c(400, 1000)}.}
@@ -27,7 +27,7 @@ requested chromophore (extinction coefficient in cm^-1 / (mol/L)).
 }
 \description{
 Returns a pinned tabulation of decadic molar extinction coefficients for
-hemoglobin, compiled by Prahl and distributed with MNE-Python v1.10.2.
+haemoglobin, compiled by Prahl and distributed with MNE-Python v1.10.2.
 Synthetic shapes are available separately for simulation only.
 }
 \examples{

@@ -42,7 +42,7 @@ hs_roi_rect <- function(cube, x_range, y_range) {
 #' Define Polygon ROI
 #'
 #' Creates a polygon region of interest using point-in-polygon testing of
-#' integer pixel centers. A half-open ray-crossing rule handles boundaries;
+#' integer pixel centres. A half-open ray-crossing rule handles boundaries;
 #' reversing the vertex order leaves the selected pixels unchanged.
 #'
 #' @param cube An [hsi_cube] object.

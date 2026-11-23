@@ -9,7 +9,7 @@ hs_plot_rgb(cube, r = 640, g = 550, b = 460, stretch = "linear")
 \arguments{
 \item{cube}{An \link{hsi_cube} object.}
 
-\item{r, g, b}{Numeric. Center wavelengths for R, G, B channels.
+\item{r, g, b}{Numeric. Centre wavelengths for R, G, B channels.
 Defaults: r=640, g=550, b=460.}
 
 \item{stretch}{Character. Histogram stretch: \code{"linear"} (default), \code{"none"}.}
@@ -18,7 +18,7 @@ Defaults: r=640, g=550, b=460.}
 A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 }
 \description{
-Creates a pseudo-color RGB composite by mapping three wavelength bands
+Creates a pseudo-colour RGB composite by mapping three wavelength bands
 to the red, green, and blue channels.
 }
 \examples{

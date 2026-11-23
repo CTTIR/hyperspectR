@@ -31,7 +31,7 @@ An \link{hsi_cube} object with smoothed/differentiated spectra.
 \description{
 Applies a Savitzky-Golay filter along the spectral dimension. Optionally
 computes derivatives per nanometer on a uniform wavelength grid. Only
-full-window center bands are returned. Invalid spectra remain missing.
+full-window centre bands are returned. Invalid spectra remain missing.
 }
 \examples{
 cube <- hs_example_cube()

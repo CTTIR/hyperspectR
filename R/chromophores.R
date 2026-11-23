@@ -1,12 +1,12 @@
 #' Get Chromophore Extinction Coefficient Spectra
 #'
 #' Returns a pinned tabulation of decadic molar extinction coefficients for
-#' hemoglobin, compiled by Prahl and distributed with MNE-Python v1.10.2.
+#' haemoglobin, compiled by Prahl and distributed with MNE-Python v1.10.2.
 #' Synthetic shapes are available separately for simulation only.
 #'
 #' @param chromophore Character vector. One or more of:
-#'   `"HbO2"` (oxyhemoglobin), `"Hb"` (deoxyhemoglobin), `"water"`,
-#'   `"melanin"`, `"metHb"` (methemoglobin). Default `c("HbO2", "Hb")`.
+#'   `"HbO2"` (oxyhaemoglobin), `"Hb"` (deoxyhaemoglobin), `"water"`,
+#'   `"melanin"`, `"metHb"` (methaemoglobin). Default `c("HbO2", "Hb")`.
 #' @param wavelength_range Numeric vector of length 2. Wavelength range in nm.
 #'   Default `c(400, 1000)`.
 #'
@@ -73,7 +73,7 @@ hs_chromophore_data <- function(chromophore = c("HbO2", "Hb"),
   )
 }
 
-#' Oxyhemoglobin Absorption Spectrum (Approximation)
+#' Oxyhaemoglobin Absorption Spectrum (Approximation)
 #' @noRd
 .hbo2_spectrum <- function(wl) {
   # Synthetic Gaussian peak model for software demonstrations
@@ -87,7 +87,7 @@ hs_chromophore_data <- function(chromophore = c("HbO2", "Hb"),
   soret + q_beta + q_alpha + nir_shoulder + baseline
 }
 
-#' Deoxyhemoglobin Absorption Spectrum (Approximation)
+#' Deoxyhaemoglobin Absorption Spectrum (Approximation)
 #' @noRd
 .hb_spectrum <- function(wl) {
   # Soret ~430 nm, single broad Q-band ~555 nm, NIR features at 660/760 nm
@@ -118,7 +118,7 @@ hs_chromophore_data <- function(chromophore = c("HbO2", "Hb"),
   6.6e10 * (wl / 1000)^(-3.33)
 }
 
-#' Methemoglobin Absorption Spectrum (Approximation)
+#' Methaemoglobin Absorption Spectrum (Approximation)
 #' @noRd
 .methb_spectrum <- function(wl) {
   # Soret ~405 nm, broad visible ~500-630 nm

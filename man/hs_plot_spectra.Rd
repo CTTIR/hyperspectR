@@ -19,10 +19,10 @@ hs_plot_spectra(cube, pixels = "mean", n = 100L, show_sd = TRUE)
 only when \code{pixels = "mean"}.}
 }
 \value{
-A \link[ggplot2:ggplot]{ggplot2::ggplot} object. The value axis is labeled with the
+A \link[ggplot2:ggplot]{ggplot2::ggplot} object. The value axis is labelled with the
 cube's processing mode (for example "Reflectance"). Spectra of selected
-pixels are drawn in the color-blind-safe Okabe-Ito palette for up to
-eight pixels and in viridis colors beyond that, with the legend in the
+pixels are drawn in the colour-blind-safe Okabe-Ito palette for up to
+eight pixels and in viridis colours beyond that, with the legend in the
 order the pixels were supplied.
 }
 \description{

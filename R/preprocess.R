@@ -2,7 +2,7 @@
 #'
 #' Applies a Savitzky-Golay filter along the spectral dimension. Optionally
 #' computes derivatives per nanometer on a uniform wavelength grid. Only
-#' full-window center bands are returned. Invalid spectra remain missing.
+#' full-window centre bands are returned. Invalid spectra remain missing.
 #'
 #' @param cube An [hsi_cube] object.
 #' @param window Integer (odd). Filter window size in bands. Default `5`.

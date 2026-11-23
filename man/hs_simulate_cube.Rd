@@ -40,7 +40,7 @@ spectra are not an independent reference for quantitative tissue validation.
 \description{
 Creates a realistic synthetic tissue hyperspectral cube with known ground
 truth. Simulates a tissue scene with regions of varying oxygenation,
-hemoglobin concentration, and a background (non-tissue) region.
+haemoglobin concentration, and a background (non-tissue) region.
 }
 \examples{
 cube <- hs_simulate_cube(rows = 20, cols = 20)

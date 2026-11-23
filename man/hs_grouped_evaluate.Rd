@@ -21,7 +21,7 @@ hs_grouped_evaluate(
 \arguments{
 \item{spectra}{Numeric matrix, observations in rows and wavelengths in columns.}
 
-\item{wavelengths}{Numeric band centers in nm.}
+\item{wavelengths}{Numeric band centres in nm.}
 
 \item{labels}{Character class labels for each observation.}
 

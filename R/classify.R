@@ -113,12 +113,12 @@ hs_sam <- function(cube, endmembers, threshold = 0.1) {
 
 #' SVM Pixel Classification
 #'
-#' Trains a Support Vector Machine on labeled pixels and classifies all pixels.
+#' Trains a Support Vector Machine on labelled pixels and classifies all pixels.
 #' Requires the `e1071` package.
 #'
 #' @param cube An [hsi_cube] object.
 #' @param training_labels Character or factor matrix (same spatial dims as cube)
-#'   with class labels. `NA` for unlabeled pixels.
+#'   with class labels. `NA` for unlabelled pixels.
 #' @param training_mask Logical matrix. Alternative to NA in labels. Default `NULL`.
 #' @param kernel Character. SVM kernel: `"radial"` (default), `"linear"`, `"polynomial"`.
 #' @param cost Numeric. Cost parameter. Default `10`.
@@ -190,12 +190,12 @@ hs_classify_svm <- function(cube, training_labels, training_mask = NULL,
 
 #' Random Forest Pixel Classification
 #'
-#' Trains a random forest on labeled pixels and classifies all pixels.
+#' Trains a random forest on labelled pixels and classifies all pixels.
 #' Requires the `ranger` package.
 #'
 #' @param cube An [hsi_cube] object.
 #' @param training_labels Character or factor matrix with class labels.
-#'   `NA` for unlabeled pixels.
+#'   `NA` for unlabelled pixels.
 #' @param training_mask Logical matrix. Default `NULL`.
 #' @param num.trees Integer. Number of trees. Default `500`.
 #' @param mtry Integer. Variables per split. Default `NULL` (auto).

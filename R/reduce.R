@@ -6,7 +6,7 @@
 #'
 #' @param cube An [hsi_cube] object.
 #' @param n_components Integer. Number of components to retain. Default `5`.
-#' @param center Logical. Center bands before PCA. Default `TRUE`.
+#' @param center Logical. Centre bands before PCA. Default `TRUE`.
 #' @param scale Logical. Scale bands to unit variance. Default `FALSE`.
 #'
 #' @return A list with class `"hsi_pca"`:
@@ -14,7 +14,7 @@
 #'   \item{scores}{3D array (rows x cols x n_components) of component score maps.}
 #'   \item{loadings}{Matrix (bands x n_components) of spectral loadings.}
 #'   \item{variance_explained}{Numeric vector of proportion of variance per component.}
-#'   \item{center}{Centering vector used (or `FALSE`).}
+#'   \item{center}{Centring vector used (or `FALSE`).}
 #'   \item{scale}{Scaling vector used (or `FALSE`).}
 #'   \item{wavelengths}{Wavelength vector from input cube.}
 #' }
@@ -243,7 +243,7 @@ hs_umap <- function(cube, n_components = 2L, n_neighbors = 15L,
 
 #' Apply a Fitted Spectral Transform to Another Cube
 #'
-#' Applies saved PCA/MNF centering, scaling and loadings without refitting.
+#' Applies saved PCA/MNF centring, scaling and loadings without refitting.
 #' @param model Result from [hs_pca()] or [hs_mnf()].
 #' @param cube New [hsi_cube] with the same wavelength grid.
 #' @return Score array with spatial dimensions of the new cube; invalid pixels are NA.

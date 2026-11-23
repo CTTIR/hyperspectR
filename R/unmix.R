@@ -136,7 +136,7 @@ hs_unmix_nnls <- function(cube, endmembers, sum_to_one = FALSE,
 #'
 #' Fits decadic absorbance to reference extinction coefficients with NNLS.
 #' Without a known optical pathlength, coefficients are concentration-pathlength
-#' products. The hemoglobin fraction is a research model estimate; diffuse tissue
+#' products. The haemoglobin fraction is a research model estimate; diffuse tissue
 #' scattering and camera response can bias it.
 #'
 #' @param cube An [hsi_cube] object with an explicit reflectance or absorbance domain.
@@ -147,7 +147,7 @@ hs_unmix_nnls <- function(cube, endmembers, sum_to_one = FALSE,
 #' @param input `"auto"` reads the declared processing mode, or explicitly
 #'   specify `"reflectance"` or `"absorbance"`. Values never determine the domain.
 #' @param pathlength_cm Positive scalar optical pathlength, or NULL (unknown).
-#' @param response `"point"` (default) samples band centers; `"gaussian"`
+#' @param response `"point"` (default) samples band centres; `"gaussian"`
 #'   integrates reference coefficients using cube FWHM as Gaussian widths.
 #' @param keep_residuals Logical. Retain spectral residuals. Default FALSE.
 #' @return A list with class `"hsi_chromophore_fit"`:

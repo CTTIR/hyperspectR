@@ -119,16 +119,16 @@ hs_plot_spectra(cube, pixels = "mean", show_sd = TRUE)
 
 ## Computing Tissue Indices
 
-The package provides a research hemoglobin fraction estimate and dimensionless band ratios. These outputs are not validated clinical measurements:
+The package provides a research haemoglobin fraction estimate and dimensionless band ratios. These outputs are not validated clinical measurements:
 
-```{r fig.alt="Map of the fitted oxygenated hemoglobin fraction in percent; the four quadrants of the synthetic scene take four distinct levels on a blue-to-red scale."}
+```{r fig.alt="Map of the fitted oxygenated haemoglobin fraction in percent; the four quadrants of the synthetic scene take four distinct levels on a blue-to-red scale."}
 sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
 ### Clinical Panel Display
 
-```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted hemoglobin fraction map, near-infrared band ratio map and hemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
+```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted haemoglobin fraction map, near-infrared band ratio map and haemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
 hs_plot_clinical(cube, indices = c("sto2", "npi", "thi"))
 ```
 

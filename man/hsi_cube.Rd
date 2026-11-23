@@ -9,7 +9,7 @@ hsi_cube(data, wavelengths, fwhm = NULL, metadata = list(), mask = NULL)
 \arguments{
 \item{data}{Numeric 3D array with dimensions (rows, cols, bands).}
 
-\item{wavelengths}{Numeric vector of band center wavelengths in nanometers.
+\item{wavelengths}{Numeric vector of band centre wavelengths in nanometers.
 Length must match \code{dim(data)[3]}; values must be finite, positive and
 unique. Unsorted wavelengths reorder data, FWHM and matching per-band
 quality arrays together. Factors, character values and arrays are rejected.}
