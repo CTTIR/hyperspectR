@@ -9,7 +9,10 @@
 #'   permit.
 #' @param mask_background Logical. Mask non-tissue pixels. Default `TRUE`.
 #' @param threshold Numeric. Masking threshold on mean reflectance. Default `0.05`.
-#' @param ncol Integer. Number of panel columns. Default `NULL` (auto).
+#' @param ncol Integer. Number of panel columns. Default `NULL` arranges the
+#'   panels in a near-square grid (`ceiling(sqrt(n))` columns, so two columns
+#'   for the default four panels). Supply `ncol = 4` with a wide device for a
+#'   single row.
 #'
 #' @return A `patchwork` composite [ggplot2::ggplot] object.
 #'
@@ -66,7 +69,14 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
     )
   }
 
-  if (is.null(ncol)) ncol <- min(length(plots), 4L)
+  # A near-square grid keeps panel titles and colour bars legible on a default
+  # 7 inch device; four panels in one row overlapped there.
+  if (is.null(ncol)) {
+    ncol <- ceiling(sqrt(length(plots)))
+  } else if (!is.numeric(ncol) || length(ncol) != 1L || !is.finite(ncol) ||
+             ncol < 1 || ncol != as.integer(ncol)) {
+    cli::cli_abort("{.arg ncol} must be a positive integer.")
+  }
 
   patchwork::wrap_plots(plots, ncol = ncol) +
     patchwork::plot_annotation(

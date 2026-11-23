@@ -53,3 +53,15 @@ test_that("spectral plots label the value axis and use colour-blind-safe pixel c
   many <- expand.grid(x = 1:3, y = 1:3)
   expect_s3_class(hs_plot_spectra(cube, pixels = many), "ggplot")
 })
+
+test_that("the research panel uses a near-square grid by default", {
+  cube <- hs_simulate_cube(rows = 6, cols = 6, seed = 1)
+  layout_cols <- function(p) p$patches$layout$ncol
+  expect_identical(layout_cols(hs_plot_clinical(cube)), 2)
+  expect_identical(layout_cols(hs_plot_clinical(cube, indices = "sto2")), 2)
+  expect_identical(layout_cols(hs_plot_clinical(cube, indices = c("sto2", "npi", "thi", "twi"))), 3)
+  expect_identical(layout_cols(hs_plot_clinical(cube, ncol = 4)), 4)
+  expect_error(hs_plot_clinical(cube, ncol = 0), "ncol")
+  expect_error(hs_plot_clinical(cube, ncol = c(1, 2)), "ncol")
+  expect_error(hs_plot_clinical(cube, ncol = "two"), "ncol")
+})

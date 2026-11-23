@@ -23,7 +23,10 @@ permit.}
 
 \item{threshold}{Numeric. Masking threshold on mean reflectance. Default \code{0.05}.}
 
-\item{ncol}{Integer. Number of panel columns. Default \code{NULL} (auto).}
+\item{ncol}{Integer. Number of panel columns. Default \code{NULL} arranges the
+panels in a near-square grid (\code{ceiling(sqrt(n))} columns, so two columns
+for the default four panels). Supply \code{ncol = 4} with a wide device for a
+single row.}
 }
 \value{
 A \code{patchwork} composite \link[ggplot2:ggplot]{ggplot2::ggplot} object.
