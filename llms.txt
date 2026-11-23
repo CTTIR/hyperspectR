@@ -149,8 +149,8 @@ version has no confirmed published DOI.
 ## Licence
 
 MIT; see [the full
-licence](https://cttir.github.io/hyperspectR/LICENSE.md). The pinned
-haemoglobin reference data retain their [upstream notice and
+licence](https://github.com/CTTIR/hyperspectR/blob/main/LICENSE.md). The
+pinned haemoglobin reference data retain their [upstream notice and
 provenance](https://github.com/CTTIR/hyperspectR/blob/main/inst/extdata/README-spectra.md).
 
 ## Use of LLM tools
