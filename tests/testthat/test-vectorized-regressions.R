@@ -107,7 +107,8 @@ test_that("ROI statistics match the per-band reference", {
   expect_identical(result$n_pixels, c(34L, 35L, 35L, 34L, 35L))
   all_missing <- cube
   all_missing$data[, , 3] <- NA
-  expect_true(all(is.na(hs_roi_stats(all_missing, roi)[3, c("mean", "sd", "median", "min", "max")])))
+  empty_band <- hs_roi_stats(all_missing, roi)[3, c("mean", "sd", "median", "min", "max")]
+  expect_true(all(is.na(empty_band)))
 })
 
 test_that("SAM assigns the first of tied endmembers and honours the threshold", {

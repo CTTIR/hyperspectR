@@ -44,7 +44,8 @@ print.summary.hsi_cube <- function(x, ...) {
   d <- x$dimensions
   cli::cli_h1("summary.hsi_cube")
   cli::cli_text("Dimensions: {d[1]} rows x {d[2]} cols x {d[3]} bands")
-  cli::cli_text("Wavelengths: {round(x$wavelength_range[1], 1)}-{round(x$wavelength_range[2], 1)} nm")
+  wl <- round(x$wavelength_range, 1)
+  cli::cli_text("Wavelengths: {wl[1]}-{wl[2]} nm")
   cli::cli_text("Valid pixels: {format_percent(x$n_valid_pixels, x$n_total_pixels)}")
   cli::cli_text("Data range: {format_range(x$data_range)}")
   cli::cli_text("Band means: {format_range(x$band_means)}")
@@ -61,7 +62,8 @@ print.summary.hsi_cube <- function(x, ...) {
   cli::cli_h1(class_name)
   cli::cli_text("Scores: {d[1]} rows x {d[2]} cols x {d[3]} components")
   cli::cli_text("Loadings: {nrow(x$loadings)} bands x {ncol(x$loadings)} components")
-  cli::cli_text("Variance explained (%): {format_values(100 * shown, 3)}{if (d[3] > 5L) ', ...' else ''}")
+  more <- if (d[3] > 5L) ", ..." else ""
+  cli::cli_text("Variance explained (%): {format_values(100 * shown, 3)}{more}")
   cli::cli_text("Valid pixels: {format_percent(sum(!is.na(x$scores[, , 1L])), prod(d[1:2]))}")
   invisible(x)
 }
@@ -115,7 +117,8 @@ print.hsi_chromophore_fit <- function(x, ...) {
   cli::cli_h1("hsi_chromophore_fit")
   cli::cli_text("Maps: {d[1]} rows x {d[2]} cols")
   cli::cli_text("Chromophores: {paste(x$chromophores, collapse = ', ')} ({x$coefficient_units})")
-  cli::cli_text("Fit range: {x$wavelength_range[1]}-{x$wavelength_range[2]} nm ({length(x$wavelengths)} bands, {x$response} response)")
+  fit_range <- paste0(x$wavelength_range[1], "-", x$wavelength_range[2], " nm")
+  cli::cli_text("Fit range: {fit_range} ({length(x$wavelengths)} bands, {x$response} response)")
   cli::cli_text("Input domain: {x$input_domain}; reference: {x$reference_id}")
   if (!is.null(x$sto2)) cli::cli_text("Fitted HbO2 fraction (%): {format_range(x$sto2)}")
   cli::cli_text("Fit status: {paste0(names(status), ' ', status, collapse = ', ')}")
@@ -145,7 +148,8 @@ print.hsi_roi <- function(x, ...) {
   d <- dim(x$mask)
   cli::cli_h1("hsi_roi")
   cli::cli_text("Type: {x$type}")
-  cli::cli_text("Mask: {d[1]} rows x {d[2]} cols, {format_percent(sum(x$mask), length(x$mask))} pixels selected")
+  selected <- format_percent(sum(x$mask), length(x$mask))
+  cli::cli_text("Mask: {d[1]} rows x {d[2]} cols, {selected} pixels selected")
   if (identical(x$type, "rectangle")) {
     cli::cli_text("Columns {x$x_range[1]}-{x$x_range[2]}, rows {x$y_range[1]}-{x$y_range[2]}")
   } else if (!is.null(x$vertices)) {
