@@ -95,7 +95,10 @@ test_that("ROI statistics match the per-band reference", {
     values <- values[!is.na(values)]
     expect_identical(result$n_pixels[b], length(values))
     expect_identical(result$mean[b], mean(values))
-    expect_identical(result$sd[b], stats::sd(values))
+    # sd(x, na.rm = TRUE) and sd(x) run through different C routines of
+    # var() and can differ in the last bit (seen on macOS arm64), so they are
+    # compared to a tight relative tolerance rather than for identity.
+    expect_equal(result$sd[b], stats::sd(values), tolerance = 1e-12)
     expect_identical(result$median[b], stats::median(values))
     expect_identical(result$min[b], min(values))
     expect_identical(result$max[b], max(values))
