@@ -1,0 +1,28 @@
+test_that("plot arguments are validated before use", {
+  cube <- hs_simulate_cube(rows = 7, cols = 6, wavelengths = seq(500, 580, by = 20), seed = 1)
+  expect_error(hs_plot_spectra(cube, pixels = c("mean", "random")), "must be 'mean', 'random'")
+  expect_error(hs_plot_spectra(cube, pixels = "median"), "must be 'mean', 'random'")
+  expect_error(hs_plot_spectra(cube, pixels = NA_character_), "must be 'mean', 'random'")
+  expect_error(hs_plot_spectra(cube, show_sd = NA), "show_sd")
+  expect_error(hs_plot_spectra(cube, show_sd = "yes"), "show_sd")
+  expect_error(hs_plot_image(cube, band = "a"), "valid band index")
+  expect_error(hs_plot_image(cube, band = c(1, 2)), "valid band index")
+  expect_error(hs_plot_image(cube, band = NA_real_), "valid band index")
+  expect_error(hs_plot_image(cube, band = 6), "valid band index")
+  expect_error(hs_plot_image(cube, wavelength = "a"), "finite scalar")
+  expect_error(hs_plot_index(matrix(letters[1:4], 2, 2)), "numeric matrix")
+  expect_error(hs_plot_index(matrix(numeric(), 0, 2)), "numeric matrix")
+  expect_error(hs_plot_index(matrix(1:4, 2, 2), range = c(1, 0)), "range")
+  expect_error(hs_plot_index(matrix(1:4, 2, 2), range = c(0, NA)), "range")
+  expect_error(hs_plot_index(matrix(1:4, 2, 2), range = 1), "range")
+  expect_s3_class(hs_plot_index(matrix(1:4, 2, 2), range = c(2, 2)), "ggplot")
+  expect_s3_class(hs_plot_index(matrix(1:4, 2, 2), range = c(0, 10)), "ggplot")
+})
+
+test_that("the TWI warning names the bands that were requested", {
+  cube <- hsi_cube(array(0.5, c(2, 2, 3)), c(500, 550, 600))
+  expect_warning(result <- hs_twi(cube), "880-910 nm or 830-870 nm")
+  expect_true(all(is.na(result)))
+  expect_warning(hs_twi(cube, numerator = c(955, 980), denominator = c(880, 900)),
+                 "955-980 nm or 880-900 nm")
+})

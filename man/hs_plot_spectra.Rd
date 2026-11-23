@@ -15,8 +15,8 @@ hs_plot_spectra(cube, pixels = "mean", n = 100L, show_sd = TRUE)
 
 \item{n}{Integer. Number of random spectra if \code{pixels = "random"}. Default \code{100}.}
 
-\item{show_sd}{Logical. Show mean +/- SD ribbon. Default \code{TRUE} when
-\code{pixels = "mean"}.}
+\item{show_sd}{Logical. Show the mean +/- SD ribbon. Default \code{TRUE}; used
+only when \code{pixels = "mean"}.}
 }
 \value{
 A \link[ggplot2:ggplot]{ggplot2::ggplot} object.

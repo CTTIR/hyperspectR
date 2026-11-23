@@ -14,10 +14,13 @@ Default \code{NULL}.}
 
 \item{band}{Integer. Band index. Alternative to \code{wavelength}. Default \code{NULL}.}
 
-\item{palette}{Character. Color palette name. Default \code{"viridis"}.}
+\item{palette}{Character. Color palette name: \code{"viridis"} (default),
+\code{"magma"}, \code{"inferno"} or \code{"plasma"}. Any other name falls back to
+\code{"viridis"}.}
 }
 \value{
-A \link[ggplot2:ggplot]{ggplot2::ggplot} object using \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}.
+A \link[ggplot2:ggplot]{ggplot2::ggplot} object using \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}. Masked
+and nonfinite pixels are drawn in grey.
 }
 \description{
 Displays a single spectral band as a spatial image using a pseudocolor palette.

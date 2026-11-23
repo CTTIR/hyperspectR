@@ -126,7 +126,7 @@ hs_twi <- function(cube, numerator = c(880, 910), denominator = c(830, 870)) {
   if (is.null(num) || is.null(den)) {
     cli::cli_warn(c(
       "!" = "Required wavelength bands not available for TWI computation.",
-      "i" = "TWI requires wavelengths up to ~980 nm. Cubert Ultris X MR covers 430-910 nm.",
+      "i" = "No band lies within {numerator[1]}-{numerator[2]} nm or {denominator[1]}-{denominator[2]} nm.",
       "i" = "Returning NA matrix."
     ))
     return(matrix(NA_real_, nrow = dim(cube$data)[1], ncol = dim(cube$data)[2]))
@@ -238,7 +238,6 @@ hs_band_ratio <- function(cube, numerator, denominator) {
   den <- band(denominator)
   if (is.null(num) || is.null(den)) cli::cli_abort("Required wavelength bands not available for band ratio.")
   result <- num / den
-  result[!is.finite(result)] <- NA_real_
   result[!is.finite(result)] <- NA_real_
   .apply_mask(result, cube$mask)
 }

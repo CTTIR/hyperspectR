@@ -101,8 +101,12 @@ hs_plot_clinical <- function(cube, indices = c("sto2", "npi", "thi"),
 #' @export
 hs_plot_index <- function(index_matrix, title = "", palette = "sto2",
                           range = NULL, mask = NULL) {
-  if (!is.matrix(index_matrix)) {
+  if (!is.matrix(index_matrix) || !is.numeric(index_matrix) || any(dim(index_matrix) == 0L)) {
     cli::cli_abort("{.arg index_matrix} must be a numeric matrix.")
+  }
+  if (!is.null(range) && (!is.numeric(range) || length(range) != 2L ||
+      any(!is.finite(range)) || range[1] > range[2])) {
+    cli::cli_abort("{.arg range} must contain two finite ordered values.")
   }
 
   if (!is.null(mask)) {

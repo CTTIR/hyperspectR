@@ -45,8 +45,8 @@ autoplot.hsi_cube <- function(object, type = c("rgb", "band", "spectra"),
 #'   `"random"` for random pixel sample, or a data.frame with columns
 #'   `x` and `y`. Default `"mean"`.
 #' @param n Integer. Number of random spectra if `pixels = "random"`. Default `100`.
-#' @param show_sd Logical. Show mean +/- SD ribbon. Default `TRUE` when
-#'   `pixels = "mean"`.
+#' @param show_sd Logical. Show the mean +/- SD ribbon. Default `TRUE`; used
+#'   only when `pixels = "mean"`.
 #'
 #' @return A [ggplot2::ggplot] object.
 #'
@@ -61,6 +61,14 @@ hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
 
   d <- dim(cube$data)
   wl <- cube$wavelengths
+
+  if (is.character(pixels) &&
+      (length(pixels) != 1L || !pixels %in% c("mean", "random"))) {
+    cli::cli_abort("{.arg pixels} must be 'mean', 'random', or a data.frame with x/y columns.")
+  }
+  if (length(show_sd) != 1L || !is.logical(show_sd) || is.na(show_sd)) {
+    cli::cli_abort("{.arg show_sd} must be TRUE or FALSE.")
+  }
 
   if (is.character(pixels) && pixels == "mean") {
     pixel_mat <- .pixel_matrix(cube)
@@ -156,9 +164,12 @@ hs_plot_spectra <- function(cube, pixels = "mean", n = 100L,
 #' @param wavelength Numeric. Center wavelength to display (nearest band selected).
 #'   Default `NULL`.
 #' @param band Integer. Band index. Alternative to `wavelength`. Default `NULL`.
-#' @param palette Character. Color palette name. Default `"viridis"`.
+#' @param palette Character. Color palette name: `"viridis"` (default),
+#'   `"magma"`, `"inferno"` or `"plasma"`. Any other name falls back to
+#'   `"viridis"`.
 #'
-#' @return A [ggplot2::ggplot] object using [ggplot2::geom_raster()].
+#' @return A [ggplot2::ggplot] object using [ggplot2::geom_raster()]. Masked
+#'   and nonfinite pixels are drawn in grey.
 #'
 #' @examples
 #' cube <- hs_example_cube()
@@ -175,15 +186,19 @@ hs_plot_image <- function(cube, wavelength = NULL, band = NULL,
 
   if (!is.null(wavelength)) {
     .require_wavelengths(cube)
+    if (!is.numeric(wavelength)) cli::cli_abort("Target wavelength must be a finite scalar.")
     band <- .band_index(cube$wavelengths, wavelength)
     actual_wl <- round(cube$wavelengths[band])
     title <- paste0("Band at ", actual_wl, " nm")
   } else {
+    if (!is.numeric(band) || length(band) != 1L || !is.finite(band) ||
+        band != as.integer(band) || band < 1L || band > dim(cube$data)[3]) {
+      cli::cli_abort("Band must be a valid band index.")
+    }
     actual_wl <- round(cube$wavelengths[band])
     title <- if (identical(cube$metadata$wavelengths_known, FALSE)) paste0("Band ", band, " (wavelength unknown)") else paste0("Band ", band, " (", actual_wl, " nm)")
   }
 
-  if (length(band) != 1L || !is.finite(band) || band != as.integer(band) || band < 1L || band > dim(cube$data)[3]) cli::cli_abort("Band must be a valid band index.")
   img <- .band_matrix(cube, band)
   d <- dim(img)
 
