@@ -4,3 +4,9 @@ html[data-bs-theme] img.r-plt,
 html[data-bs-theme] pre .r-plt.img img {
   filter: none;
 }
+
+/* pkgdown also dims example figures to 66 % opacity in dark mode, which
+   shifts every colour of a pseudocolour map towards the page background. */
+html[data-bs-theme] pre .r-plt.img img {
+  opacity: 1;
+}
