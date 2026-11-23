@@ -20,7 +20,7 @@ Default \code{NULL}.}
 }
 \value{
 A \link[ggplot2:ggplot]{ggplot2::ggplot} object using \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}. Masked
-and nonfinite pixels are drawn in grey.
+and nonfinite pixels are drawn in gray.
 }
 \description{
 Displays a single spectral band as a spatial image using a pseudocolor palette.

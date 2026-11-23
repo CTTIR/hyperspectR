@@ -24,3 +24,9 @@ mnf <- hs_mnf(cube, n_components = 3)
 dim(mnf$scores)
 
 }
+\references{
+Green, A. A., Berman, M., Switzer, P. and Craig, M. D. (1988). A
+transformation for ordering multispectral data in terms of image quality
+with implications for noise removal. \emph{IEEE Transactions on Geoscience and
+Remote Sensing}, 26(1), 65-74. \code{doi:10.1109/36.3001}
+}

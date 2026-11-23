@@ -39,3 +39,8 @@ smoothed <- hs_smooth(cube, window = 5, poly = 2)
 dim(smoothed)
 
 }
+\references{
+Savitzky, A. and Golay, M. J. E. (1964). Smoothing and differentiation of
+data by simplified least squares procedures. \emph{Analytical Chemistry},
+36(8), 1627-1639. \code{doi:10.1021/ac60214a047}
+}

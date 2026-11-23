@@ -50,3 +50,8 @@ if (requireNamespace("uwot", quietly = TRUE)) {
 }
 
 }
+\references{
+McInnes, L., Healy, J. and Melville, J. (2018). UMAP: Uniform manifold
+approximation and projection for dimension reduction. arXiv:1802.03426.
+\code{doi:10.48550/arXiv.1802.03426}
+}

@@ -44,6 +44,12 @@ hs_absorbance <- function(cube, floor = 1e-6) {
 #' cube <- hs_example_cube()
 #' cr <- hs_continuum_removal(cube, method = "division")
 #'
+#' @references
+#' Clark, R. N. and Roush, T. L. (1984). Reflectance spectroscopy:
+#' quantitative analysis techniques for remote sensing applications.
+#' *Journal of Geophysical Research: Solid Earth*, 89(B7), 6329-6340.
+#' `doi:10.1029/JB089iB07p06329`
+#'
 #' @export
 hs_continuum_removal <- function(cube, method = c("division", "subtraction")) {
   .validate_cube(cube)

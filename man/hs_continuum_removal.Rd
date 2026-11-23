@@ -24,3 +24,9 @@ cube <- hs_example_cube()
 cr <- hs_continuum_removal(cube, method = "division")
 
 }
+\references{
+Clark, R. N. and Roush, T. L. (1984). Reflectance spectroscopy:
+quantitative analysis techniques for remote sensing applications.
+\emph{Journal of Geophysical Research: Solid Earth}, 89(B7), 6329-6340.
+\code{doi:10.1029/JB089iB07p06329}
+}

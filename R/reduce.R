@@ -80,6 +80,12 @@ hs_pca <- function(cube, n_components = 5L, center = TRUE, scale = FALSE) {
 #' mnf <- hs_mnf(cube, n_components = 3)
 #' dim(mnf$scores)
 #'
+#' @references
+#' Green, A. A., Berman, M., Switzer, P. and Craig, M. D. (1988). A
+#' transformation for ordering multispectral data in terms of image quality
+#' with implications for noise removal. *IEEE Transactions on Geoscience and
+#' Remote Sensing*, 26(1), 65-74. `doi:10.1109/36.3001`
+#'
 #' @export
 hs_mnf <- function(cube, n_components = 5L) {
   .validate_cube(cube)
@@ -161,6 +167,11 @@ hs_mnf <- function(cube, n_components = 5L) {
 #'   umap_result <- hs_umap(cube, n_components = 2)
 #' }
 #' }
+#'
+#' @references
+#' McInnes, L., Healy, J. and Melville, J. (2018). UMAP: Uniform manifold
+#' approximation and projection for dimension reduction. arXiv:1802.03426.
+#' `doi:10.48550/arXiv.1802.03426`
 #'
 #' @export
 hs_umap <- function(cube, n_components = 2L, n_neighbors = 15L,

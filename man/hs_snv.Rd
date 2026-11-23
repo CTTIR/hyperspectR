@@ -21,3 +21,9 @@ cube <- hs_example_cube()
 snv_cube <- hs_snv(cube)
 
 }
+\references{
+Barnes, R. J., Dhanoa, M. S. and Lister, S. J. (1989). Standard normal
+variate transformation and de-trending of near-infrared diffuse
+reflectance spectra. \emph{Applied Spectroscopy}, 43(5), 772-777.
+\code{doi:10.1366/0003702894202201}
+}

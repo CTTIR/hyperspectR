@@ -28,6 +28,11 @@
 #' result <- hs_unmix_nnls(cube, em)
 #' dim(result$abundances)
 #'
+#' @references
+#' Lawson, C. L. and Hanson, R. J. (1995). *Solving Least Squares Problems*
+#' (chapter 23, non-negative least squares). Society for Industrial and
+#' Applied Mathematics. `doi:10.1137/1.9781611971217`
+#'
 #' @export
 hs_unmix_nnls <- function(cube, endmembers, sum_to_one = FALSE,
                           backend = c("builtin", "nnls"), keep_residuals = TRUE,

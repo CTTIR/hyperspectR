@@ -19,6 +19,11 @@
 #' smoothed <- hs_smooth(cube, window = 5, poly = 2)
 #' dim(smoothed)
 #'
+#' @references
+#' Savitzky, A. and Golay, M. J. E. (1964). Smoothing and differentiation of
+#' data by simplified least squares procedures. *Analytical Chemistry*,
+#' 36(8), 1627-1639. `doi:10.1021/ac60214a047`
+#'
 #' @export
 hs_smooth <- function(cube, window = 5L, poly = 2L, deriv = 0L,
                       backend = c("builtin", "prospectr", "signal")) {
@@ -82,6 +87,12 @@ hs_smooth <- function(cube, window = 5L, poly = 2L, deriv = 0L,
 #' cube <- hs_example_cube()
 #' snv_cube <- hs_snv(cube)
 #'
+#' @references
+#' Barnes, R. J., Dhanoa, M. S. and Lister, S. J. (1989). Standard normal
+#' variate transformation and de-trending of near-infrared diffuse
+#' reflectance spectra. *Applied Spectroscopy*, 43(5), 772-777.
+#' `doi:10.1366/0003702894202201`
+#'
 #' @export
 hs_snv <- function(cube) {
   .validate_cube(cube)
@@ -115,6 +126,11 @@ hs_snv <- function(cube) {
 #' @examples
 #' cube <- hs_example_cube()
 #' msc_cube <- hs_msc(cube)
+#'
+#' @references
+#' Geladi, P., MacDougall, D. and Martens, H. (1985). Linearization and
+#' scatter-correction for near-infrared reflectance spectra of meat.
+#' *Applied Spectroscopy*, 39(3), 491-500. `doi:10.1366/0003702854248656`
 #'
 #' @export
 hs_msc <- function(cube, reference = NULL) {

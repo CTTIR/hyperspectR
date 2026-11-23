@@ -25,3 +25,8 @@ cube <- hs_example_cube()
 msc_cube <- hs_msc(cube)
 
 }
+\references{
+Geladi, P., MacDougall, D. and Martens, H. (1985). Linearization and
+scatter-correction for near-infrared reflectance spectra of meat.
+\emph{Applied Spectroscopy}, 39(3), 491-500. \code{doi:10.1366/0003702854248656}
+}
