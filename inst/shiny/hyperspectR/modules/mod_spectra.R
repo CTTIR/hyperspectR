@@ -88,7 +88,7 @@ mod_spectra_server <- function(id, cube_rv) {
           ggplot2::labs(title = paste(nrow(px), "Random Spectra"))
         plot
       }
-    }, alt = function() {
+    }, res = 96, alt = function() {
       cube <- cube_rv$cube
       shiny::req(cube)
       pixels <- selected_pixels()
@@ -106,7 +106,7 @@ mod_spectra_server <- function(id, cube_rv) {
       if (identical(cube$metadata$wavelengths_known, FALSE)) {
         hyperspectR::hs_plot_image(cube)
       } else hyperspectR::hs_plot_rgb(cube)
-    }, alt = function() {
+    }, res = 96, alt = function() {
       cube <- cube_rv$cube
       shiny::req(cube)
       if (identical(cube$metadata$wavelengths_known, FALSE)) {

@@ -107,7 +107,7 @@ mod_viewer_server <- function(id, cube_rv) {
                                  b = input$b_wl)
       }
     })
-    output$image_plot <- shiny::renderPlot(viewer_plot(), alt = function() {
+    output$image_plot <- shiny::renderPlot(viewer_plot(), res = 96, alt = function() {
       cube <- cube_rv$cube
       shiny::req(cube, input$display_mode)
       description <- if (input$display_mode == "rgb") {

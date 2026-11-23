@@ -73,7 +73,7 @@ mod_analysis_server <- function(id, cube_rv) {
         hyperspectR::hs_plot_index(res$sto2, title = "Fitted hemoglobin oxygenated fraction (%)",
                                    palette = "sto2")
       }
-    }, alt = function() {
+    }, res = 96, alt = function() {
       res <- analysis_result()
       shiny::req(res)
       description <- if (inherits(res, "hsi_pca")) {

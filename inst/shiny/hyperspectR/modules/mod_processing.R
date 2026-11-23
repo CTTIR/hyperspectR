@@ -63,7 +63,7 @@ mod_processing_server <- function(id, cube_rv) {
       cube <- cube_rv$cube
       shiny::req(cube)
       hyperspectR::hs_plot_spectra(cube, pixels = "mean", show_sd = TRUE)
-    }, alt = function() {
+    }, res = 96, alt = function() {
       cube <- cube_rv$cube
       shiny::req(cube)
       paste("Current-cube spatial mean spectrum with a sample standard deviation ribbon.",

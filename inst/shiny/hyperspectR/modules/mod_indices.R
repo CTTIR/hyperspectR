@@ -79,7 +79,7 @@ mod_indices_server <- function(id, cube_rv) {
         hyperspectR::hs_plot_index(idx, title = title, palette = palette,
                                    range = rng)
       }
-    }, alt = function() {
+    }, res = 96, alt = function() {
       stored <- index_result()
       shiny::req(stored)
       description <- switch(stored$type,

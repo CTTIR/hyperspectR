@@ -56,6 +56,8 @@
   were supplied.
 * Figures in the reference examples of the website keep their colors in dark
   mode, and all vignette figures carry alternative text.
+* The explorer app renders its plots at 96 dpi, so titles, axis labels and
+  legends are no longer smaller than the surrounding controls.
 
 ## Documentation
 
