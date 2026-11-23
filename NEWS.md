@@ -4,6 +4,8 @@
 
 * Documentation uses British English (`Language: en-GB`); code identifiers,
   argument names and plot labels are unchanged.
+* `CITATION.cff` and `.zenodo.json` name the author as R. Heller and use the
+  package title of `citation("hyperspectR")`.
 * Added runnable examples to `hs_band_ratio()`, `hs_batch()`,
   `hs_group_summary()`, `hs_grouped_evaluate()`, `hs_predict()`,
   `hs_process()`, `hs_recipe()` and `hs_transform()`, and replaced

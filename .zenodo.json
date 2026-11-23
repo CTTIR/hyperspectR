@@ -1,11 +1,11 @@
 {
   "upload_type": "software",
-  "title": "hyperspectR: Hyperspectral imaging analysis for biomedical applications",
+  "title": "hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications",
   "version": "0.3.0",
   "description": "<p>Hyperspectral research workflows for ENVI/TIFF and optional camera readers, calibration, spectral preprocessing, dimensionless spectral indices, research hemoglobin fraction fitting, dimensionality reduction, classification and constrained unmixing. Includes an interactive explorer, saved processing recipes, batch execution and grouped evaluation. Synthetic examples establish software behavior under stated assumptions; clinical and device-specific accuracy remain unestablished.</p>",
   "creators": [
     {
-      "name": "Heller, Raban",
+      "name": "Heller, R.",
       "orcid": "0000-0001-8006-9742"
     },
     {

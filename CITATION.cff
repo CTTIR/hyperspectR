@@ -1,12 +1,12 @@
 cff-version: 1.2.0
 message: Version 0.3.0 is not yet published. Cite the version and source revision actually used.
 type: software
-title: 'hyperspectR: Hyperspectral imaging analysis for biomedical applications'
+title: 'hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications'
 version: 0.3.0
 doi: 10.5281/zenodo.21889940
 authors:
 - family-names: Heller
-  given-names: Raban
+  given-names: R.
   orcid: https://orcid.org/0000-0001-8006-9742
 - family-names: Forstmeier
   given-names: Vinzent
