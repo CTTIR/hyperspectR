@@ -76,6 +76,7 @@ reference:
       - hs_transform
       - hs_predict
       - hs_grouped_evaluate
+      - print.hsi_result
 
   - title: "ROI Analysis"
     desc: "Region-of-interest tools"
@@ -107,6 +108,7 @@ reference:
       - hs_example_files
 
   - title: "Reproducible Workflows"
+    desc: "Processing recipes and resumable batch runs"
     contents:
       - hs_recipe
       - hs_process
