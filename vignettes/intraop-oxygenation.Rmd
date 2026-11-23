@@ -68,28 +68,28 @@ print(cube)
 
 ## Step 2: Preprocessing
 
-```{r}
+```{r fig.alt="Mean spectrum of the smoothed synthetic cube with a shaded band of one standard deviation across the image."}
 smoothed <- hs_smooth(cube, window = 7, poly = 3)
 hs_plot_spectra(smoothed)
 ```
 
 ## Step 3: Dimensionless Band Ratio
 
-```{r}
+```{r fig.alt="Map of the dimensionless ratio of the 700 to 800 nm band to the 500 to 650 nm band; the four regions of the synthetic scene take four distinct levels."}
 sto2_ratio <- hs_band_ratio(smoothed, c(700, 800), c(500, 650))
 hs_plot_index(sto2_ratio, title = "Relative NIR/visible ratio", palette = "sto2")
 ```
 
 ## Step 4: Beer-Lambert Chromophore Fitting
 
-```{r}
+```{r fig.alt="Map of the fitted oxygenated hemoglobin fraction in percent from the Beer-Lambert fit for the four synthetic regions."}
 fit <- hs_beer_lambert(smoothed)
 hs_plot_index(fit$sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
 ## Step 5: ROI-Based Statistical Analysis
 
-```{r}
+```{r fig.alt="Line plot of the mean reflectance spectra of two regions of interest with shaded bands of one standard deviation, from about 450 to 890 nm."}
 # Define ROIs for different surgical field regions
 roi_healthy <- hs_roi_rect(smoothed, x_range = c(1, 20), y_range = c(1, 20))
 roi_ischemic <- hs_roi_rect(smoothed, x_range = c(30, 50), y_range = c(1, 20))
@@ -117,7 +117,7 @@ ggplot() +
 
 ## Step 6: Research Panel
 
-```{r fig.width=10, fig.height=4}
+```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted hemoglobin fraction map, near-infrared band ratio map and hemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
 hs_plot_clinical(smoothed)
 ```
 

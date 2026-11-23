@@ -57,15 +57,15 @@ library(hyperspectR)
 Tissue oxygenation assessment via HSI relies on the distinct absorption
 spectra of oxyhemoglobin (HbO2) and deoxyhemoglobin (Hb).
 
-```{r}
+```{r fig.alt="Line plot of the tabulated molar extinction coefficients of oxyhemoglobin and deoxyhemoglobin from 430 to 910 nm; both are highest at the blue end, show peaks between 540 and 580 nm and are low in the near infrared."}
 hb_data <- hs_chromophore_data(c("HbO2", "Hb"), wavelength_range = c(430, 910))
 library(ggplot2)
 ggplot(hb_data, aes(x = wavelength)) +
   geom_line(aes(y = HbO2, color = "HbO2"), linewidth = 0.8) +
   geom_line(aes(y = Hb, color = "Hb"), linewidth = 0.8) +
   scale_color_manual(values = c(HbO2 = "#E41A1C", Hb = "#377EB8")) +
-  labs(x = "Wavelength (nm)", y = "Extinction Coefficient",
-       title = "Hemoglobin Absorption Spectra", color = "") +
+  labs(x = "Wavelength (nm)", y = "Molar extinction coefficient (cm^-1 / (mol/L))",
+       title = "Hemoglobin Absorption Spectra", color = "Hemoglobin") +
   theme_hsi()
 ```
 
@@ -75,7 +75,7 @@ ggplot(hb_data, aes(x = wavelength)) +
 coefficients. It assumes the stated Beer-Lambert model; it is not an empirically
 validated measure of tissue oxygen saturation for a camera or clinical task.
 
-```{r}
+```{r fig.alt="Map of the fitted oxygenated hemoglobin fraction in percent; the four quadrants of the synthetic scene take four distinct levels on a blue-to-red scale."}
 cube <- hs_example_cube()
 sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
@@ -85,7 +85,7 @@ hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 
 The legacy NPI name returns an unscaled NIR band ratio. It has no calibrated perfusion or depth interpretation.
 
-```{r}
+```{r fig.alt="Map of the dimensionless near-infrared band ratio of the example cube on a viridis scale."}
 npi <- hs_npi(cube)
 hs_plot_index(npi, title = "NIR ratio", palette = "perfusion")
 ```
@@ -94,7 +94,7 @@ hs_plot_index(npi, title = "NIR ratio", palette = "perfusion")
 
 The legacy THI name returns a dimensionless reference/Hb-band ratio. It is not a concentration.
 
-```{r}
+```{r fig.alt="Map of the dimensionless hemoglobin-band ratio of the example cube on a magma scale; the four quadrants take four distinct levels."}
 thi <- hs_thi(cube)
 hs_plot_index(thi, title = "Hb-band ratio", palette = "hemoglobin")
 ```
@@ -103,7 +103,7 @@ hs_plot_index(thi, title = "Hb-band ratio", palette = "hemoglobin")
 
 Create any two-band ratio index:
 
-```{r}
+```{r fig.alt="Map of the normalized difference index of the bands at 540 and 660 nm, drawn on a fixed scale from minus one to one."}
 ndi <- hs_ndi(cube, band1 = 540, band2 = 660)
 hs_plot_index(ndi, title = "NDI (540/660)", range = c(-1, 1))
 ```
@@ -112,6 +112,6 @@ hs_plot_index(ndi, title = "NDI (540/660)", range = c(-1, 1))
 
 The research panel combines RGB with model fractions and relative indices. It does not reproduce vendor indices:
 
-```{r fig.width=10, fig.height=4}
+```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted hemoglobin fraction map, near-infrared band ratio map and hemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
 hs_plot_clinical(cube)
 ```

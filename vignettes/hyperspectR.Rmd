@@ -101,19 +101,19 @@ dim(sub)
 
 ### RGB Composite
 
-```{r}
+```{r fig.alt="RGB composite of the synthetic 30 by 30 pixel example cube built from the bands nearest 640, 550 and 460 nm; rows run downwards and columns to the right."}
 ggplot2::autoplot(cube, type = "rgb")
 ```
 
 ### Single Band Image
 
-```{r}
+```{r fig.alt="Pseudocolour image of the band nearest 550 nm in the example cube, with a viridis colour bar for the reflectance value."}
 hs_plot_image(cube, wavelength = 550)
 ```
 
 ### Mean Spectrum
 
-```{r}
+```{r fig.alt="Mean reflectance spectrum of the example cube from 430 to 910 nm with a shaded band of one standard deviation; reflectance dips between 540 and 580 nm and rises towards the near infrared."}
 hs_plot_spectra(cube, pixels = "mean", show_sd = TRUE)
 ```
 
@@ -121,14 +121,14 @@ hs_plot_spectra(cube, pixels = "mean", show_sd = TRUE)
 
 The package provides a research hemoglobin fraction estimate and dimensionless band ratios. These outputs are not validated clinical measurements:
 
-```{r}
+```{r fig.alt="Map of the fitted oxygenated hemoglobin fraction in percent; the four quadrants of the synthetic scene take four distinct levels on a blue-to-red scale."}
 sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
 ### Clinical Panel Display
 
-```{r fig.width=10, fig.height=4}
+```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted hemoglobin fraction map, near-infrared band ratio map and hemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
 hs_plot_clinical(cube, indices = c("sto2", "npi", "thi"))
 ```
 
@@ -156,7 +156,7 @@ To cite hyperspectR in publications, please use:
   title = {hyperspectR: Hyperspectral Imaging Analysis for Biomedical Applications},
   author = {R. Heller and V. Forstmeier},
   year = {2026},
-  note = {R package version 0.2.0.9001, development candidate},
-  url = {https://github.com/cttir/hyperspectR},
+  note = {R package version 0.3.0},
+  url = {https://github.com/CTTIR/hyperspectR},
 }
 ```

@@ -70,7 +70,7 @@ cube <- hs_simulate_cube(rows = 50, cols = 50, n_regions = 4,
 
 ## Tissue Oxygenation Mapping
 
-```{r}
+```{r fig.alt="Map of the fitted hemoglobin fraction in percent for a synthetic 50 by 50 pixel scene with four regions on a blue-to-red scale."}
 sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Research Hb fraction (%)", palette = "sto2")
 ```
@@ -79,20 +79,20 @@ The fitted fractions may disagree with simulation parameters because the simulat
 
 ## Perfusion Assessment
 
-```{r}
+```{r fig.alt="Map of the dimensionless near-infrared band ratio of the synthetic scene on a viridis scale."}
 npi <- hs_npi(cube)
 hs_plot_index(npi, title = "NIR ratio (dimensionless)", palette = "perfusion")
 ```
 
 ## Research Panel Overview
 
-```{r fig.width=10, fig.height=4}
+```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted hemoglobin fraction map, near-infrared band ratio map and hemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
 hs_plot_clinical(cube, indices = c("sto2", "npi", "thi"))
 ```
 
 ## ROI Comparison: Affected vs. Unaffected
 
-```{r}
+```{r fig.alt="Line plot comparing the mean reflectance spectra of two regions of interest, labelled normal and affected, from 430 to 910 nm; the spectra differ mainly below 600 nm."}
 roi_affected <- hs_roi_rect(cube, x_range = c(30, 50), y_range = c(30, 50))
 roi_normal <- hs_roi_rect(cube, x_range = c(1, 20), y_range = c(1, 20))
 

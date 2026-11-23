@@ -99,14 +99,14 @@ range(calibrated$data)
 
 Apply spectral smoothing to reduce noise:
 
-```{r}
+```{r fig.alt="Mean spectrum of the calibrated and smoothed synthetic cube with a shaded band of one standard deviation across the image."}
 smoothed <- hs_smooth(calibrated, window = 5, poly = 2)
 hs_plot_spectra(smoothed, pixels = "mean", show_sd = TRUE)
 ```
 
 ## Step 4: Computing Indices
 
-```{r fig.width=10, fig.height=4}
+```{r fig.width=7, fig.height=6, fig.alt="Research panel in a two-by-two grid: RGB composite, fitted hemoglobin fraction map, near-infrared band ratio map and hemoglobin-band ratio map of the synthetic scene, each with rows and columns as axes and its own colour bar."}
 hs_plot_clinical(smoothed, indices = c("sto2", "npi", "thi"))
 ```
 
