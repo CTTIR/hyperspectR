@@ -1,6 +1,6 @@
 # Synthesize RGB Image from Spectral Cube
 
-Creates a pseudo-color RGB composite by mapping three wavelength bands
+Creates a pseudo-colour RGB composite by mapping three wavelength bands
 to the red, green, and blue channels.
 
 ## Usage
@@ -19,7 +19,7 @@ hs_plot_rgb(cube, r = 640, g = 550, b = 460, stretch = "linear")
 
 - r, g, b:
 
-  Numeric. Center wavelengths for R, G, B channels. Defaults: r=640,
+  Numeric. Centre wavelengths for R, G, B channels. Defaults: r=640,
   g=550, b=460.
 
 - stretch:

@@ -2,7 +2,7 @@
 
 Creates a realistic synthetic tissue hyperspectral cube with known
 ground truth. Simulates a tissue scene with regions of varying
-oxygenation, hemoglobin concentration, and a background (non-tissue)
+oxygenation, haemoglobin concentration, and a background (non-tissue)
 region.
 
 ## Usage

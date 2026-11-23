@@ -75,7 +75,7 @@ in MiB.
   pixel repair
 - **Preprocessing**: Savitzky-Golay smoothing, SNV, MSC, spectral
   derivatives
-- **Research indices**: fitted hemoglobin fraction, dimensionless band
+- **Research indices**: fitted haemoglobin fraction, dimensionless band
   ratios and normalized differences
 - **Analysis**: PCA, MNF, SAM classification, SVM/RF pixel
   classification, Beer-Lambert unmixing
@@ -87,9 +87,9 @@ in MiB.
 
 ## Corrected research semantics
 
-The development version changes numerical behavior from 0.1.0.
+The development version changes numerical behaviour from 0.1.0.
 [`hs_sto2()`](https://cttir.github.io/hyperspectR/reference/hs_sto2.md)
-now fits tabulated hemoglobin reference spectra; `method = "ratio"`
+now fits tabulated haemoglobin reference spectra; `method = "ratio"`
 raises a migration error.
 [`hs_band_ratio()`](https://cttir.github.io/hyperspectR/reference/hs_band_ratio.md)
 and the legacy NPI/THI/TWI functions return dimensionless, unscaled
@@ -104,11 +104,7 @@ supplied `pathlength_cm`. Sensor response and tissue scattering require
 separate evaluation.
 
 See the repository’s [migration
-details](https://github.com/CTTIR/hyperspectR/blob/main/MIGRATION.md),
-[implementation
-record](https://github.com/CTTIR/hyperspectR/blob/main/planning/implementation-status.md),
-and [analysis
-protocol](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-validation.md).
+details](https://github.com/CTTIR/hyperspectR/blob/main/MIGRATION.md).
 
 ## Reproducible processing
 
@@ -130,7 +126,7 @@ keeps subjects together across validation splits;
 reports uncertainty using independent groups rather than pixels.
 
 Device readers are covered by software fixtures and SDK mocks. Real
-camera, phantom and independently labeled study validation remain
+camera, phantom and independently labelled study validation remain
 separate evidence gates.
 
 ## Citation
@@ -147,16 +143,14 @@ To cite hyperspectR in publications, please use:
 }
 ```
 
-Use the version actually analyzed and retain its source revision. This
-version has no confirmed published DOI; the prior identifier and
-observed publication state are retained in [the maintenance
-record](https://github.com/CTTIR/hyperspectR/blob/main/planning/maintenance-2026-11-02.md).
+Use the version actually analysed and retain its source revision. This
+version has no confirmed published DOI.
 
-## License
+## Licence
 
 MIT; see [the full
-license](https://cttir.github.io/hyperspectR/LICENSE.md). The pinned
-hemoglobin reference data retain their [upstream notice and
+licence](https://cttir.github.io/hyperspectR/LICENSE.md). The pinned
+haemoglobin reference data retain their [upstream notice and
 provenance](https://github.com/CTTIR/hyperspectR/blob/main/inst/extdata/README-spectra.md).
 
 ## Use of LLM tools

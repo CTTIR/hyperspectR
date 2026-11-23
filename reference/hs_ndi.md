@@ -19,11 +19,11 @@ hs_ndi(cube, band1, band2)
 
 - band1:
 
-  Numeric. Center wavelength or range `c(min, max)` for first band.
+  Numeric. Centre wavelength or range `c(min, max)` for first band.
 
 - band2:
 
-  Numeric. Center wavelength or range `c(min, max)` for second band.
+  Numeric. Centre wavelength or range `c(min, max)` for second band.
 
 ## Value
 

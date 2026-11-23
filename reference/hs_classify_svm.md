@@ -1,6 +1,6 @@
 # SVM Pixel Classification
 
-Trains a Support Vector Machine on labeled pixels and classifies all
+Trains a Support Vector Machine on labelled pixels and classifies all
 pixels. Requires the `e1071` package.
 
 ## Usage
@@ -28,7 +28,7 @@ hs_classify_svm(
 - training_labels:
 
   Character or factor matrix (same spatial dims as cube) with class
-  labels. `NA` for unlabeled pixels.
+  labels. `NA` for unlabelled pixels.
 
 - training_mask:
 

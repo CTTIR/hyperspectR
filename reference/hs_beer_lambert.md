@@ -2,9 +2,9 @@
 
 Fits decadic absorbance to reference extinction coefficients with NNLS.
 Without a known optical pathlength, coefficients are
-concentration-pathlength products. The hemoglobin fraction is a research
-model estimate; diffuse tissue scattering and camera response can bias
-it.
+concentration-pathlength products. The haemoglobin fraction is a
+research model estimate; diffuse tissue scattering and camera response
+can bias it.
 
 ## Usage
 
@@ -48,7 +48,7 @@ hs_beer_lambert(
 
 - response:
 
-  `"point"` (default) samples band centers; `"gaussian"` integrates
+  `"point"` (default) samples band centres; `"gaussian"` integrates
   reference coefficients using cube FWHM as Gaussian widths.
 
 - keep_residuals:

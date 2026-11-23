@@ -1,6 +1,6 @@
 # Random Forest Pixel Classification
 
-Trains a random forest on labeled pixels and classifies all pixels.
+Trains a random forest on labelled pixels and classifies all pixels.
 Requires the `ranger` package.
 
 ## Usage
@@ -26,7 +26,7 @@ hs_classify_rf(
 
 - training_labels:
 
-  Character or factor matrix with class labels. `NA` for unlabeled
+  Character or factor matrix with class labels. `NA` for unlabelled
   pixels.
 
 - training_mask:

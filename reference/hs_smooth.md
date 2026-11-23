@@ -2,7 +2,7 @@
 
 Applies a Savitzky-Golay filter along the spectral dimension. Optionally
 computes derivatives per nanometer on a uniform wavelength grid. Only
-full-window center bands are returned. Invalid spectra remain missing.
+full-window centre bands are returned. Invalid spectra remain missing.
 
 ## Usage
 

@@ -122,7 +122,7 @@ infrared.](hyperspectR_files/figure-html/unnamed-chunk-9-1.png)
 
 ### Computing Tissue Indices
 
-The package provides a research hemoglobin fraction estimate and
+The package provides a research haemoglobin fraction estimate and
 dimensionless band ratios. These outputs are not validated clinical
 measurements:
 
@@ -132,7 +132,7 @@ sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
-![Map of the fitted oxygenated hemoglobin fraction in percent; the four
+![Map of the fitted oxygenated haemoglobin fraction in percent; the four
 quadrants of the synthetic scene take four distinct levels on a
 blue-to-red
 scale.](hyperspectR_files/figure-html/unnamed-chunk-10-1.png)
@@ -144,10 +144,10 @@ scale.](hyperspectR_files/figure-html/unnamed-chunk-10-1.png)
 hs_plot_clinical(cube, indices = c("sto2", "npi", "thi"))
 ```
 
-![Research panel in a two-by-two grid: RGB composite, fitted hemoglobin
-fraction map, near-infrared band ratio map and hemoglobin-band ratio map
-of the synthetic scene, each with rows and columns as axes and its own
-colour bar.](hyperspectR_files/figure-html/unnamed-chunk-11-1.png)
+![Research panel in a two-by-two grid: RGB composite, fitted haemoglobin
+fraction map, near-infrared band ratio map and haemoglobin-band ratio
+map of the synthetic scene, each with rows and columns as axes and its
+own colour bar.](hyperspectR_files/figure-html/unnamed-chunk-11-1.png)
 
 ### Interactive Exploration
 

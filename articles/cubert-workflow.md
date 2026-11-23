@@ -99,10 +99,11 @@ hs_plot_clinical(smoothed, indices = c("sto2", "npi", "thi"))
 #> ℹ Results may be approximate.
 ```
 
-![Research panel in a two-by-two grid: RGB composite, fitted hemoglobin
-fraction map, near-infrared band ratio map and hemoglobin-band ratio map
-of the synthetic scene, each with rows and columns as axes and its own
-colour bar.](cubert-workflow_files/figure-html/unnamed-chunk-6-1.png)
+![Research panel in a two-by-two grid: RGB composite, fitted haemoglobin
+fraction map, near-infrared band ratio map and haemoglobin-band ratio
+map of the synthetic scene, each with rows and columns as axes and its
+own colour
+bar.](cubert-workflow_files/figure-html/unnamed-chunk-6-1.png)
 
 ## Step 5: Saving Results
 

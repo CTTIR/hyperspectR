@@ -12,19 +12,8 @@ findings and adds batch recipes, grouped evaluation, synthetic
 sensitivity analysis and responsive explorer jobs. The work-package
 descriptions below preserve the planned acceptance criteria. Verified
 changes and outstanding release, hardware and study gates are tracked in
-[the implementation
-record](https://github.com/CTTIR/hyperspectR/blob/main/planning/implementation-status.md)
-and [analysis
-results](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-results.md).
-Estimates remain planning ranges; they are not measured effort or
-delivery commitments.
-
-Supporting documents:
-
-- [Audit baseline and all 25
-  findings](https://github.com/CTTIR/hyperspectR/blob/main/planning/audit-baseline.md)
-- [Detailed analytical validation
-  plan](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-validation.md)
+the maintainer’s implementation and analysis records. Estimates remain
+planning ranges; they are not measured effort or delivery commitments.
 
 ## 1. Delivery strategy and assumptions
 
@@ -60,7 +49,7 @@ core is released.
 |----|----|----|----|
 | Now | M0: contracts and evidence | Durable reproductions, output semantics, data invariants, regression CI started | W00 and W01 complete; every finding has an owner and acceptance test |
 | Now → Next | M1: correct computational core | Verified I/O, dimensions, plotting, calibration, preprocessing, fitting and masks | W02–W08 complete; exact-value and independent numerical checks pass |
-| Next | M2: stable research release | Working explorer, dependable exports, migration guide, release checks | W09–W11 complete; all 25 findings closed by tests or explicit removal of unsupported behavior |
+| Next | M2: stable research release | Working explorer, dependable exports, migration guide, release checks | W09–W11 complete; all 25 findings closed by tests or explicit removal of unsupported behaviour |
 | Next → Later | M3: reproducible analysis studies | Batch provenance, model comparisons, grouped classifier evaluation, performance baseline | W12–W15 complete; published evaluation bundle and reproducible results |
 | Later, evidence-dependent | M4: externally evaluated methods | Camera/phantom/study validation with a frozen protocol | W16 complete for each claimed use case; independent review documents supported scope |
 
@@ -102,7 +91,7 @@ code/test reviewer. The first role is accountable. All assignments are
 |----|----|----|----|----|----|----|
 | W00 | Must / M0 | Contracts, durable fixtures, audit tracking | M, Q | 2–3 days | None | All |
 | W01 | Must / M0 | Correct output names, interpretation, migration policy | O, M | 2–4 days | W00 | F01, F05, F06 |
-| W02 | Must / M1 | Cube invariants, dimensions and mask behavior | M, Q | 3–5 days | W00 | F07, F16, F21 |
+| W02 | Must / M1 | Cube invariants, dimensions and mask behaviour | M, Q | 3–5 days | W00 | F07, F16, F21 |
 | W03 | Must / M1 | Binary validation and interoperable I/O | M, Q | 3–5 days | W02 | F04, F08, F17, F23 |
 | W04 | Must / M1 | Spatial/spectral visualization correctness | M, Q | 2–3 days | W02 | F03, F20, F21 |
 | W05 | Must / M1 | Deterministic preprocessing across backends | M, O | 3–5 days | W02 | F02, F13 |
@@ -149,7 +138,7 @@ interpretation of each remaining index, especially when required bands
 are absent.
 
 Inventory labels and claims in exported functions, help files, the
-explorer, README, and vignettes. Replace unsupported clinical cutoffs
+explorer, README, and vignettes. Replace unsupported clinical cut-offs
 with descriptions appropriate to the demonstrated method. Define which
 outputs are relative indices, model-based research estimates, or
 externally validated measurements. Use a clear error for unavailable
@@ -209,9 +198,9 @@ misleading completed-looking outputs.
 
 Use W02 conversion helpers in band, RGB, index, component and spectrum
 displays. Correct the random-spectrum wavelength assignment. Preserve
-spatial masks in display and define NA colors. Validate RGB behavior for
-supported input domains and ranges. Make plot units reflect the actual
-spectral domain.
+spatial masks in display and define NA colours. Validate RGB behaviour
+for supported input domains and ranges. Make plot units reflect the
+actual spectral domain.
 
 **Done when:** an asymmetric scene agrees across array access, plotted
 values, cursor selection, ROI selection and export; every random
@@ -220,7 +209,7 @@ use visual snapshots only for a few stable layout checks.
 
 ### W05 — Make preprocessing mathematically consistent
 
-Declare common SG edge handling and returned wavelength centers. Expose
+Declare common SG edge handling and returned wavelength centres. Expose
 a deterministic backend selection for reproducibility or select one
 canonical implementation; adding an optional dependency must not
 silently alter meaning. Align FWHM with output bands and fix derivative
@@ -249,9 +238,9 @@ white-minus-dark denominators and saturation with reason masks, rather
 than converting all such pixels to plausible clamped values. Preserve an
 unclamped calibrated result for QC; clipping policy must be explicit.
 
-Exclude the center and invalid neighbors from bad-pixel replacement.
-Handle zero-variance neighborhoods, image borders, adjacent defects and
-insufficient valid neighbors. Return a repair mask and counts; ensure
+Exclude the centre and invalid neighbours from bad-pixel replacement.
+Handle zero-variance neighbourhoods, image borders, adjacent defects and
+insufficient valid neighbours. Return a repair mask and counts; ensure
 repair order does not accidentally change results.
 
 **Done when:** known dark/white examples recover reflectance; mismatched
@@ -272,7 +261,7 @@ Mark `-log10(reflectance)` as apparent absorbance where appropriate.
 Represent known path length, unknown path-length products and relative
 coefficients distinctly. Model sensor spectral response using available
 response curves or an explicitly documented approximation; interpolation
-of peak centers alone is not proof of adequate instrument modeling.
+of peak centres alone is not proof of adequate instrument modelling.
 
 **Done when:** reference values match a pinned independent source;
 reflectance and equivalent absorbance yield the same fit; repeated
@@ -283,7 +272,7 @@ clearly. Synthetic coefficient-recovery tests pass independently of
 ### W08 — Strengthen solvers and dimensionality reduction
 
 Implement a true nonnegative equality constraint for sum-to-one
-unmixing. Validate backend and fallback behavior against independent
+unmixing. Validate backend and fallback behaviour against independent
 solutions, including rank deficiency and scale changes. Return
 convergence/validity information, residual diagnostics, active
 constraints, wavelength support, and conditioning warnings. Identify
@@ -291,7 +280,7 @@ unobservable coefficients rather than reporting false precision.
 
 Limit PCA by actual sample rank and validate MNF noise-estimation
 requirements for narrow images, singular covariance and invalid
-neighbors. Provide transformation parameters for applying trained
+neighbours. Provide transformation parameters for applying trained
 reductions to held-out data. Keep stochastic methods reproducible
 through explicit seeds. Treat UMAP as exploratory; its coordinates are
 not quantitative tissue measurements.
@@ -322,7 +311,7 @@ uploads, missing/invalid input, processing, reset, index switching, cube
 replacement, pixel selection and independent opening of downloaded
 results. A stale computation cannot overwrite newer state.
 
-### W10 — Make CI measure the relevant behavior
+### W10 — Make CI measure the relevant behaviour
 
 Start CI integration with W00 and extend it alongside fixes. Keep a fast
 deterministic contract suite on every change, a dependency/backend
@@ -332,12 +321,12 @@ environment and the supported optional backends. Ensure the declared R
 minimum is covered or update it deliberately after compatibility review.
 
 Add an explicit F01–F25 regression inventory. Establish a tests-only
-coverage baseline and enable a nonzero floor after useful assertions
+coverage baseline and enable a non-zero floor after useful assertions
 exist; select the number from the measured baseline rather than
 inventing a coverage percentage target. Include Shiny modules in
 relevant instrumentation or report their coverage separately. Make
 semantic checks blocking even if cosmetic lint remains report-only
-during cleanup.
+during clean-up.
 
 Shared workflow changes belong in `CTTIR/.github`; use caller options
 here where available. Do not copy shared steps back into this
@@ -376,8 +365,7 @@ through the established maintainer workflow.
 | W16 | Independent instrument/phantom/study evaluation with matched references, acquisition QC and prespecified endpoints | The frozen analysis meets thresholds selected before holdout evaluation for the stated use case, or the report explicitly limits/rejects that claim |
 
 Implementation details, datasets, model assumptions, metrics and
-stopping rules are in the [analytical validation
-plan](https://github.com/CTTIR/hyperspectR/blob/main/planning/analysis-validation.md).
+stopping rules are in the maintainer’s analytical validation plan.
 
 ## 4. First implementation wave
 
@@ -396,7 +384,7 @@ resolve all audit findings.
 3.  **PR 3: cube and I/O corruption.** Start W02/W03 with spatial order,
     single-dimension handling, metadata alignment and strict ENVI
     lengths. Add independent read/write tests in the same changes.
-4.  **PR 4: SG correctness.** Implement W05’s center/edge contract and
+4.  **PR 4: SG correctness.** Implement W05’s centre/edge contract and
     derivative orientation. Verify the exact polynomial fixtures across
     available backends.
 
@@ -414,13 +402,13 @@ working startup alone does not satisfy M2.
 | Scientific reference recovery | Independent 70% example returns about 53% | Noiseless solver/reference tests meet algebraic tolerance | Separate empirical accuracy thresholds met for each validated scope |
 | Mask consistency | Invalid pixels affect outputs | Required invariance and failure-isolation tests pass | QC yield and exclusion reasons reported per study |
 | Explorer workflows | UI fails during construction | Real-browser scenario suite passes | Large-job completion/cancellation and result provenance verified |
-| CI coverage | Green package check despite defects; floor 0 | Numeric regressions are blocking; measured nonzero coverage floor | Study/benchmark fixtures versioned and evaluated on releases |
+| CI coverage | Green package check despite defects; floor 0 | Numeric regressions are blocking; measured non-zero coverage floor | Study/benchmark fixtures versioned and evaluated on releases |
 | Model evaluation | No independent validation bundle established by the audit | Claims restricted to demonstrated evidence | Frozen held-out evaluation with uncertainty and limitations |
 
 At each implementation review, update status, actual effort, evidence
 links, unresolved decisions and downstream dependencies. Mark a finding
-closed only after its old behavior fails the new regression and
-corrected behavior passes. Review roadmap changes at milestone
+closed only after its old behaviour fails the new regression and
+corrected behaviour passes. Review roadmap changes at milestone
 boundaries or when evidence invalidates an assumption.
 
 ## 6. Decisions and external dependencies

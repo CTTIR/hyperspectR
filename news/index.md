@@ -4,6 +4,10 @@
 
 ### CRAN preparation
 
+- Documentation uses British English (`Language: en-GB`); code
+  identifiers, argument names and plot labels are unchanged.
+- `CITATION.cff` and `.zenodo.json` name the author as R. Heller and use
+  the package title of `citation("hyperspectR")`.
 - Added runnable examples to
   [`hs_band_ratio()`](https://cttir.github.io/hyperspectR/reference/hs_band_ratio.md),
   [`hs_batch()`](https://cttir.github.io/hyperspectR/reference/hs_batch.md),
@@ -18,7 +22,7 @@
   readers and writers with code that runs whenever the optional backend
   is installed.
 - Expanded acronyms in the Description, declared `Language: en-US`, and
-  documented the copyright of the bundled hemoglobin reference spectra
+  documented the copyright of the bundled haemoglobin reference spectra
   in `inst/COPYRIGHTS`.
 - Updated the maintainer e-mail address to <raban.heller@uni-ulm.de>.
 - Includes all changes of the 0.2.0.9000 and 0.2.0.9001 development
@@ -90,9 +94,9 @@
 - [`hs_plot_spectra()`](https://cttir.github.io/hyperspectR/reference/hs_plot_spectra.md)
   labels the value axis with a readable processing mode (“Reflectance”
   instead of “reflectance”) and draws selected pixels in the
-  color-blind-safe Okabe-Ito palette, with the legend in the order the
+  colour-blind-safe Okabe-Ito palette, with the legend in the order the
   pixels were supplied.
-- Figures in the reference examples of the website keep their colors in
+- Figures in the reference examples of the website keep their colours in
   dark mode, and all vignette figures carry alternative text.
 - The explorer app renders its plots at 96 dpi, so titles, axis labels
   and legends are no longer smaller than the surrounding controls.
@@ -136,7 +140,7 @@
 - Align explorer image/spectra downloads with the displayed selection,
   support unknown wavelengths as band indices, and restore launcher
   state on exit.
-- Preserve scientific coverage warnings, anchor wavelength colors to
+- Preserve scientific coverage warnings, anchor wavelength colours to
   physical wavelengths, and correct image scaling for small and large
   finite ranges.
 - Require viridisLite \>= 0.4.0 for the documented palettes, repair
@@ -153,12 +157,12 @@
   plotting, TIFF/ENVI pixel order, truncated ENVI input and unsupported
   integer exports.
 
-- SG smoothing now returns full-window center bands consistently across
+- SG smoothing now returns full-window centre bands consistently across
   explicit backends; derivatives use wavelength units. Calibration
   validates reference compatibility and bad-pixel repair uses immutable
-  valid neighbors.
+  valid neighbours.
 
-- Replaced generated hemoglobin fitting references with a pinned
+- Replaced generated haemoglobin fitting references with a pinned
   tabulated source. Beer-Lambert fitting requires an explicit domain and
   separates coefficients from concentrations requiring optical
   pathlength. Default StO2 is a research model fraction. The former
@@ -179,8 +183,7 @@
 - Expanded exact-value regressions, browser and minimal-dependency
   validation, reference sensitivity reports, and performance
   measurements. Clinical claims remain outside the evidence supplied by
-  synthetic tests. See MIGRATION.md for breaking changes and
-  planning/implementation-status.md for release evidence.
+  synthetic tests. See MIGRATION.md for breaking changes.
 
 ## hyperspectR 0.1.0
 
@@ -228,7 +231,7 @@
 - [`hs_npi()`](https://cttir.github.io/hyperspectR/reference/hs_npi.md):
   Near-infrared perfusion index (655-910 nm).
 - [`hs_thi()`](https://cttir.github.io/hyperspectR/reference/hs_thi.md):
-  Tissue hemoglobin index (530-825 nm).
+  Tissue haemoglobin index (530-825 nm).
 - [`hs_twi()`](https://cttir.github.io/hyperspectR/reference/hs_twi.md):
   Tissue water index (adapted for Cubert range).
 - [`hs_ndi()`](https://cttir.github.io/hyperspectR/reference/hs_ndi.md):

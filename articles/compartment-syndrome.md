@@ -21,7 +21,7 @@ library(hyperspectR)
 ## Scope
 
 This example compares regions in a synthetic image. The package has not
-been validated to diagnose compartment syndrome, detect ischemia, or
+been validated to diagnose compartment syndrome, detect ischaemia, or
 replace clinical assessment. No clinical threshold is defined by these
 simulated outputs.
 
@@ -45,8 +45,8 @@ sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Research Hb fraction (%)", palette = "sto2")
 ```
 
-![Map of the fitted hemoglobin fraction in percent for a synthetic 50 by
-50 pixel scene with four regions on a blue-to-red
+![Map of the fitted haemoglobin fraction in percent for a synthetic 50
+by 50 pixel scene with four regions on a blue-to-red
 scale.](compartment-syndrome_files/figure-html/unnamed-chunk-3-1.png)
 
 The fitted fractions may disagree with simulation parameters because the
@@ -71,10 +71,10 @@ scale.](compartment-syndrome_files/figure-html/unnamed-chunk-4-1.png)
 hs_plot_clinical(cube, indices = c("sto2", "npi", "thi"))
 ```
 
-![Research panel in a two-by-two grid: RGB composite, fitted hemoglobin
-fraction map, near-infrared band ratio map and hemoglobin-band ratio map
-of the synthetic scene, each with rows and columns as axes and its own
-colour
+![Research panel in a two-by-two grid: RGB composite, fitted haemoglobin
+fraction map, near-infrared band ratio map and haemoglobin-band ratio
+map of the synthetic scene, each with rows and columns as axes and its
+own colour
 bar.](compartment-syndrome_files/figure-html/unnamed-chunk-5-1.png)
 
 ## ROI Comparison: Affected vs. Unaffected

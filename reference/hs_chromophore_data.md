@@ -1,7 +1,7 @@
 # Get Chromophore Extinction Coefficient Spectra
 
 Returns a pinned tabulation of decadic molar extinction coefficients for
-hemoglobin, compiled by Prahl and distributed with MNE-Python v1.10.2.
+haemoglobin, compiled by Prahl and distributed with MNE-Python v1.10.2.
 Synthetic shapes are available separately for simulation only.
 
 ## Usage
@@ -18,9 +18,9 @@ hs_chromophore_data(
 
 - chromophore:
 
-  Character vector. One or more of: `"HbO2"` (oxyhemoglobin), `"Hb"`
-  (deoxyhemoglobin), `"water"`, `"melanin"`, `"metHb"` (methemoglobin).
-  Default `c("HbO2", "Hb")`.
+  Character vector. One or more of: `"HbO2"` (oxyhaemoglobin), `"Hb"`
+  (deoxyhaemoglobin), `"water"`, `"melanin"`, `"metHb"`
+  (methaemoglobin). Default `c("HbO2", "Hb")`.
 
 - wavelength_range:
 

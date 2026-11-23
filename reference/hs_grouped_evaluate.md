@@ -36,7 +36,7 @@ hs_grouped_evaluate(
 
 - wavelengths:
 
-  Numeric band centers in nm.
+  Numeric band centres in nm.
 
 - labels:
 

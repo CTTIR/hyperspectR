@@ -1,6 +1,6 @@
-# Plot Index Map with Clinical Color Scale
+# Plot Index Map with Clinical Colour Scale
 
-Displays a single tissue index as a pseudocolor spatial map with color
+Displays a single tissue index as a pseudocolour spatial map with colour
 scales selected for research visualization.
 
 ## Usage

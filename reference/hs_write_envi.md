@@ -31,7 +31,7 @@ hs_write_envi(cube, path, interleave = "bsq", data_type = 4L, verbose = TRUE)
 - data_type:
 
   Integer. ENVI data type code. Default `4` (float32). Float32 rounds
-  values to single precision; finite values outside its nonzero range
+  values to single precision; finite values outside its non-zero range
   are rejected before replacing files. Use `5` (float64) to retain the
   full R double range. Missing and masked values require a
   floating-point output type.

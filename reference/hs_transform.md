@@ -1,6 +1,6 @@
 # Apply a Fitted Spectral Transform to Another Cube
 
-Applies saved PCA/MNF centering, scaling and loadings without refitting.
+Applies saved PCA/MNF centring, scaling and loadings without refitting.
 
 ## Usage
 

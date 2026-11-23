@@ -72,11 +72,11 @@ Spectral smoothing, normalization, and transformation
 Research hemoglobin fractions and dimensionless spectral ratios
 
 - [`hs_sto2()`](https://cttir.github.io/hyperspectR/reference/hs_sto2.md)
-  : Estimate the Oxygenated Hemoglobin Fraction for Research
+  : Estimate the Oxygenated Haemoglobin Fraction for Research
 - [`hs_npi()`](https://cttir.github.io/hyperspectR/reference/hs_npi.md)
   : Compute Near-Infrared Perfusion Index (NPI)
 - [`hs_thi()`](https://cttir.github.io/hyperspectR/reference/hs_thi.md)
-  : Compute Tissue Hemoglobin Index (THI)
+  : Compute Tissue Haemoglobin Index (THI)
 - [`hs_twi()`](https://cttir.github.io/hyperspectR/reference/hs_twi.md)
   : Compute Tissue Water Index (TWI)
 - [`hs_band_ratio()`](https://cttir.github.io/hyperspectR/reference/hs_band_ratio.md)
@@ -153,10 +153,10 @@ Plotting and research display
 - [`hs_plot_clinical()`](https://cttir.github.io/hyperspectR/reference/hs_plot_clinical.md)
   : Research HSI Panel Display
 - [`hs_plot_index()`](https://cttir.github.io/hyperspectR/reference/hs_plot_index.md)
-  : Plot Index Map with Clinical Color Scale
+  : Plot Index Map with Clinical Colour Scale
 - [`scale_color_wavelength()`](https://cttir.github.io/hyperspectR/reference/scale_color_wavelength.md)
   [`scale_colour_wavelength()`](https://cttir.github.io/hyperspectR/reference/scale_color_wavelength.md)
-  : Wavelength-to-Color Scale for Spectral Plots
+  : Wavelength-to-Colour Scale for Spectral Plots
 - [`theme_hsi()`](https://cttir.github.io/hyperspectR/reference/theme_hsi.md)
   : Minimalist HSI Theme
 

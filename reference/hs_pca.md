@@ -24,7 +24,7 @@ hs_pca(cube, n_components = 5L, center = TRUE, scale = FALSE)
 
 - center:
 
-  Logical. Center bands before PCA. Default `TRUE`.
+  Logical. Centre bands before PCA. Default `TRUE`.
 
 - scale:
 
@@ -48,7 +48,7 @@ A list with class `"hsi_pca"`:
 
 - center:
 
-  Centering vector used (or `FALSE`).
+  Centring vector used (or `FALSE`).
 
 - scale:
 

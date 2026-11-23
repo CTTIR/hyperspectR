@@ -75,7 +75,7 @@ fit <- hs_beer_lambert(smoothed)
 hs_plot_index(fit$sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
-![Map of the fitted oxygenated hemoglobin fraction in percent from the
+![Map of the fitted oxygenated haemoglobin fraction in percent from the
 Beer-Lambert fit for the four synthetic
 regions.](intraop-oxygenation_files/figure-html/unnamed-chunk-5-1.png)
 
@@ -122,10 +122,10 @@ hs_plot_clinical(smoothed)
 #> ℹ Results may be approximate.
 ```
 
-![Research panel in a two-by-two grid: RGB composite, fitted hemoglobin
-fraction map, near-infrared band ratio map and hemoglobin-band ratio map
-of the synthetic scene, each with rows and columns as axes and its own
-colour
+![Research panel in a two-by-two grid: RGB composite, fitted haemoglobin
+fraction map, near-infrared band ratio map and haemoglobin-band ratio
+map of the synthetic scene, each with rows and columns as axes and its
+own colour
 bar.](intraop-oxygenation_files/figure-html/unnamed-chunk-7-1.png)
 
 ## Step 7: PCA for Quality Assessment

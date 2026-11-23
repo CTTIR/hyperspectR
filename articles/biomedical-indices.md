@@ -18,10 +18,10 @@ library(hyperspectR)
 #> hyperspectR v0.3.0 - Hyperspectral Imaging Analysis for Biomedical Applications
 ```
 
-## Hemoglobin Absorption
+## Haemoglobin Absorption
 
 Tissue oxygenation assessment via HSI relies on the distinct absorption
-spectra of oxyhemoglobin (HbO2) and deoxyhemoglobin (Hb).
+spectra of oxyhaemoglobin (HbO2) and deoxyhaemoglobin (Hb).
 
 ``` r
 
@@ -37,7 +37,7 @@ ggplot(hb_data, aes(x = wavelength)) +
 ```
 
 ![Line plot of the tabulated molar extinction coefficients of
-oxyhemoglobin and deoxyhemoglobin from 430 to 910 nm; both are highest
+oxyhaemoglobin and deoxyhaemoglobin from 430 to 910 nm; both are highest
 at the blue end, show peaks between 540 and 580 nm and are low in the
 near
 infrared.](biomedical-indices_files/figure-html/unnamed-chunk-2-1.png)
@@ -57,7 +57,7 @@ sto2 <- hs_sto2(cube)
 hs_plot_index(sto2, title = "Fitted Hb fraction (%)", palette = "sto2")
 ```
 
-![Map of the fitted oxygenated hemoglobin fraction in percent; the four
+![Map of the fitted oxygenated haemoglobin fraction in percent; the four
 quadrants of the synthetic scene take four distinct levels on a
 blue-to-red
 scale.](biomedical-indices_files/figure-html/unnamed-chunk-3-1.png)
@@ -77,7 +77,7 @@ hs_plot_index(npi, title = "NIR ratio", palette = "perfusion")
 on a viridis
 scale.](biomedical-indices_files/figure-html/unnamed-chunk-4-1.png)
 
-## Tissue Hemoglobin Index (THI)
+## Tissue Haemoglobin Index (THI)
 
 The legacy THI name returns a dimensionless reference/Hb-band ratio. It
 is not a concentration.
@@ -88,7 +88,7 @@ thi <- hs_thi(cube)
 hs_plot_index(thi, title = "Hb-band ratio", palette = "hemoglobin")
 ```
 
-![Map of the dimensionless hemoglobin-band ratio of the example cube on
+![Map of the dimensionless haemoglobin-band ratio of the example cube on
 a magma scale; the four quadrants take four distinct
 levels.](biomedical-indices_files/figure-html/unnamed-chunk-5-1.png)
 
@@ -116,7 +116,8 @@ indices. It does not reproduce vendor indices:
 hs_plot_clinical(cube)
 ```
 
-![Research panel in a two-by-two grid: RGB composite, fitted hemoglobin
-fraction map, near-infrared band ratio map and hemoglobin-band ratio map
-of the synthetic scene, each with rows and columns as axes and its own
-colour bar.](biomedical-indices_files/figure-html/unnamed-chunk-7-1.png)
+![Research panel in a two-by-two grid: RGB composite, fitted haemoglobin
+fraction map, near-infrared band ratio map and haemoglobin-band ratio
+map of the synthetic scene, each with rows and columns as axes and its
+own colour
+bar.](biomedical-indices_files/figure-html/unnamed-chunk-7-1.png)

@@ -1,7 +1,7 @@
-# Compute Tissue Hemoglobin Index (THI)
+# Compute Tissue Haemoglobin Index (THI)
 
 Legacy name for a dimensionless reference/Hb-band reflectance ratio. It
-is not a hemoglobin concentration measurement.
+is not a haemoglobin concentration measurement.
 
 ## Usage
 

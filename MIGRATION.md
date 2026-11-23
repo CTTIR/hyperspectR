@@ -47,18 +47,18 @@ and cannot be used for physical RGB selection.
 ## Migrating from 0.1.0
 
 The development version 0.2.0.9000 corrects spatial and numerical
-behavior. Re-run analyses from source recordings; retain old outputs
+behaviour. Re-run analyses from source recordings; retain old outputs
 with their original version. Do not relabel historical maps as corrected
 measurements.
 
-| Area | Previous behavior | Current behavior |
+| Area | Previous behaviour | Current behaviour |
 |----|----|----|
-| StO2 | Default image-percentile band-ratio stretch labeled 0–100% | Default reference-based Hb fraction fit; explicit ratio method and retired band arguments error |
+| StO2 | Default image-percentile band-ratio stretch labelled 0–100% | Default reference-based Hb fraction fit; explicit ratio method and retired band arguments error |
 | Relative indices | NPI/THI/TWI stretched separately in each scene | Unscaled dimensionless ratios; use [`hs_band_ratio()`](https://cttir.github.io/hyperspectR/reference/hs_band_ratio.md) for explicit bands |
 | References | Generated Gaussian shapes presented as published spectra | Pinned HbO2/Hb table; other shapes require `source="synthetic"` |
 | Domains | Numeric range guessed reflectance vs absorbance | Metadata or explicit `input` declares the domain |
-| Concentrations | Coefficients labeled concentration without pathlength | `coefficients` in mol/L \* cm; `concentrations` only with `pathlength_cm` |
-| SG | Optional packages could change support, orientation and values | Built-in default, explicit optional backends, full-window centers, derivatives per nm |
+| Concentrations | Coefficients labelled concentration without pathlength | `coefficients` in mol/L \* cm; `concentrations` only with `pathlength_cm` |
+| SG | Optional packages could change support, orientation and values | Built-in default, explicit optional backends, full-window centres, derivatives per nm |
 | Spatial output | Several plots/readers mixed row/column order | Data are `[row, column, band]`; plotted x=column, y=row |
 | Masks | Inconsistently applied or applied after estimation | Applied before statistics/fitting; invalid output locations remain NA |
 | ENVI | Short payloads recycled; wide integers lossy | Truncation errors; unsupported types 13/14/15 rejected before creating files |
@@ -82,13 +82,13 @@ relative <- hs_band_ratio(cube, c(700, 815), c(500, 650))
 
 Reflectance converted by `-log10()` is apparent absorbance. Correct
 inversion of a linear reference mixture does not validate diffuse tissue
-measurements. The default point response samples reference band centers;
+measurements. The default point response samples reference band centres;
 `response="gaussian"` is an explicit approximation using FWHM. Neither
 supplies measured instrument response curves.
 
 ## Smoothing support
 
-A 9-band cube smoothed with a 5-band window returns the center bands
+A 9-band cube smoothed with a 5-band window returns the centre bands
 3–7, including their wavelengths and FWHM. Derivatives are divided by
 wavelength spacing to the derivative order. Irregular grids require
 explicit resampling within measured coverage.
@@ -126,7 +126,7 @@ wavelength entry. ENVI downloads are ZIP archives containing the pair
 and a provenance RDS. Changing the cube or analysis parameters clears
 stale results. ENVI trailing bytes are permitted after the declared
 payload; short payloads are rejected. Integer exports reject
-missing/noninteger/out-of-range values; use floating point when
+missing/non-integer/out-of-range values; use floating point when
 preserving masked data.
 
 Processing, indices and analysis run in cancellable background

@@ -27,14 +27,14 @@ hs_export_png(
 
 - palette:
 
-  Character. Color palette: `"viridis"`, `"magma"`, `"inferno"`,
+  Character. Colour palette: `"viridis"`, `"magma"`, `"inferno"`,
   `"plasma"`, `"grey"`. Default `"viridis"`.
 
 - range:
 
-  Numeric vector of length 2. Data range for color mapping. Default
+  Numeric vector of length 2. Data range for colour mapping. Default
   `NULL` (auto from finite data). Finite ordered endpoints are required;
-  a constant range uses the first palette color. Non-finite pixels are
+  a constant range uses the first palette colour. Non-finite pixels are
   black, including an image with no finite pixels.
 
 - width:

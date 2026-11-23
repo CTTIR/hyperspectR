@@ -1,4 +1,4 @@
-# Estimate the Oxygenated Hemoglobin Fraction for Research
+# Estimate the Oxygenated Haemoglobin Fraction for Research
 
 Returns the fitted HbO2 fraction from
 [`hs_beer_lambert()`](https://cttir.github.io/hyperspectR/reference/hs_beer_lambert.md).

@@ -36,11 +36,11 @@ hs_plot_spectra(cube, pixels = "mean", n = 100L, show_sd = TRUE)
 ## Value
 
 A [ggplot2::ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html)
-object. The value axis is labeled with the cube's processing mode (for
+object. The value axis is labelled with the cube's processing mode (for
 example "Reflectance"). Spectra of selected pixels are drawn in the
-color-blind-safe Okabe-Ito palette for up to eight pixels and in viridis
-colors beyond that, with the legend in the order the pixels were
-supplied.
+colour-blind-safe Okabe-Ito palette for up to eight pixels and in
+viridis colours beyond that, with the legend in the order the pixels
+were supplied.
 
 ## Examples
 
