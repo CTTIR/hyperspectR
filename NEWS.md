@@ -14,6 +14,57 @@
 * Includes all changes of the 0.2.0.9000 and 0.2.0.9001 development
   candidates listed below.
 
+## New features
+
+* `summary()` of a cube and the results of `hs_pca()`, `hs_mnf()`,
+  `hs_umap()`, `hs_unmix_nnls()`, `hs_beer_lambert()`, `hs_sam()`,
+  `hs_classify_svm()`, `hs_classify_rf()`, `hs_roi_rect()`,
+  `hs_roi_polygon()` and `hs_recipe()` now print a compact overview instead
+  of every score map, residual cube and fitted model. The objects themselves
+  are unchanged lists.
+
+## Bug fixes
+
+* `hs_plot_clinical()` arranged four panels in one row by default, so panel
+  titles overlapped on a default 7 inch device. The automatic layout
+  (`ncol = NULL`) is now a near-square grid; pass `ncol = 4` for the former
+  single row. `ncol` is validated.
+* `as.data.frame()` (wide format), `summary()`, `hs_endmembers()` and
+  `hs_write_tiff()` gave two bands the same name on wavelength grids finer
+  than 1 nm (for example `band_500` twice). Such grids now use the full
+  wavelength; names on whole-nm grids are unchanged.
+* `hs_plot_spectra()` rejects a `pixels` value other than `"mean"`,
+  `"random"` or a data frame with an informative error, and validates
+  `show_sd`. `hs_plot_image()` validates `band` before using it, and
+  `hs_plot_index()` rejects non-numeric matrices and malformed ranges.
+* The `hs_twi()` warning for missing bands now names the requested band
+  ranges instead of a fixed 980 nm requirement that did not match the
+  defaults.
+
+## Performance
+
+* Reading a single band no longer copies the whole cube. `hs_roi_stats()`
+  reshapes the cube once instead of twice per band, and `hs_roi_polygon()`,
+  `hs_sam()` and `hs_simulate_cube()` no longer loop over pixels. Results are
+  identical to the previous implementations.
+
+## Visualization
+
+* `hs_plot_spectra()` labels the value axis with a readable processing mode
+  ("Reflectance" instead of "reflectance") and draws selected pixels in the
+  color-blind-safe Okabe-Ito palette, with the legend in the order the pixels
+  were supplied.
+* Figures in the reference examples of the website keep their colors in dark
+  mode, and all vignette figures carry alternative text.
+
+## Documentation
+
+* `hs_smooth()`, `hs_snv()`, `hs_msc()`, `hs_mnf()`, `hs_umap()`, `hs_sam()`,
+  `hs_unmix_nnls()` and `hs_continuum_removal()` cite their primary sources.
+* The README lists the TIVITA reader and a GitHub installation command, the
+  getting-started vignette cites the current version, and package URLs use
+  the `CTTIR` organization spelling.
+
 # hyperspectR 0.2.0.9001 (development candidate, not released)
 
 * Retry UMAP's identified older-R PCA dependency failure with base SVD while
