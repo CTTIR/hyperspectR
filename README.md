@@ -6,8 +6,9 @@
 [![Codecov test coverage](https://codecov.io/gh/CTTIR/hyperspectR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/hyperspectR?branch=main)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21889940.svg)](https://doi.org/10.5281/zenodo.21889940)
 <!-- badges: end -->
+
+Zenodo DOI reserved for the release: `10.5281/zenodo.21889940` (not yet published).
 
 **hyperspectR** provides R workflows for hyperspectral research: file import,
 calibration, spectral processing, model fitting, inspection and reproducible
