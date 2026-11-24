@@ -1,5 +1,8 @@
 # hyperspectR ![hyperspectR logo](reference/figures/logo-with-name.png)
 
+Zenodo DOI reserved for the release: `10.5281/zenodo.21889940` (not yet
+published).
+
 **hyperspectR** provides R workflows for hyperspectral research: file
 import, calibration, spectral processing, model fitting, inspection and
 reproducible exports. Version **0.3.0** produces research outputs;
